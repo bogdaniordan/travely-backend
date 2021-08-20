@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@AllArgsConstructor
 @RequestMapping("/customers")
 @CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
 
-    private final CustomerRepository customerRepository;
 }

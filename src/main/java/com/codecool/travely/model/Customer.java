@@ -2,6 +2,7 @@ package com.codecool.travely.model;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
@@ -9,11 +10,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-
+@Entity(name = "customer")
 @Data
-@Table(name = "customer")
+@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue
@@ -45,8 +45,7 @@ public class Customer {
     private String gender;
     private Integer age;
 
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ElementCollection
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
