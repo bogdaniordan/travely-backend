@@ -4,12 +4,14 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 @Entity(name = "customer")
 @Data
@@ -49,7 +51,7 @@ public class Customer {
 //    @JoinTable(name = "user_roles",
 //            joinColumns = @JoinColumn(name = "user_id"),
 //            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender) {
         this.firstName = firstName;

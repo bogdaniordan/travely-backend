@@ -28,4 +28,12 @@ public class CustomerService {
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
     }
+
+    public Boolean existsByUsername(String username) {
+        return customerRepository.existsByUsername(username);
+    }
+
+    public Boolean existsByEmail(String email) {
+        return customerRepository.existsByEmail(email);
+    }
 }
