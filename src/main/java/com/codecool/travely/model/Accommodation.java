@@ -25,4 +25,14 @@ public class Accommodation {
     private int pricePerNight;
     @ElementCollection
     private List<Facility> facilities;
+
+    public Accommodation(String title, String address, String city, Date checkInDate, Date checkoutDate, int pricePerNight, List<Facility> facilities) {
+        this.title = title;
+        this.address = address;
+        this.city = city;
+        this.checkInDate = checkInDate;
+        this.checkoutDate = checkoutDate;
+        this.pricePerNight = pricePerNight;
+        this.facilities = facilities;
+    }
 }

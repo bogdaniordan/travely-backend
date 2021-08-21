@@ -43,4 +43,12 @@ public class Host {
 
     @OneToMany
     private List<Accommodation> accommodations;
+
+    public Host(String firstName, String lastName, String username, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }
