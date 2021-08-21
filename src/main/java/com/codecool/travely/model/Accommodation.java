@@ -10,14 +10,16 @@ import javax.persistence.Id;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "rental")
+@Entity(name = "accommodation")
 @Data
 @NoArgsConstructor
-public class Rental {
+public class Accommodation {
     @Id
     @GeneratedValue
     private Long id;
+    private String title;
     private String address;
+    private String city;
     private Date checkInDate;
     private Date checkoutDate;
     private int pricePerNight;

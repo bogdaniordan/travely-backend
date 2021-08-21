@@ -46,9 +46,9 @@ public class Customer {
     private Integer age;
 
     @ElementCollection
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    @JoinTable(name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender) {
