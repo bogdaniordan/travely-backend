@@ -1,4 +1,4 @@
-package com.codecool.travely.model;
+package com.codecool.travely.security;
 
 public enum Role {
     ROLE_CUSTOMER,

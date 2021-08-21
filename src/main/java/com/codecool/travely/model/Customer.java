@@ -1,6 +1,8 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.security.Role;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,14 +10,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity(name = "customer")
 @Data
 @NoArgsConstructor
+@Builder
 public class Customer {
     @Id
     @GeneratedValue
@@ -45,6 +46,7 @@ public class Customer {
     private String address;
     private String phoneNumber;
     private String gender;
+    @Min(18)
     private Integer age;
 
     @ElementCollection

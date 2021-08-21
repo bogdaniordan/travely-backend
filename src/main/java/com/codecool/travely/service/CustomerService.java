@@ -29,6 +29,10 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public Customer findByUsername(String username) {
+        return customerRepository.findByUsername(username);
+    }
+
     public Boolean existsByUsername(String username) {
         return customerRepository.existsByUsername(username);
     }
