@@ -1,7 +1,6 @@
 package com.codecool.travely.service;
 
 import com.codecool.travely.model.Accommodation;
-import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.AccommodationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,8 @@ public class AccommodationService {
     }
 
     public List<Accommodation> filterByLocation(String location) {
-        return findAll().stream().filter(ac -> ac.getCity().equals(location)).collect(Collectors.toList());
+        log.info("Filter locations by: " + location);
+        return findAll().stream().filter(ac -> ac.getLocation().equals(location)).collect(Collectors.toList());
     }
 
 }

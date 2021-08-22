@@ -2,7 +2,6 @@ package com.codecool.travely.model;
 
 import com.codecool.travely.security.Role;
 import com.sun.istack.NotNull;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
