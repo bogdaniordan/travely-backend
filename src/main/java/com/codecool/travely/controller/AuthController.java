@@ -10,6 +10,7 @@ import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,7 +64,7 @@ public class AuthController {
             return ResponseEntity.ok(loginResponse);
 
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Username does not exist!"));
+            throw new BadCredentialsException("Invalid username/password supplied");
         }
 
 

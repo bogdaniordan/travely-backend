@@ -22,15 +22,17 @@ public class Accommodation {
     private String city;
     private int pricePerNight;
     private AccommodationStatus status;
+    private int capacity;
     @ElementCollection
     private List<Facility> facilities;
 
-    public Accommodation(String title, String address, String city, int pricePerNight, List<Facility> facilities, AccommodationStatus status) {
+    public Accommodation(String title, String address, String city, int pricePerNight, List<Facility> facilities, AccommodationStatus status, int capacity) {
         this.title = title;
         this.address = address;
         this.city = city;
         this.pricePerNight = pricePerNight;
         this.facilities = facilities;
         this.status = status;
+        this.capacity = capacity;
     }
 }
