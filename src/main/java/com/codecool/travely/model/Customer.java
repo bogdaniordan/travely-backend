@@ -16,7 +16,6 @@ import java.util.List;
 @Entity(name = "customer")
 @Data
 @NoArgsConstructor
-@Builder
 public class Customer {
     @Id
     @GeneratedValue
@@ -46,16 +45,13 @@ public class Customer {
     private String address;
     private String phoneNumber;
     private String gender;
-    @Min(18)
+    @Min(value = 18, message = "Age should not be less than 18.")
     private Integer age;
 
     @ElementCollection
-//    @JoinTable(name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
-    public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender) {
+    public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -64,5 +60,7 @@ public class Customer {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.age = age;
+        this.roles = roles;
     }
 }
