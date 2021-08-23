@@ -49,6 +49,8 @@ public class Customer {
 
     @ElementCollection
     private List<Role> roles = new ArrayList<>();
+    @OneToMany
+    private List<Booking> bookings = new ArrayList<>();
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age, List<Role> roles) {
         this.firstName = firstName;

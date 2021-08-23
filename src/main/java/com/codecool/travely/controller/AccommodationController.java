@@ -19,6 +19,11 @@ public class AccommodationController {
 
     private final AccommodationService accommodationService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Accommodation> getById(@PathVariable Long id) {
+        return new ResponseEntity<>(accommodationService.findById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/location/{location}")
     public ResponseEntity<List<Accommodation>> filterByLocation(@PathVariable String location) {
         return new ResponseEntity<>(accommodationService.filterByLocation(location), HttpStatus.OK);

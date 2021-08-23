@@ -22,6 +22,12 @@ public class ImageUrls {
     private String secondImage;
     private String thirdImage;
 
+    public ImageUrls(String firstImage, String secondImage, String thirdImage) {
+        this.firstImage = firstImage;
+        this.secondImage = secondImage;
+        this.thirdImage = thirdImage;
+    }
+
     public List<String> getAllImages() {
         return List.of(firstImage, secondImage, thirdImage);
     }

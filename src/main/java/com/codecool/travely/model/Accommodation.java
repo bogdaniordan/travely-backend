@@ -21,7 +21,7 @@ public class Accommodation {
     private int capacity;
     @ElementCollection
     private List<Facility> facilities;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private ImageUrls imageUrls;
     private PlaceType placeType;
     @ManyToOne
