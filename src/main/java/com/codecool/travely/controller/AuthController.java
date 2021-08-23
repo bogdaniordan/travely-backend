@@ -58,9 +58,6 @@ public class AuthController {
                     .username(username)
                     .roles(roles)
                     .build();
-
-            System.out.println(loginResponse);
-
             return ResponseEntity.ok(loginResponse);
 
         } catch (UsernameNotFoundException e) {

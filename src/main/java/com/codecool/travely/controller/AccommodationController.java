@@ -24,6 +24,16 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationService.filterByLocation(location), HttpStatus.OK);
     }
 
+    @GetMapping("/place-type/{type}")
+    public ResponseEntity<List<Accommodation>> filterByPlaceType(@PathVariable String type) {
+        return new ResponseEntity<>(accommodationService.filterByPlaceType(type), HttpStatus.OK);
+    }
+
+    @GetMapping("/place-type/{type}/location/{location}")
+    public ResponseEntity<List<Accommodation>> filterByLocationAndPlaceType(@PathVariable String type, @PathVariable String location) {
+        return new ResponseEntity<>(accommodationService.filterByLocationAndType(location, type), HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Accommodation>> getAll() {
         return new ResponseEntity<>(accommodationService.findAll(), HttpStatus.OK);

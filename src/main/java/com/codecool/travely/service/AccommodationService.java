@@ -31,8 +31,18 @@ public class AccommodationService {
     }
 
     public List<Accommodation> filterByLocation(String location) {
-        log.info("Filter locations by: " + location);
+        log.info("Filtering accommodations by location: " + location);
         return findAll().stream().filter(ac -> ac.getLocation().equals(location)).collect(Collectors.toList());
+    }
+
+    public List<Accommodation> filterByPlaceType(String placeType) {
+        log.info("Filtering accommodations by place type: " + placeType);
+        return findAll().stream().filter(accommodation -> accommodation.getPlaceType().toString().equals(placeType)).collect(Collectors.toList());
+    }
+
+    public List<Accommodation> filterByLocationAndType(String location, String placeType) {
+        log.info("Filtering places by " + location + " and " + placeType);
+        return findAll().stream().filter(accommodation -> accommodation.getLocation().equals(location) && accommodation.getPlaceType().toString().equals(placeType)).collect(Collectors.toList());
     }
 
 }

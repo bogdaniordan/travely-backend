@@ -3,10 +3,7 @@ package com.codecool.travely.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "accommodation")
@@ -24,8 +21,13 @@ public class Accommodation {
     private int capacity;
     @ElementCollection
     private List<Facility> facilities;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ImageUrls imageUrls;
+    private PlaceType placeType;
+    @ManyToOne
+    private Host host;
 
-    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, AccommodationStatus status, int capacity) {
+    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, AccommodationStatus status, int capacity, PlaceType placeType) {
         this.title = title;
         this.address = address;
         this.location = location;
@@ -33,5 +35,6 @@ public class Accommodation {
         this.facilities = facilities;
         this.status = status;
         this.capacity = capacity;
+        this.placeType = placeType;
     }
 }
