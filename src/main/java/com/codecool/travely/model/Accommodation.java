@@ -1,5 +1,8 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.Facility;
+import com.codecool.travely.enums.PlaceType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -18,9 +18,8 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping("/add-booking")
-    public ResponseEntity<MessageResponse> addBooking(@RequestBody Booking booking) {
-        bookingService.saveBooking(booking);
-        return new ResponseEntity<>(new MessageResponse("Booking added."), HttpStatus.CREATED);
+    @PostMapping("/add-booking/host/{hostId}/customer/{customerId}/accommodation/{accommodationId}")
+    public ResponseEntity<Booking> addBooking(@RequestBody Booking booking,@PathVariable Long hostId,@PathVariable Long customerId,@PathVariable Long accommodationId) {
+        return new ResponseEntity<>(bookingService.saveBooking(booking, hostId, customerId, accommodationId), HttpStatus.CREATED);
     }
 }

@@ -1,5 +1,8 @@
 package com.codecool.travely.data;
 
+import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.Facility;
+import com.codecool.travely.enums.PlaceType;
 import com.codecool.travely.model.*;
 import com.codecool.travely.repository.ImageUrlsRepository;
 import com.codecool.travely.security.Role;
@@ -11,7 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
 import java.util.List;
 
 @Component

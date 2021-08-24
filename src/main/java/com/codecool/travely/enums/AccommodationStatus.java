@@ -1,4 +1,4 @@
-package com.codecool.travely.model;
+package com.codecool.travely.enums;
 
 public enum AccommodationStatus {
     Booked,

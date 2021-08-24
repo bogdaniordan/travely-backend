@@ -15,6 +15,9 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final AccommodationService accommodationService;
+    private final HostService hostService;
+    private final CustomerService customerService;
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
@@ -25,8 +28,11 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find booking with id: " + id));
     }
 
-    public void saveBooking(Booking booking) {
+    public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
         log.info("Saving a new booking.");
-        bookingRepository.save(booking);
+        booking.setHost(hostService.findById(hostId));
+        booking.setAccommodation(accommodationService.findById(accommodationId));
+        booking.setCustomer(customerService.findById(customerId));
+        return bookingRepository.save(booking);
     }
 }
