@@ -43,4 +43,9 @@ public class AccommodationController {
     public ResponseEntity<List<Accommodation>> getAll() {
         return new ResponseEntity<>(accommodationService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/get-by-title/{titleInput}")
+    public ResponseEntity<List<Accommodation>> getByTitleInput(@PathVariable String titleInput) {
+        return new ResponseEntity<>(accommodationService.filterByAccommodationTitle(titleInput), HttpStatus.OK);
+    }
 }

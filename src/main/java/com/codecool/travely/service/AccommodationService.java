@@ -8,6 +8,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +44,11 @@ public class AccommodationService {
     public List<Accommodation> filterByLocationAndType(String location, String placeType) {
         log.info("Filtering places by " + location + " and " + placeType);
         return findAll().stream().filter(accommodation -> accommodation.getLocation().equals(location) && accommodation.getPlaceType().toString().equals(placeType)).collect(Collectors.toList());
+    }
+
+    public List<Accommodation> filterByAccommodationTitle(String titleInput) {
+        log.info("Fetching accommodations that contain " + titleInput + " in their title.");
+        return findAll().stream().filter(accommodation -> accommodation.getTitle().toLowerCase().contains(titleInput.toLowerCase())).collect(Collectors.toList());
     }
 
 }
