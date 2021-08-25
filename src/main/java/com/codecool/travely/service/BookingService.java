@@ -1,5 +1,7 @@
 package com.codecool.travely.service;
 
+import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Booking;
 import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
@@ -29,9 +31,11 @@ public class BookingService {
     }
 
     public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
-        log.info("Saving a new booking.");
         booking.setHost(hostService.findById(hostId));
-        booking.setAccommodation(accommodationService.findById(accommodationId));
+        Accommodation accommodation = accommodationService.findById(accommodationId);
+        accommodation.setStatus(AccommodationStatus.Booked);
+        accommodationService.saveAccommodation(accommodation);
+        booking.setAccommodation(accommodation);
         booking.setCustomer(customerService.findById(customerId));
         return bookingRepository.save(booking);
     }

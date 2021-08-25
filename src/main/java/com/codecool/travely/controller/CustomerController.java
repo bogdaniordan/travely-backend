@@ -33,11 +33,8 @@ public class CustomerController {
     }
 
     @PostMapping("/save-card/{id}")
-    public ResponseEntity<String> saveCardDetails(@Valid CardDetails cardDetails, @PathVariable Long id) {
+    public ResponseEntity<String> saveCardDetails(@Valid @RequestBody CardDetails cardDetails, @PathVariable Long id) {
         customerService.saveCardDetails(cardDetails, id);
         return ResponseEntity.ok("Card details have been saved.");
     }
-
-
-
 }

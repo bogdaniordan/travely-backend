@@ -20,12 +20,14 @@ public class Accommodation {
     private String address;
     private String location;
     private int pricePerNight;
+    @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
     private int capacity;
     @ElementCollection
     private List<Facility> facilities;
     @OneToOne
     private ImageUrls imageUrls;
+    @Enumerated(EnumType.STRING)
     private PlaceType placeType;
     @ManyToOne
     private Host host;

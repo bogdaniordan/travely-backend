@@ -46,9 +46,21 @@ public class CustomerService {
 
     public void saveCardDetails(CardDetails cardDetails, Long id) {
         log.info("Saving card details for customer with id: " + id);
-        cardDetailsRepository.save(cardDetails);
         Customer customer = findById(id);
+        if (customer.getCardDetails() != null) {
+            updateCardDetails(customer.getCardDetails(), cardDetails, customer);
+        } else {
+            cardDetailsRepository.save(cardDetails);
+        }
         customer.setCardDetails(cardDetails);
         saveCustomer(customer);
+    }
+
+    public void updateCardDetails(CardDetails oldCardDetails, CardDetails newCardDetails, Customer customer) {
+        oldCardDetails.setCardName(newCardDetails.getCardName());
+        oldCardDetails.setCardNumber(newCardDetails.getCardNumber());
+        oldCardDetails.setExpirationDate(newCardDetails.getExpirationDate());
+        oldCardDetails.setCvv(newCardDetails.getCvv());
+        cardDetailsRepository.save(oldCardDetails);
     }
 }

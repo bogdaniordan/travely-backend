@@ -3,7 +3,9 @@ package com.codecool.travely.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,8 +23,6 @@ public class CardDetails {
     private String cardNumber;
     @NotNull
     private String expirationDate;
-    @Size(min = 3, max = 5)
     @NotNull
-    private String CVV;
-
+    private String cvv;
 }
