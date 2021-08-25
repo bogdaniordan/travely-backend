@@ -1,6 +1,5 @@
 package com.codecool.travely.model;
 
-import com.codecool.travely.enums.CardType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,9 +14,6 @@ public class CardDetails {
     @Id
     @GeneratedValue
     private Long id;
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private CardType cardType;
     @NotNull
     @Size(min = 5)
     private String cardName;
@@ -25,7 +21,7 @@ public class CardDetails {
     private String cardNumber;
     @NotNull
     private String expirationDate;
-    @Size(min = 3)
+    @Size(min = 3, max = 5)
     @NotNull
     private String CVV;
 
