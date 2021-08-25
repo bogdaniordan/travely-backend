@@ -50,9 +50,11 @@ public class Customer {
     @ElementCollection
     private List<Role> roles = new ArrayList<>();
     @OneToMany
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings;
     @OneToOne
     private CardDetails cardDetails;
+    @OneToMany
+    private List<Accommodation> savedAccommodations;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age, List<Role> roles) {
         this.firstName = firstName;
@@ -66,4 +68,9 @@ public class Customer {
         this.age = age;
         this.roles = roles;
     }
+
+    public void saveAccommodation(Accommodation accommodation) {
+        savedAccommodations.add(accommodation);
+    }
+
 }

@@ -48,4 +48,10 @@ public class AccommodationController {
     public ResponseEntity<List<Accommodation>> getByTitleInput(@PathVariable String titleInput) {
         return new ResponseEntity<>(accommodationService.filterByAccommodationTitle(titleInput), HttpStatus.OK);
     }
+
+    @GetMapping("/save/accommodation/{accommodationId}/customer/{customerId}")
+    public ResponseEntity<String> saveAccommodation(@PathVariable Long accommodationId, @PathVariable Long customerId) {
+        accommodationService.saveAccommodationToCustomerList(accommodationId, customerId);
+        return ResponseEntity.accepted().body("Accommodation added to customer list.");
+    }
 }
