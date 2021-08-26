@@ -22,7 +22,7 @@ public class AccommodationService {
     private final CustomerService customerService;
 
     public List<Accommodation> findAll() {
-        return accommodationRepository.findAll();
+        return accommodationRepository.findAll().stream().filter(accommodation -> accommodation.getStatus() == AccommodationStatus.Free).collect(Collectors.toList());
     }
 
     public Accommodation findById(Long id) {
