@@ -39,4 +39,9 @@ public class BookingService {
         booking.setCustomer(customerService.findById(customerId));
         return bookingRepository.save(booking);
     }
+
+    public void save(Booking booking) {
+        bookingRepository.save(booking);
+    }
+
 }

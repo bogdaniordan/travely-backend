@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(name = "booking")
@@ -15,9 +16,9 @@ public class Booking {
     @GeneratedValue
     private Long id;
     @NotNull
-    private Date checkInDate;
+    private LocalDate checkInDate;
     @NotNull
-    private Date checkoutDate;
+    private LocalDate checkoutDate;
 
     @ManyToOne
     private Host host;
@@ -28,7 +29,7 @@ public class Booking {
     @OneToOne
     private Accommodation accommodation;
 
-    public Booking(Date checkInDate, Date checkoutDate, Accommodation accommodation) {
+    public Booking(LocalDate checkInDate, LocalDate checkoutDate, Accommodation accommodation) {
         this.checkInDate = checkInDate;
         this.checkoutDate = checkoutDate;
         this.accommodation = accommodation;

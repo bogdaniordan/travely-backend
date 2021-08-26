@@ -11,7 +11,6 @@ import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity(name = "customer")
 @Data
 @NoArgsConstructor
@@ -46,7 +45,7 @@ public class Customer {
     private String gender;
     @Min(value = 18, message = "Age should not be less than 18.")
     private Integer age;
-
+    private String picture;
     @ElementCollection
     private List<Role> roles = new ArrayList<>();
     @OneToMany
@@ -72,5 +71,4 @@ public class Customer {
     public void saveAccommodation(Accommodation accommodation) {
         savedAccommodations.add(accommodation);
     }
-
 }
