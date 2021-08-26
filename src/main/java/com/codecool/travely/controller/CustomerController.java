@@ -54,4 +54,10 @@ public class CustomerController {
                                        @RequestParam("file") MultipartFile file) {
         customerService.uploadUserProfileImage(customerId, file);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+        customerService.updateCustomer(id, customer);
+        return ResponseEntity.ok("Customer has been updated");
+    }
 }
