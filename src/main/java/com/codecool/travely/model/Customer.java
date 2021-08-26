@@ -48,8 +48,6 @@ public class Customer {
     private String picture;
     @ElementCollection
     private List<Role> roles = new ArrayList<>();
-    @OneToMany
-    private List<Booking> bookings;
     @OneToOne
     private CardDetails cardDetails;
     @OneToMany

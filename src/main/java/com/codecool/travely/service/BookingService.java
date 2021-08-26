@@ -3,6 +3,7 @@ package com.codecool.travely.service;
 import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Booking;
+import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,18 +31,28 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find booking with id: " + id));
     }
 
-    public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
+    public void saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
         accommodation.setStatus(AccommodationStatus.Booked);
         accommodationService.saveAccommodation(accommodation);
         booking.setAccommodation(accommodation);
         booking.setCustomer(customerService.findById(customerId));
-        return bookingRepository.save(booking);
+        bookingRepository.save(booking);
     }
 
     public void save(Booking booking) {
         bookingRepository.save(booking);
+    }
+
+    public List<Booking> findAllByCustomerId(Long id) {
+        log.info("Fetching bookings for customer with id: " + id);
+        return bookingRepository.findBookingsByCustomerId(id);
+    }
+
+    public void deleteBooking(Long id) {
+        log.info("Deleting booking with id: " + id);
+        bookingRepository.delete(findById(id));
     }
 
 }
