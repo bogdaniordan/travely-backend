@@ -1,13 +1,11 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.security.Role;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -40,9 +38,11 @@ public class Host {
     @Min(5)
     @Max(25)
     private String password;
+    @ElementCollection
+    List<Role> roles = List.of(Role.ROLE_HOST);
 
-    @OneToMany
-    private List<Accommodation> accommodations;
+//    @OneToMany
+//    private List<Accommodation> accommodations;
 
     public Host(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;

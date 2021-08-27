@@ -47,13 +47,13 @@ public class Customer {
     private Integer age;
     private String picture;
     @ElementCollection
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles = List.of(Role.ROLE_CUSTOMER);
     @OneToOne
     private CardDetails cardDetails;
     @OneToMany
     private List<Accommodation> savedAccommodations;
 
-    public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age, List<Role> roles) {
+    public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -63,7 +63,6 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.age = age;
-        this.roles = roles;
     }
 
     public void saveAccommodation(Accommodation accommodation) {

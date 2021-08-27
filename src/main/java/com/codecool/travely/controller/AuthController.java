@@ -4,9 +4,11 @@ import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.dto.response.MessageResponse;
 import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.Host;
 import com.codecool.travely.security.JwtTokenService;
 import com.codecool.travely.security.Role;
 import com.codecool.travely.service.CustomerService;
+import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,16 +31,17 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class AuthController {
 
     private final CustomerService customerService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService jwtTokenService;
+    private final HostService hostService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticateCustomer(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             String username = loginRequest.getUsername();
 
@@ -74,10 +77,21 @@ public class AuthController {
         }
         Customer registeredCustomer = new Customer(customer.getFirstName(), customer.getLastName(), customer.getUsername(), customer.getEmail(),
                 BCrypt.hashpw(customer.getPassword(), BCrypt.gensalt(12)), customer.getAddress(), customer.getPhoneNumber(),
-                        customer.getGender(), customer.getAge(), List.of(Role.ROLE_CUSTOMER));
+                        customer.getGender(), customer.getAge());
 
         customerService.saveCustomer(registeredCustomer);
         //send email ?
         return ResponseEntity.ok(new MessageResponse("Customer has been registered successfully!"));
+    }
+
+    @PostMapping("/register-host")
+    public ResponseEntity<?> registerHost(@Valid @RequestBody Host host) {
+        if (hostService.existsByEmail(host.getEmail()) || hostService.existsByUsername(host.getUsername())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Username or email already exists in the database!"));
+        }
+        Host registeredHost = new Host(host.getFirstName(), host.getLastName(), host.getUsername(), host.getEmail(), BCrypt.hashpw(host.getPassword(), BCrypt.gensalt(12)));
+        hostService.saveHost(registeredHost);
+        //send email?
+        return ResponseEntity.ok(new MessageResponse("Host has been registered successfully!"));
     }
 }

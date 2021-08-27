@@ -1,7 +1,9 @@
 package com.codecool.travely.security;
 
 import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.Host;
 import com.codecool.travely.service.CustomerService;
+import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,12 +19,19 @@ import java.util.stream.Collectors;
 public class CustomUserCredentialsService implements UserDetailsService {
 
     private CustomerService customerService;
+    private HostService hostService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer customer = customerService.findByUsername(username);
-        return new User(customer.getUsername(), customer.getPassword(),
-                customer.getRoles().stream().map(Enum::toString).map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+        if (customerService.existsByUsername(username)) {
+            Customer customer = customerService.findByUsername(username);
+            return new User(customer.getUsername(), customer.getPassword(),
+                    customer.getRoles().stream().map(Enum::toString).map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+            );
+        }
+        Host host = hostService.findByUsername(username);
+        return new User(host.getUsername(), host.getPassword(),
+                host.getRoles().stream().map(Enum::toString).map(SimpleGrantedAuthority::new).collect(Collectors.toList())
         );
     }
 }

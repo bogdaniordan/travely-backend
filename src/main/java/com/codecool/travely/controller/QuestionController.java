@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/questions")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
 @AllArgsConstructor
 public class QuestionController {

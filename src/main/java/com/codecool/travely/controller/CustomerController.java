@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class CustomerController {

@@ -29,4 +29,16 @@ public class HostService {
     public void saveHost(Host host) {
         hostRepository.save(host);
     }
+
+    public Host findByUsername(String username) {
+        return hostRepository.findByUsername(username);
+    }
+
+    public Boolean existsByUsername(String username) {
+        return hostRepository.existsByUsername(username);
+    }
+
+    public Boolean existsByEmail(String username) {
+        return hostRepository.existsByEmail(username);
+    }
 }

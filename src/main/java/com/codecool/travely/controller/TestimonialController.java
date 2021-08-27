@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/testimonials")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
 @AllArgsConstructor
 public class TestimonialController {

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bookings")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class BookingController {
