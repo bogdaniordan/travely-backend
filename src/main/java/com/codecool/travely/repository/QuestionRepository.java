@@ -12,8 +12,10 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     void deleteById(Long questionId);
 
-    List<Question> findAllByCustomer(Customer customer);
+//    List<Question> findAllByCustomer(Customer customer);
+//
+//    List<Question> findAllByHost(Host host);
 
-    List<Question> findAllByHost(Host host);
+    List<Question> findAllByCustomerId(Long customerId);
 
 }

@@ -27,4 +27,11 @@ public class Question {
     @ManyToOne
     private Host host;
 
+    public Question(LocalDate date, String text, String author, Customer customer, Host host) {
+        this.date = date;
+        this.text = text;
+        this.author = author;
+        this.customer = customer;
+        this.host = host;
+    }
 }

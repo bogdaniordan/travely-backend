@@ -50,9 +50,13 @@ public class BookingService {
         return bookingRepository.findBookingsByCustomerId(id);
     }
 
-    public void deleteBooking(Long id) {
+    public void cancelBooking(Long id) {
         log.info("Deleting booking with id: " + id);
-        bookingRepository.delete(findById(id));
+        Booking booking = findById(id);
+        Accommodation accommodation = booking.getAccommodation();
+        accommodation.setStatus(AccommodationStatus.Free);
+        accommodationService.saveAccommodation(accommodation);
+        bookingRepository.delete(booking);
     }
 
 }

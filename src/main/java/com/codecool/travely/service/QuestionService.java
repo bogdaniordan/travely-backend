@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -21,7 +24,7 @@ public class QuestionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find the question with id: " + id));
     }
 
-    private void saveQuestion(Question question) {
+    public void save(Question question) {
         questionRepository.save(question);
     }
 
@@ -29,7 +32,12 @@ public class QuestionService {
         log.info("Adding question for host with id: " + hostId);
         question.setCustomer(customerService.findById(customerId));
         question.setHost(hostService.findById(hostId));
-        saveQuestion(question);
+        save(question);
+    }
+
+    public List<Question> getAllForHostAndCustomer(Long customerId, long hostId) {
+        log.info("Fetching all questions for customer with id: " + customerId + " and host with id: " + hostId);
+        return questionRepository.findAllByCustomerId(customerId).stream().filter(question -> question.getHost().getId() == hostId).collect(Collectors.toList());
     }
 
 }

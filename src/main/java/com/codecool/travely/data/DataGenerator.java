@@ -7,11 +7,9 @@ import com.codecool.travely.model.*;
 import com.codecool.travely.repository.BookingRepository;
 import com.codecool.travely.repository.ImageUrlsRepository;
 import com.codecool.travely.security.Role;
-import com.codecool.travely.service.AccommodationService;
-import com.codecool.travely.service.BookingService;
-import com.codecool.travely.service.CustomerService;
-import com.codecool.travely.service.HostService;
+import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
@@ -28,6 +26,8 @@ public class DataGenerator implements CommandLineRunner {
     private final AccommodationService accommodationService;
     private final ImageUrlsRepository imageUrlsRepository;
     private final BookingService bookingService;
+    private final QuestionService questionService;
+    private final TestimonialService testimonialService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -44,8 +44,13 @@ public class DataGenerator implements CommandLineRunner {
                 "https://grand-hotel-continental-bucuresti.continentalhotels.ro/wp-content/uploads/sites/10/2021/01/Grand-Hotel-Continenta-_0286.jpg");
 
 
+        Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
 
         hostService.saveHost(host);
+
+        Testimonial testimonial = new Testimonial("FRUMOS", accommodation, customer);
+        Testimonial testimonial1 = new Testimonial("FORZZA RAU", accommodation, customer);
+        Testimonial testimonial2 = new Testimonial("NU MI-A PLACUT", accommodation, customer);
 
 
         accommodation.setHost(host);
@@ -66,6 +71,13 @@ public class DataGenerator implements CommandLineRunner {
         customerService.saveCustomer(customer);
 
         bookingService.saveBooking(booking, host.getId(), customer.getId(), accommodation.getId());
+
+        questionService.save(question);
+
+        testimonialService.save(testimonial);
+        testimonialService.save(testimonial1);
+
+        testimonialService.save(testimonial2);
 
 
     }
