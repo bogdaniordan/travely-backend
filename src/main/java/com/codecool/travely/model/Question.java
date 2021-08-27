@@ -4,17 +4,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
-@Entity
+@Entity(name = "question")
 @Data
 @NoArgsConstructor
-@Table(name = "question")
 public class Question {
     @Id
     @GeneratedValue
     private Long id;
-    private Date date;
+    private LocalDate date;
     private Boolean solved;
     private String text;
     private String author;

@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookings")
 @CrossOrigin(origins = "http://localhost:3000")
-@PreAuthorize("hasAnyRole('CUSTOMER')")
+@PreAuthorize("hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class BookingController {
 
