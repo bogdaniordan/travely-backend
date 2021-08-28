@@ -111,6 +111,7 @@ public class CustomerService {
         }
     }
 
+
 //    public Map<String, String> extractMetadata(MultipartFile file) {
 //        Map<String, String> metadata = new HashMap<>();
 //        metadata.put("Content-Type", file.getContentType());

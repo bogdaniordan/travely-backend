@@ -60,7 +60,7 @@ public class HostService {
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), hostId);
         try {
             fileStore.save(path, file.getOriginalFilename(), Optional.of(metadata), file.getInputStream());
-            host.setPicture(host.getPicture());
+            host.setPicture(file.getOriginalFilename());
             saveHost(host);
         } catch (IOException e) {
             throw new IllegalStateException(e);
