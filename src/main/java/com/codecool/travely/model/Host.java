@@ -33,16 +33,13 @@ public class Host {
     @Min(12)
     @Max(50)
     private String email;
-    @GeneratedValue
     @NotNull
     @Min(5)
     @Max(25)
     private String password;
+    private String picture;
     @ElementCollection
     List<Role> roles = List.of(Role.ROLE_HOST);
-
-//    @OneToMany
-//    private List<Accommodation> accommodations;
 
     public Host(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;

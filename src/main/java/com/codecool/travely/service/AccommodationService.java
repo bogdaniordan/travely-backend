@@ -59,4 +59,9 @@ public class AccommodationService {
         customer.saveAccommodation(findById(accommodationId));
         customerService.saveCustomer(customer);
     }
+
+    public List<Accommodation> findAllByHostId(Long id) {
+        log.info("Fetching all accommodations for host with id: " + id);
+        return accommodationRepository.findAllByHostId(id);
+    }
 }

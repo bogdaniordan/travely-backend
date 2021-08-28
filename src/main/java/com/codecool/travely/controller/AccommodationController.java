@@ -54,4 +54,10 @@ public class AccommodationController {
         accommodationService.saveAccommodationToCustomerList(accommodationId, customerId);
         return ResponseEntity.accepted().body("Accommodation added to customer list.");
     }
+
+    @PreAuthorize("hasRole('HOST')")
+    @GetMapping("/all-for-host/{id}")
+    public ResponseEntity<List<Accommodation>> getAllByHostId(@PathVariable Long id) {
+        return new ResponseEntity<>(accommodationService.findAllByHostId(id), HttpStatus.OK);
+    }
 }

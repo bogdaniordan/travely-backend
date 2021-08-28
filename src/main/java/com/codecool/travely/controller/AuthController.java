@@ -6,7 +6,6 @@ import com.codecool.travely.dto.response.MessageResponse;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.model.Host;
 import com.codecool.travely.security.JwtTokenService;
-import com.codecool.travely.security.Role;
 import com.codecool.travely.service.CustomerService;
 import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -55,19 +53,12 @@ public class AuthController {
 
             String token = jwtTokenService.createToken(username, roles);
 
-            LoginResponse loginResponse = LoginResponse.builder()
-                    .id(customerService.findByUsername(username).getId())
-                    .token(token)
-                    .username(username)
-                    .roles(roles)
-                    .build();
+            LoginResponse loginResponse = getTypeOfUser(username, token, roles);
             return ResponseEntity.ok(loginResponse);
 
         } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }
-
-
     }
 
     @PostMapping("/register-customer")
@@ -93,5 +84,25 @@ public class AuthController {
         hostService.saveHost(registeredHost);
         //send email?
         return ResponseEntity.ok(new MessageResponse("Host has been registered successfully!"));
+    }
+
+    public LoginResponse getTypeOfUser(String username, String token, List<String> roles) {
+        LoginResponse loginResponse;
+        if (customerService.existsByUsername(username)) {
+            loginResponse = LoginResponse.builder()
+                    .id(customerService.findByUsername(username).getId())
+                    .token(token)
+                    .username(username)
+                    .roles(roles)
+                    .build();
+        } else {
+            loginResponse = LoginResponse.builder()
+                    .id(hostService.findByUsername(username).getId())
+                    .token(token)
+                    .username(username)
+                    .roles(roles)
+                    .build();
+        }
+        return loginResponse;
     }
 }
