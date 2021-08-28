@@ -4,9 +4,11 @@ import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.service.AccommodationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -59,5 +61,22 @@ public class AccommodationController {
     @GetMapping("/all-for-host/{id}")
     public ResponseEntity<List<Accommodation>> getAllByHostId(@PathVariable Long id) {
         return new ResponseEntity<>(accommodationService.findAllByHostId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/image/{accommodationId}/{imageName}/download")
+    public byte[] downloadImage(@PathVariable Long accommodationId,
+                                @PathVariable String imageName) {
+        return accommodationService.downloadImage(accommodationId, imageName);
+    }
+
+    @PostMapping(
+            path = "/image/upload/{customerId}/{imageName}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void uploadUserProfileImage(@PathVariable("customerId") Long customerId,
+                                       @PathVariable("imageName") String imageName,
+                                       @RequestParam("file") MultipartFile file) {
+        accommodationService.uploadAccommodationPicture(customerId, file, imageName);
     }
 }
