@@ -36,7 +36,8 @@ public class DataGenerator implements CommandLineRunner {
         Accommodation accommodation = new Accommodation("Guesthouse", "Popa nan 42", "London", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, 2, PlaceType.Hotel);
         Accommodation accommodation1 = new Accommodation("Gradina monteoru", "Calea victoriei", "London", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, 3, PlaceType.Private);
         Accommodation accommodation2 = new Accommodation("Casa lu robert", "Strada golovita", "Mumbai", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, 4, PlaceType.Shared);
-        Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com",BCrypt.hashpw("password", BCrypt.gensalt(12)));
+        Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)));
+        host.setPicture("dorian-popa.jpg");
         Booking booking = new Booking(LocalDate.of(2020, 1, 1), LocalDate.of(2021,2,2), accommodation);
 
         ImageUrls imageUrls = new ImageUrls("https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Bucharest_-_Grand_Hotel_Continental_%2828877800236%29.jpg/800px-Bucharest_-_Grand_Hotel_Continental_%2828877800236%29.jpg",

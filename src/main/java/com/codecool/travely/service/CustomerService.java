@@ -86,9 +86,9 @@ public class CustomerService {
         saveCustomer(updatedCustomer);
     }
 
-    public byte[] downloadImage(Long customerId) {
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), customerId);
-        String imageURL = findById(customerId).getPicture();
+    public byte[] downloadImage(Long id) {
+        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), id);
+        String imageURL = findById(id).getPicture();
         return fileStore.download(path, imageURL);
     }
 
