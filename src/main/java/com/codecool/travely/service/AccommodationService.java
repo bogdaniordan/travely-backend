@@ -27,6 +27,7 @@ public class AccommodationService {
     private final CustomerService customerService;
     private final FileChecker fileChecker;
     private final FileStore fileStore;
+    private final HostService hostService;
 
     public List<Accommodation> findAll() {
         return accommodationRepository.findAll().stream().filter(accommodation -> accommodation.getStatus() == AccommodationStatus.Free).collect(Collectors.toList());
@@ -74,47 +75,46 @@ public class AccommodationService {
 
     public byte[] downloadImage(Long id, String imageName) {
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), id);
-        String imageUrl = null;
-        switch (imageName) {
-            case "firstImage":
-                imageUrl = findById(id).getImageUrls().getFirstImage();
-                break;
-            case "secondImage":
-                imageUrl = findById(id).getImageUrls().getSecondImage();
-                break;
-            case "thirdImage":
-                imageUrl = findById(id).getImageUrls().getThirdImage();
-                break;
-        }
-        return fileStore.download(path, imageUrl);
+//        String imageUrl = null;
+//        switch (imageName) {
+//            case "firstImage":
+//                imageUrl = findById(id).getImageUrls().getFirstImage();
+//                break;
+//            case "secondImage":
+//                imageUrl = findById(id).getImageUrls().getSecondImage();
+//                break;
+//            case "thirdImage":
+//                imageUrl = findById(id).getImageUrls().getThirdImage();
+//                break;
+//        }
+//        return fileStore.download(path, imageUrl);
+        return fileStore.download(path, imageName);
     }
 
     public void uploadAccommodationPicture(Long accommodationId, MultipartFile file, String imageName) {
         log.info("Uploading a picture for accommodation with id: " + accommodationId);
         Map<String, String> metadata = fileChecker.checkFile(file);
-        Accommodation accommodation = findById(accommodationId);
+//        Accommodation accommodation = findById(accommodationId);
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), accommodationId);
         try {
             fileStore.save(path, imageName, Optional.of(metadata), file.getInputStream());
-            switch (imageName) {
-                case "firstImage":
-                    accommodation.getImageUrls().setFirstImage("firstImage");
-                    break;
-                case "secondImage":
-                    accommodation.getImageUrls().setSecondImage("secondImage");
-                    break;
-                case "thirdImage":
-                    accommodation.getImageUrls().setThirdImage("thirdImage");
-                    break;
-            }
-            saveAccommodation(accommodation);
+//            saveAccommodation(accommodation);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
-
     }
 
     public List<Facility> getAllFacilities() {
         return Arrays.asList(Facility.values());
+    }
+
+    public void addNewAccommodation(Accommodation accommodation, Long hostId) {
+        log.info("Saving a new accommodation for host: " + hostId);
+        accommodation.setHost(hostService.findById(hostId));
+        saveAccommodation(accommodation);
+    }
+
+    public Accommodation findByTitle(String title) {
+        return accommodationRepository.findByTitle(title);
     }
 }

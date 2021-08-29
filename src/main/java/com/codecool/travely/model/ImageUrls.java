@@ -18,9 +18,9 @@ public class ImageUrls {
     @Id
     @GeneratedValue
     private Long id;
-    private String firstImage;
-    private String secondImage;
-    private String thirdImage;
+    private String firstImage = "firstImage.jpg";
+    private String secondImage = "secondImage.jpg";
+    private String thirdImage = "thirdImage.jpg";
 
     public ImageUrls(String firstImage, String secondImage, String thirdImage) {
         this.firstImage = firstImage;

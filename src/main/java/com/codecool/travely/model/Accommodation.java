@@ -31,7 +31,7 @@ public class Accommodation {
     @ElementCollection
     private List<Facility> facilities;
     @OneToOne
-    private ImageUrls imageUrls;
+    private ImageUrls imageUrls; // # Todo REMOVE THIS
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
     @ManyToOne

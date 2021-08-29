@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
     List<Accommodation> findAllByHostId(Long id);
+
+    Accommodation findByTitle(String title);
 }

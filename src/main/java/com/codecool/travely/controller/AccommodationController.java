@@ -75,14 +75,14 @@ public class AccommodationController {
 
     @PreAuthorize("hasRole('HOST')")
     @PostMapping(
-            path = "/image/upload/{customerId}/{imageName}",
+            path = "/image/upload/{accommodationId}/{imageName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public void uploadUserProfileImage(@PathVariable("customerId") Long customerId,
+    public void uploadUserProfileImage(@PathVariable("accommodationId") Long accommodationId,
                                        @PathVariable("imageName") String imageName,
                                        @RequestParam("file") MultipartFile file) {
-        accommodationService.uploadAccommodationPicture(customerId, file, imageName);
+        accommodationService.uploadAccommodationPicture(accommodationId, file, imageName);
     }
 
     @PreAuthorize("hasRole('HOST')")
@@ -92,9 +92,16 @@ public class AccommodationController {
     }
 
     @PreAuthorize("hasRole('HOST')")
-    @PostMapping("/add")
-    public ResponseEntity<String> addAccommodation(@Valid @RequestBody Accommodation accommodation) {
-        accommodationService.saveAccommodation(accommodation);
+    @PostMapping("/add/{hostId}")
+    public ResponseEntity<String> addAccommodation(@Valid @RequestBody Accommodation accommodation, @PathVariable Long hostId) {
+        accommodationService.addNewAccommodation(accommodation, hostId);
         return ResponseEntity.ok("Accommodation has been saved.");
     }
+
+    @PreAuthorize("hasRole('HOST')")
+    @GetMapping("/find-by-title/{title}")
+    public ResponseEntity<Accommodation> findByTitle(@PathVariable String title) {
+        return new ResponseEntity<>(accommodationService.findByTitle(title), HttpStatus.OK);
+    }
+
 }
