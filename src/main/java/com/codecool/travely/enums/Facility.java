@@ -6,4 +6,6 @@ public enum Facility {
     Hair_dryer,
     Wifi,
     Refrigerator,
+    Pool,
+    AC
 }

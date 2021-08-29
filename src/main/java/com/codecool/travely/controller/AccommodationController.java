@@ -1,5 +1,6 @@
 package com.codecool.travely.controller;
 
+import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.service.AccommodationService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -63,12 +65,15 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationService.findAllByHostId(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST')")
+
     @GetMapping("/image/{accommodationId}/{imageName}/download")
     public byte[] downloadImage(@PathVariable Long accommodationId,
                                 @PathVariable String imageName) {
         return accommodationService.downloadImage(accommodationId, imageName);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @PostMapping(
             path = "/image/upload/{customerId}/{imageName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -78,5 +83,18 @@ public class AccommodationController {
                                        @PathVariable("imageName") String imageName,
                                        @RequestParam("file") MultipartFile file) {
         accommodationService.uploadAccommodationPicture(customerId, file, imageName);
+    }
+
+    @PreAuthorize("hasRole('HOST')")
+    @GetMapping("/all-facilities")
+    public ResponseEntity<List<Facility>> getAllFacilities() {
+        return new ResponseEntity<>(accommodationService.getAllFacilities(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('HOST')")
+    @PostMapping("/add")
+    public ResponseEntity<String> addAccommodation(@Valid @RequestBody Accommodation accommodation) {
+        accommodationService.saveAccommodation(accommodation);
+        return ResponseEntity.ok("Accommodation has been saved.");
     }
 }

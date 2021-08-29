@@ -3,6 +3,7 @@ package com.codecool.travely.service;
 import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.AccommodationRepository;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,5 +112,9 @@ public class AccommodationService {
             throw new IllegalStateException(e);
         }
 
+    }
+
+    public List<Facility> getAllFacilities() {
+        return Arrays.asList(Facility.values());
     }
 }
