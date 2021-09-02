@@ -30,8 +30,6 @@ public class Accommodation {
     private AccommodationStatus status;
     @ElementCollection
     private List<Facility> facilities;
-    @OneToOne
-    private ImageUrls imageUrls; // # Todo REMOVE THIS
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
     @ManyToOne

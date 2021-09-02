@@ -15,6 +15,8 @@ import java.util.List;
 public class TestimonialService {
 
     private final TestimonialRepository testimonialRepository;
+    private final CustomerService customerService;
+    private final AccommodationService accommodationService;
 
     public Testimonial findById(Long id) {
         return testimonialRepository.findById(id)
@@ -27,5 +29,16 @@ public class TestimonialService {
 
     public List<Testimonial> getAllByAccommodationId(Long id) {
         return testimonialRepository.findAllByAccommodationId(id);
+    }
+
+    public void delete(Long id) {
+        log.info("Deleting testimonial with id: " + id);
+        testimonialRepository.deleteById(id);
+    }
+
+    public void addTestimonial(Long accommodationId, Long customerId, Testimonial testimonial) {
+        testimonial.setCustomer(customerService.findById(customerId));
+        testimonial.setAccommodation(accommodationService.findById(accommodationId));
+        save(testimonial);
     }
 }

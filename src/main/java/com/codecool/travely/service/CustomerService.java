@@ -9,19 +9,21 @@ import com.codecool.travely.repository.CustomerRepository;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
-import static org.apache.http.entity.ContentType.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class CustomerService {
+   // # Todo add swagger
 
    private final CustomerRepository customerRepository;
    private final CardDetailsRepository cardDetailsRepository;
@@ -95,13 +97,9 @@ public class CustomerService {
     public void uploadUserProfileImage(Long customerId, MultipartFile file) {
         log.info("Uploading image for user with id: " + customerId);
         Map<String, String> metadata = fileChecker.checkFile(file);
-//        isFileEmpty(file);
-//        isImage(file);
         Customer customer = findById(customerId);
-//        Map<String, String> metadata = extractMetadata(file);
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), customer.getId());
         String filename = file.getOriginalFilename();
-
         try {
             fileStore.save(path, filename, Optional.of(metadata), file.getInputStream());
             customer.setPicture(filename);
@@ -111,26 +109,4 @@ public class CustomerService {
         }
     }
 
-
-//    public Map<String, String> extractMetadata(MultipartFile file) {
-//        Map<String, String> metadata = new HashMap<>();
-//        metadata.put("Content-Type", file.getContentType());
-//        metadata.put("Content-Length", String.valueOf(file.getSize()));
-//        return metadata;
-//    }
-//
-//    public void isImage(MultipartFile file) {
-//        if (!Arrays.asList(
-//                IMAGE_JPEG.getMimeType(),
-//                IMAGE_PNG.getMimeType(),
-//                IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
-//            throw new IllegalStateException("File must be an image [" + file.getContentType() + "]");
-//        }
-//    }
-//
-//    public void isFileEmpty(MultipartFile file) {
-//        if (file.isEmpty()) {
-//            throw new IllegalStateException("Cannot upload empty file [ " + file.getSize() + "]");
-//        }
-//    }
 }

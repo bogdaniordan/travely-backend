@@ -4,12 +4,8 @@ import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.enums.PlaceType;
 import com.codecool.travely.model.*;
-import com.codecool.travely.repository.BookingRepository;
-import com.codecool.travely.repository.ImageUrlsRepository;
-import com.codecool.travely.security.Role;
 import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
@@ -24,7 +20,6 @@ public class DataGenerator implements CommandLineRunner {
     private final CustomerService customerService;
     private final HostService hostService;
     private final AccommodationService accommodationService;
-    private final ImageUrlsRepository imageUrlsRepository;
     private final BookingService bookingService;
     private final QuestionService questionService;
     private final TestimonialService testimonialService;
@@ -40,11 +35,6 @@ public class DataGenerator implements CommandLineRunner {
         host.setPicture("dorian-popa.jpg");
         Booking booking = new Booking(LocalDate.of(2020, 1, 1), LocalDate.of(2021,2,2), accommodation);
 
-        ImageUrls imageUrls = new ImageUrls("https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Bucharest_-_Grand_Hotel_Continental_%2828877800236%29.jpg/800px-Bucharest_-_Grand_Hotel_Continental_%2828877800236%29.jpg",
-                "https://grand-hotel-continental-bucuresti.continentalhotels.ro/wp-content/uploads/sites/10/2021/01/Grand-Hotel-Continental-IMG_4054.jpg",
-                "https://grand-hotel-continental-bucuresti.continentalhotels.ro/wp-content/uploads/sites/10/2021/01/Grand-Hotel-Continenta-_0286.jpg");
-
-
         Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
 
         hostService.saveHost(host);
@@ -57,11 +47,6 @@ public class DataGenerator implements CommandLineRunner {
         accommodation.setHost(host);
         accommodation1.setHost(host);
         accommodation2.setHost(host);
-        accommodation.setImageUrls(imageUrls);
-        accommodation1.setImageUrls(imageUrls);
-        accommodation2.setImageUrls(imageUrls);
-
-        imageUrlsRepository.save(imageUrls);
 
         accommodationService.saveAccommodation(accommodation);
         accommodationService.saveAccommodation(accommodation1);

@@ -23,4 +23,11 @@ public class TestimonialController {
     public ResponseEntity<List<Testimonial>> getAllByAccommodationId(@PathVariable Long id) {
         return new ResponseEntity<>(testimonialService.getAllByAccommodationId(id), HttpStatus.OK);
     }
+
+    @PostMapping("/add/{accommodationId}/{customerId}")
+    public ResponseEntity<String> addAccommodation(@RequestBody Testimonial testimonial, @PathVariable Long accommodationId, @PathVariable Long customerId) {
+        testimonialService.addTestimonial(accommodationId, customerId, testimonial);
+        return ResponseEntity.ok("Testimonial added.");
+    }
+
 }

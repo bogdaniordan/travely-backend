@@ -37,4 +37,10 @@ public class BookingController {
         return ResponseEntity.ok("Booking has been saved.");
     }
 
+    @PreAuthorize("hasRole('HOST')")
+    @GetMapping("/by-accommodation/{id}")
+    public ResponseEntity<Booking> getByAccommodationId(@PathVariable Long id) {
+        return new ResponseEntity<>(bookingService.findByAccommodationId(id), HttpStatus.OK);
+    }
+
 }

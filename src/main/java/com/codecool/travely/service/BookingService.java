@@ -59,4 +59,8 @@ public class BookingService {
         bookingRepository.delete(booking);
     }
 
+    public Booking findByAccommodationId(Long id) {
+        return bookingRepository.findByAccommodationId(id);
+    }
+
 }

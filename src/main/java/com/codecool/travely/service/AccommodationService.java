@@ -75,30 +75,15 @@ public class AccommodationService {
 
     public byte[] downloadImage(Long id, String imageName) {
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), id);
-//        String imageUrl = null;
-//        switch (imageName) {
-//            case "firstImage":
-//                imageUrl = findById(id).getImageUrls().getFirstImage();
-//                break;
-//            case "secondImage":
-//                imageUrl = findById(id).getImageUrls().getSecondImage();
-//                break;
-//            case "thirdImage":
-//                imageUrl = findById(id).getImageUrls().getThirdImage();
-//                break;
-//        }
-//        return fileStore.download(path, imageUrl);
-        return fileStore.download(path, imageName);
+        return fileStore.download(path, imageName + ".jpg");
     }
 
     public void uploadAccommodationPicture(Long accommodationId, MultipartFile file, String imageName) {
         log.info("Uploading a picture for accommodation with id: " + accommodationId);
         Map<String, String> metadata = fileChecker.checkFile(file);
-//        Accommodation accommodation = findById(accommodationId);
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), accommodationId);
         try {
             fileStore.save(path, imageName, Optional.of(metadata), file.getInputStream());
-//            saveAccommodation(accommodation);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -117,4 +102,5 @@ public class AccommodationService {
     public Accommodation findByTitle(String title) {
         return accommodationRepository.findByTitle(title);
     }
+
 }
