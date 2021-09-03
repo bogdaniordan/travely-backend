@@ -8,6 +8,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,5 +41,9 @@ public class TestimonialService {
         testimonial.setCustomer(customerService.findById(customerId));
         testimonial.setAccommodation(accommodationService.findById(accommodationId));
         save(testimonial);
+    }
+
+    public Boolean accommodationIsReviewed(long accommodationId, long customerId) {
+        return testimonialRepository.findAll().stream().anyMatch(testimonial -> testimonial.getAccommodation().getId() == accommodationId && testimonial.getCustomer().getId() == customerId);
     }
 }

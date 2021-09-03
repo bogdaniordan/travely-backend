@@ -40,4 +40,35 @@ public class QuestionService {
         return questionRepository.findAllByCustomerId(customerId).stream().filter(question -> question.getHost().getId() == hostId).collect(Collectors.toList());
     }
 
+    public void markAsSolved(Long id) {
+        log.info("Changing solved state for questions with id: " + id);
+        Question question = findById(id);
+        question.setSolved(!question.getSolved());
+        save(question);
+    }
+
+    public void delete(Long id) {
+        log.info("Question with id: " + id + " has been deleted.");
+        questionRepository.deleteById(id);
+    }
+
+    public void updateQuestion(Long id, Question question) {
+        log.info("Updating question with id: " + id);
+        Question updatedQuestion = findById(id);
+        updatedQuestion.setResponse(question.getResponse());
+        updatedQuestion.setAuthor(question.getAuthor());
+        updatedQuestion.setDate(question.getDate());
+        updatedQuestion.setCustomer(question.getCustomer());
+        updatedQuestion.setSolved(question.getSolved());
+        updatedQuestion.setSeen(question.getSolved());
+        updatedQuestion.setText(question.getText());
+        save(updatedQuestion);
+    }
+
+    public void markAsSeen(Long id) {
+        log.info("Question with id : " + id + " has been marked as seen.");
+        Question question = findById(id);
+        question.setSeen(true);
+        questionRepository.save(question);
+    }
 }

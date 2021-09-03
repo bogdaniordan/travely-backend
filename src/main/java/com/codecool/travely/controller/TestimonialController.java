@@ -1,5 +1,6 @@
 package com.codecool.travely.controller;
 
+import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Testimonial;
 import com.codecool.travely.service.TestimonialService;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,8 @@ public class TestimonialController {
         return ResponseEntity.ok("Testimonial added.");
     }
 
+    @GetMapping("/accommodation-is-reviewed/{accommodationId}/{customerId}")
+    public ResponseEntity<Boolean> accommodationIsReviewed(@PathVariable Long accommodationId, @PathVariable Long customerId) {
+        return ResponseEntity.ok(testimonialService.accommodationIsReviewed(accommodationId, customerId));
+    }
 }

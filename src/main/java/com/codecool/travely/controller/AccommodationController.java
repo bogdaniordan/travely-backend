@@ -104,4 +104,5 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationService.findByTitle(title), HttpStatus.OK);
     }
 
+
 }

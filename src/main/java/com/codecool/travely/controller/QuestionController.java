@@ -1,7 +1,6 @@
 package com.codecool.travely.controller;
 
 import com.codecool.travely.model.Question;
-import com.codecool.travely.repository.QuestionRepository;
 import com.codecool.travely.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,4 +31,31 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.getAllForHostAndCustomer(customerId, hostId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/mark-as-solved/{id}")
+    public ResponseEntity<String> markQuestionAsSolved(@PathVariable Long id) {
+        questionService.markAsSolved(id);
+        return ResponseEntity.ok("Question solved state has been changed.");
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/mark-as-seen/{id}")
+    public ResponseEntity<String> markQuestionAsSeen(@PathVariable Long id) {
+        questionService.markAsSeen(id);
+        return ResponseEntity.ok("Question has been marked as seen.");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
+        questionService.delete(id);
+        return ResponseEntity.ok("Question has been deleted.");
+    }
+
+
+    @PutMapping("/respond-question/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> setResponse(@PathVariable Long id, @RequestBody Question question){
+        questionService.updateQuestion(id, question);
+        return ResponseEntity.ok("Question has been updated.");
+    }
 }

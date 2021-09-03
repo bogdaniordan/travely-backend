@@ -103,4 +103,5 @@ public class AccommodationService {
         return accommodationRepository.findByTitle(title);
     }
 
+
 }
