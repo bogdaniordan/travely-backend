@@ -15,7 +15,7 @@ public class Question {
     @GeneratedValue
     private Long id;
     private LocalDate date;
-    private Boolean solved;
+    private boolean solved;
     private String text;
     private String author;
     private boolean seen;

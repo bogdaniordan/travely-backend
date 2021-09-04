@@ -103,6 +103,4 @@ public class AccommodationController {
     public ResponseEntity<Accommodation> findByTitle(@PathVariable String title) {
         return new ResponseEntity<>(accommodationService.findByTitle(title), HttpStatus.OK);
     }
-
-
 }

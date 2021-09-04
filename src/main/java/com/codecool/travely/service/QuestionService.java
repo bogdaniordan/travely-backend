@@ -19,7 +19,7 @@ public class QuestionService {
     private final HostService hostService;
     private final CustomerService customerService;
 
-    private Question findById(Long id) {
+    public Question findById(Long id) {
         return questionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find the question with id: " + id));
     }
@@ -43,7 +43,7 @@ public class QuestionService {
     public void markAsSolved(Long id) {
         log.info("Changing solved state for questions with id: " + id);
         Question question = findById(id);
-        question.setSolved(!question.getSolved());
+        question.setSolved(!question.isSolved());
         save(question);
     }
 
@@ -56,12 +56,12 @@ public class QuestionService {
         log.info("Updating question with id: " + id);
         Question updatedQuestion = findById(id);
         updatedQuestion.setResponse(question.getResponse());
-        updatedQuestion.setAuthor(question.getAuthor());
-        updatedQuestion.setDate(question.getDate());
-        updatedQuestion.setCustomer(question.getCustomer());
-        updatedQuestion.setSolved(question.getSolved());
-        updatedQuestion.setSeen(question.getSolved());
-        updatedQuestion.setText(question.getText());
+//        updatedQuestion.setAuthor(question.getAuthor());
+//        updatedQuestion.setDate(question.getDate());
+//        updatedQuestion.setCustomer(question.getCustomer());
+//        updatedQuestion.setSolved(question.isSolved());
+//        updatedQuestion.setSeen(question.isSeen());
+//        updatedQuestion.setText(question.getText());
         save(updatedQuestion);
     }
 
@@ -70,5 +70,9 @@ public class QuestionService {
         Question question = findById(id);
         question.setSeen(true);
         questionRepository.save(question);
+    }
+
+    public List<Question> findAll() {
+        return questionRepository.findAll();
     }
 }

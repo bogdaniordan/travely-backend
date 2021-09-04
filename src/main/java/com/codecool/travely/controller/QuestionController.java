@@ -51,11 +51,20 @@ public class QuestionController {
         return ResponseEntity.ok("Question has been deleted.");
     }
 
-
     @PutMapping("/respond-question/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> setResponse(@PathVariable Long id, @RequestBody Question question){
         questionService.updateQuestion(id, question);
         return ResponseEntity.ok("Question has been updated.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Question> getQuestion(@PathVariable Long id) {
+        return ResponseEntity.ok(questionService.findById(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Question>> getAllQuestion() {
+        return ResponseEntity.ok(questionService.findAll());
     }
 }
