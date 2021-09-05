@@ -1,6 +1,7 @@
 package com.codecool.travely.data;
 
 import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.CleaningExperience;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.enums.PlaceType;
 import com.codecool.travely.model.*;
@@ -23,6 +24,7 @@ public class DataGenerator implements CommandLineRunner {
     private final BookingService bookingService;
     private final QuestionService questionService;
     private final TestimonialService testimonialService;
+    private final CleanerService cleanerService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -65,6 +67,12 @@ public class DataGenerator implements CommandLineRunner {
 
         testimonialService.save(testimonial2);
 
+        Cleaner cleaner = new Cleaner("Bill Gates", CleaningExperience.BEGINNER);
+        Cleaner cleaner1 = new Cleaner("Elon Musk", CleaningExperience.INTERMEDIATE);
+        Cleaner cleaner2 = new Cleaner("David Beckham", CleaningExperience.SENIOR);
+        cleanerService.save(cleaner);
+        cleanerService.save(cleaner1);
+        cleanerService.save(cleaner2);
 
     }
 }

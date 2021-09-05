@@ -25,6 +25,7 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.findAllByCustomerId(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
         bookingService.cancelBooking(id);
@@ -42,5 +43,12 @@ public class BookingController {
     public ResponseEntity<Booking> getByAccommodationId(@PathVariable Long id) {
         return new ResponseEntity<>(bookingService.findByAccommodationId(id), HttpStatus.OK);
     }
+
+//    @PreAuthorize("hasRole('HOST')")
+//    @DeleteMapping("/decline-booking/{id}")
+//    public ResponseEntity<String> declineBooking(@PathVariable Long id) {
+//        bookingService.declineBooking(id);
+//        return ResponseEntity.ok("Booking declined!");
+//    }
 
 }

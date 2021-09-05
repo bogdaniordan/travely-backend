@@ -63,4 +63,9 @@ public class BookingService {
         return bookingRepository.findByAccommodationId(id);
     }
 
+//    public void declineBooking(Long id) {
+//        log.info("Declining booking with id: " + id);
+//        findById(id).getAccommodation().setStatus(AccommodationStatus.Free);
+//        bookingRepository.deleteById(id);
+//    }
 }
