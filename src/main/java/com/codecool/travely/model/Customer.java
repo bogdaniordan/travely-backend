@@ -64,7 +64,11 @@ public class Customer {
         this.age = age;
     }
 
-    public void saveAccommodation(Accommodation accommodation) {
+    public void addToFavorites(Accommodation accommodation) {
         savedAccommodations.add(accommodation);
+    }
+
+    public void removeFromFavorites(Accommodation accommodation) {
+        savedAccommodations.remove(accommodation);
     }
 }

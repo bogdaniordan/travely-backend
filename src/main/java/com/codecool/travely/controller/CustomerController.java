@@ -61,4 +61,9 @@ public class CustomerController {
         customerService.updateCustomer(id, customer);
         return ResponseEntity.ok("Customer has been updated");
     }
+
+    @GetMapping("/card-details-exist/{customerId}")
+    public ResponseEntity<Boolean> cardDetailsExist(@PathVariable Long customerId) {
+        return ResponseEntity.ok(customerService.cardDetailsExist(customerId));
+    }
 }

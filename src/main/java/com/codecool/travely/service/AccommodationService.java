@@ -62,11 +62,6 @@ public class AccommodationService {
         return findAll().stream().filter(accommodation -> accommodation.getTitle().toLowerCase().contains(titleInput.toLowerCase()) && accommodation.getStatus() == AccommodationStatus.Free).collect(Collectors.toList());
     }
 
-    public void saveAccommodationToCustomerList(Long accommodationId, Long customerId) {
-        Customer customer = customerService.findById(customerId);
-        customer.saveAccommodation(findById(accommodationId));
-        customerService.saveCustomer(customer);
-    }
 
     public List<Accommodation> findAllByHostId(Long id) {
         log.info("Fetching all accommodations for host with id: " + id);
@@ -103,5 +98,27 @@ public class AccommodationService {
         return accommodationRepository.findByTitle(title);
     }
 
+    public void addAccommodationToFavorites(Long accommodationId, Long customerId) {
+        log.info("Saving accommodation to favorites accommodation with id: " + accommodationId);
+        Customer customer = customerService.findById(customerId);
+        customer.addToFavorites(findById(accommodationId));
+        customerService.saveCustomer(customer);
+    }
 
+    public void removeAccommodationFromFavorites(Long accommodationId, Long customerId) {
+        log.info("Removing from favorites - accommodation with id: " + accommodationId);
+        Customer customer = customerService.findById(customerId);
+        customer.removeFromFavorites(findById(accommodationId));
+        customerService.saveCustomer(customer);
+    }
+
+    public Boolean favoritesContainsAccommodation(Long accommodationId, Long customerId) {
+        log.info("Checking if accommodation with id of " + accommodationId + " is saved.");
+        return customerService.findById(customerId).getSavedAccommodations().contains(findById(accommodationId));
+    }
+
+    public List<Accommodation> findAllSavedAccommodations(Long userId) {
+        log.info("Fetching all saved accommodations");
+        return customerService.findById(userId).getSavedAccommodations();
+    }
 }

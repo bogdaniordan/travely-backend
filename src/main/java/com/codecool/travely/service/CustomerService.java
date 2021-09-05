@@ -109,4 +109,8 @@ public class CustomerService {
         }
     }
 
+    public boolean cardDetailsExist(Long customerId) {
+        return findById(customerId).getCardDetails() != null;
+    }
+
 }

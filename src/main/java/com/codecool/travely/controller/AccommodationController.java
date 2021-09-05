@@ -1,5 +1,6 @@
 package com.codecool.travely.controller;
 
+import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.service.AccommodationService;
@@ -53,11 +54,6 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationService.filterByAccommodationTitle(titleInput), HttpStatus.OK);
     }
 
-    @GetMapping("/save/accommodation/{accommodationId}/customer/{customerId}")
-    public ResponseEntity<String> saveAccommodation(@PathVariable Long accommodationId, @PathVariable Long customerId) {
-        accommodationService.saveAccommodationToCustomerList(accommodationId, customerId);
-        return ResponseEntity.accepted().body("Accommodation added to customer list.");
-    }
 
     @PreAuthorize("hasRole('HOST')")
     @GetMapping("/all-for-host/{id}")
@@ -102,5 +98,27 @@ public class AccommodationController {
     @GetMapping("/find-by-title/{title}")
     public ResponseEntity<Accommodation> findByTitle(@PathVariable String title) {
         return new ResponseEntity<>(accommodationService.findByTitle(title), HttpStatus.OK);
+    }
+
+    @GetMapping("/save-to-favorites/accommodation/{accommodationId}/customer/{customerId}")
+    public ResponseEntity<String> saveToFavorites(@PathVariable Long accommodationId, @PathVariable Long customerId) {
+        accommodationService.addAccommodationToFavorites(accommodationId, customerId);
+        return ResponseEntity.accepted().body("Accommodation added to customer list.");
+    }
+
+    @GetMapping("/remove-from-favorites/accommodation/{accommodationId}/customer/{customerId}")
+    public ResponseEntity<String> removeFromFavorites(@PathVariable Long accommodationId, @PathVariable Long customerId) {
+        accommodationService.removeAccommodationFromFavorites(accommodationId, customerId);
+        return ResponseEntity.accepted().body("Accommodation has been removed from the customer list.");
+    }
+
+    @GetMapping("/accommodation-is-saved/{accommodationId}/{customerId}")
+    public ResponseEntity<Boolean> accommodationIsSaved(@PathVariable Long accommodationId, @PathVariable Long customerId) {
+        return ResponseEntity.ok(accommodationService.favoritesContainsAccommodation(accommodationId, customerId));
+    }
+
+    @GetMapping("/all-saved/{customerId}")
+    public ResponseEntity<List<Accommodation>> findAllSaved(@PathVariable Long customerId) {
+        return ResponseEntity.ok(accommodationService.findAllSavedAccommodations(customerId));
     }
 }
