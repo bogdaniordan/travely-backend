@@ -43,7 +43,6 @@ public class AuthController {
     private final AuthService authService;
     private final JavaMailSender mailSender;
 
-
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
         try {
@@ -77,7 +76,6 @@ public class AuthController {
                         customer.getGender(), customer.getAge());
 
         customerService.saveCustomer(registeredCustomer);
-        //send email ?
         return ResponseEntity.ok(new MessageResponse("Customer has been registered successfully!"));
     }
 
@@ -88,12 +86,11 @@ public class AuthController {
         }
         Host registeredHost = new Host(host.getFirstName(), host.getLastName(), host.getUsername(), host.getEmail(), BCrypt.hashpw(host.getPassword(), BCrypt.gensalt(12)));
         hostService.saveHost(registeredHost);
-        //send email?
         return ResponseEntity.ok(new MessageResponse("Host has been registered successfully!"));
     }
 
 
-    @PostMapping("/reset-password/{userEmail}")
+    @GetMapping("/reset-password/{userEmail}")
     public ResponseEntity<String> resetPassword(@PathVariable String userEmail) {
         Customer customer = customerService.findByEmail(userEmail);
         if (customer == null) {
@@ -128,5 +125,4 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Could not find customer.");
         }
     }
-
 }
