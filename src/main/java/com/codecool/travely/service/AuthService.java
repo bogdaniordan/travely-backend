@@ -3,17 +3,14 @@ package com.codecool.travely.service;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.PasswordTokenRepository;
-import com.codecool.travely.security.model.PasswordResetToken;
+import com.codecool.travely.security.PasswordResetToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @Slf4j
@@ -23,7 +20,10 @@ public class AuthService {
     private final CustomerService customerService;
     private final HostService hostService;
     private final PasswordTokenRepository passwordTokenRepository;
-    private final MessageSource messageSource;
+
+    public PasswordResetToken findByToken(String token) {
+        return passwordTokenRepository.findByToken(token);
+    }
 
     public LoginResponse getTypeOfUser(String username, String token, List<String> roles) {
         LoginResponse loginResponse;
@@ -68,7 +68,7 @@ public class AuthService {
 
 
     public String validatePasswordResetToken(String token) {
-        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+        final PasswordResetToken passToken = findByToken(token);
 
         return !isTokenFound(passToken) ? "invalidToken"
                 : isTokenExpired(passToken) ? "expired"

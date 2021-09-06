@@ -108,6 +108,10 @@
 			<version>2.5.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

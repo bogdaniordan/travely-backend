@@ -1,4 +1,4 @@
-package com.codecool.travely.security.model;
+package com.codecool.travely.security;
 
 import com.codecool.travely.model.Customer;
 import lombok.Data;

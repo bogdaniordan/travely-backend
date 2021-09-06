@@ -2,17 +2,16 @@ package com.codecool.travely.controller;
 
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.codecool.travely.dto.request.LoginRequest;
+import com.codecool.travely.dto.request.PasswordDto;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.dto.response.MessageResponse;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.model.Host;
 import com.codecool.travely.security.JwtTokenService;
-import com.codecool.travely.util.GenericResponse;
 import com.codecool.travely.service.AuthService;
 import com.codecool.travely.service.CustomerService;
 import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,9 +24,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,7 +42,7 @@ public class AuthController {
     private final HostService hostService;
     private final AuthService authService;
     private final JavaMailSender mailSender;
-    private final MessageSource messageSource;
+
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
@@ -113,6 +112,21 @@ public class AuthController {
             return ResponseEntity.ok(false);
         }
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/save-password")
+    public ResponseEntity<?> savePassword(@RequestBody @Valid PasswordDto passwordDto) {
+        String result = authService.validatePasswordResetToken(passwordDto.getToken());
+        if (result != null) {
+            return ResponseEntity.badRequest().body("There was a problem with the password reset. Please try again!");
+        }
+        Optional<Customer> customer = Optional.ofNullable(authService.findByToken(passwordDto.getToken()).getUser());
+        if (customer.isPresent()) {
+            customerService.changePassword(customer.get(), passwordDto.getPassword());
+            return ResponseEntity.ok("Password has been updated. Redirecting to login page...");
+        } else {
+            return ResponseEntity.badRequest().body("Could not find customer.");
+        }
     }
 
 }

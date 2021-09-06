@@ -10,6 +10,7 @@ import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,4 +118,9 @@ public class CustomerService {
         return findById(customerId).getCardDetails() != null;
     }
 
+    public void changePassword(Customer customer, String password) {
+        log.info("Updating password for customer with id: " + customer.getId());
+        customer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
+        saveCustomer(customer);
+    }
 }
