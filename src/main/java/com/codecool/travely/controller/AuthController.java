@@ -95,20 +95,24 @@ public class AuthController {
 
 
     @PostMapping("/reset-password/{userEmail}")
-    public GenericResponse resetPassword(HttpServletRequest request,
-                                         @PathVariable String userEmail) {
+    public ResponseEntity<String> resetPassword(@PathVariable String userEmail) {
         Customer customer = customerService.findByEmail(userEmail);
         if (customer == null) {
             throw new UserNotFoundException("There is no user with email: " + userEmail);
         }
         String token = UUID.randomUUID().toString();
         authService.createPasswordResetTokenForUser(customer, token);
-        mailSender.send(authService.constructResetTokenEmail(authService.getAppUrl(request),
-                request.getLocale(), token, customer));
-//        return new GenericResponse(
-//                messageSource.getMessage("message.resetPasswordEmail", null,
-//                        request.getLocale()));
-        return new GenericResponse("trag la");
+        mailSender.send(authService.constructResetTokenEmail(token, customer));
+        return ResponseEntity.ok("Check your inbox for a reset password email.");
+    }
+
+    @GetMapping("/verify-password-token/{token}")
+    public ResponseEntity<?> verifyResetPasswordToken(@PathVariable String token) {
+        String result = authService.validatePasswordResetToken(token);
+        if (result != null) {
+            return ResponseEntity.ok(false);
+        }
+        return ResponseEntity.ok(true);
     }
 
 }

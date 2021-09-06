@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,12 +50,9 @@ public class AuthService {
         passwordTokenRepository.save(myToken);
     }
 
-    public SimpleMailMessage constructResetTokenEmail(
-            String contextPath, Locale locale, String token, Customer customer) {
-        String url = contextPath + "/auth/change-password?token=" + token;
-//        String message = messageSource.getMessage("message.resetPassword",
-//                null, locale);
-        String message = "reset";
+    public SimpleMailMessage constructResetTokenEmail(String token, Customer customer) {
+        String url = "http://localhost:3000/reset-password/" + token;
+        String message = "Please click the link below to reset your password.";
         return constructEmail("Reset Password", message + " \r\n" + url, customer);
     }
 
@@ -68,8 +66,21 @@ public class AuthService {
         return email;
     }
 
-    public String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+    public String validatePasswordResetToken(String token) {
+        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+
+        return !isTokenFound(passToken) ? "invalidToken"
+                : isTokenExpired(passToken) ? "expired"
+                : null;
     }
 
+    private boolean isTokenFound(PasswordResetToken passToken) {
+        return passToken != null;
+    }
+
+    private boolean isTokenExpired(PasswordResetToken passToken) {
+        final Calendar cal = Calendar.getInstance();
+        return passToken.getExpiryDate().before(cal.getTime());
+    }
 }
