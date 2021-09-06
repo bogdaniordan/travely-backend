@@ -55,6 +55,10 @@ public class CustomerService {
         return customerRepository.existsByEmail(email);
     }
 
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+
     public void saveCardDetails(CardDetails cardDetails, Long id) {
         log.info("Saving card details for customer with id: " + id);
         Customer customer = findById(id);

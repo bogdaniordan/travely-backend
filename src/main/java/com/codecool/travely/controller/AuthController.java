@@ -1,15 +1,20 @@
 package com.codecool.travely.controller;
 
+import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.dto.response.MessageResponse;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.model.Host;
 import com.codecool.travely.security.JwtTokenService;
+import com.codecool.travely.util.GenericResponse;
+import com.codecool.travely.service.AuthService;
 import com.codecool.travely.service.CustomerService;
 import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,13 +23,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -37,6 +41,9 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService jwtTokenService;
     private final HostService hostService;
+    private final AuthService authService;
+    private final JavaMailSender mailSender;
+    private final MessageSource messageSource;
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
@@ -53,7 +60,7 @@ public class AuthController {
 
             String token = jwtTokenService.createToken(username, roles);
 
-            LoginResponse loginResponse = getTypeOfUser(username, token, roles);
+            LoginResponse loginResponse = authService.getTypeOfUser(username, token, roles);
             return ResponseEntity.ok(loginResponse);
 
         } catch (UsernameNotFoundException e) {
@@ -86,23 +93,22 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Host has been registered successfully!"));
     }
 
-    public LoginResponse getTypeOfUser(String username, String token, List<String> roles) {
-        LoginResponse loginResponse;
-        if (customerService.existsByUsername(username)) {
-            loginResponse = LoginResponse.builder()
-                    .id(customerService.findByUsername(username).getId())
-                    .token(token)
-                    .username(username)
-                    .roles(roles)
-                    .build();
-        } else {
-            loginResponse = LoginResponse.builder()
-                    .id(hostService.findByUsername(username).getId())
-                    .token(token)
-                    .username(username)
-                    .roles(roles)
-                    .build();
+
+    @PostMapping("/reset-password/{userEmail}")
+    public GenericResponse resetPassword(HttpServletRequest request,
+                                         @PathVariable String userEmail) {
+        Customer customer = customerService.findByEmail(userEmail);
+        if (customer == null) {
+            throw new UserNotFoundException("There is no user with email: " + userEmail);
         }
-        return loginResponse;
+        String token = UUID.randomUUID().toString();
+        authService.createPasswordResetTokenForUser(customer, token);
+        mailSender.send(authService.constructResetTokenEmail(authService.getAppUrl(request),
+                request.getLocale(), token, customer));
+//        return new GenericResponse(
+//                messageSource.getMessage("message.resetPasswordEmail", null,
+//                        request.getLocale()));
+        return new GenericResponse("trag la");
     }
+
 }
