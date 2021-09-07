@@ -3,6 +3,7 @@ package com.codecool.travely.service;
 import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.CleaningStatus;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Customer;
@@ -28,6 +29,7 @@ public class AccommodationService {
     private final FileChecker fileChecker;
     private final FileStore fileStore;
     private final HostService hostService;
+//    private final CleanerService cleanerService;
 
     public List<Accommodation> findAll() {
         return accommodationRepository.findAll().stream().filter(accommodation -> accommodation.getStatus() == AccommodationStatus.Free).collect(Collectors.toList());
@@ -121,4 +123,6 @@ public class AccommodationService {
         log.info("Fetching all saved accommodations");
         return customerService.findById(userId).getSavedAccommodations();
     }
+
+
 }

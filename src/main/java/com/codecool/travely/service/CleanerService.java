@@ -1,5 +1,7 @@
 package com.codecool.travely.service;
 
+import com.codecool.travely.enums.CleaningStatus;
+import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Cleaner;
 import com.codecool.travely.repository.CleanerRepository;
 import lombok.AllArgsConstructor;
@@ -45,13 +47,7 @@ public class CleanerService {
         Cleaner cleaner = findById(cleanerId);
         cleaner.setEmployer(null);
         cleaner.setHired(false);
-        save(cleaner);
-    }
-
-    public void cleanAccommodation(Long cleanerId, Long accommodationId) {
-        log.info("Cleaner with id " + cleanerId + " is now cleaning accommodation with id " + accommodationId);
-        Cleaner cleaner = findById(cleanerId);
-        cleaner.setCurrentCleaningJob(accommodationService.findById(accommodationId));
+        cleaner.setCurrentCleaningJob(null);
         save(cleaner);
     }
 
@@ -70,5 +66,27 @@ public class CleanerService {
                 .filter(cleaner -> cleaner.getEmployer() != null)
                 .filter(cleaner -> cleaner.getEmployer().getId() == hostId)
                 .collect(Collectors.toList());
+    }
+
+    public Boolean accommodationCanBeCleaned(Long id) {
+        log.info("Checking if accommodation with id " + id + " can be cleaned.");
+        Accommodation accommodation = accommodationService.findById(id);
+        if (accommodation.getCleaningStatus() == CleaningStatus.SUPER_CLEAN) {
+            return false;
+        }
+        return findAll().stream()
+                .filter(cleaner -> cleaner.getCurrentCleaningJob() != null)
+                .noneMatch(cleaner -> cleaner.getCurrentCleaningJob().equals(accommodation));
+    }
+
+    public void setCleanerToCleanAccommodation(Long cleanerId, Long accommodationId) {
+        log.info("Set cleaner with id " + cleanerId + " to clean " + accommodationId);
+        Cleaner cleaner = findById(cleanerId);
+        cleaner.setCurrentCleaningJob(accommodationService.findById(accommodationId));
+        save(cleaner);
+    }
+
+    public List<Cleaner> accommodationIsCleanedBy(long accommodationId) {
+        return findAll().stream().filter(cleaner -> cleaner.getCurrentCleaningJob() != null).filter(cleaner -> cleaner.getCurrentCleaningJob().getId() == accommodationId).collect(Collectors.toList());
     }
 }

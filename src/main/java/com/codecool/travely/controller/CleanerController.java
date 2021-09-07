@@ -1,12 +1,10 @@
 package com.codecool.travely.controller;
 
-import com.amazonaws.Response;
 import com.codecool.travely.model.Cleaner;
 import com.codecool.travely.service.CleanerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +39,6 @@ public class CleanerController {
         return ResponseEntity.ok("Cleaner fired.");
     }
 
-    @GetMapping("/clean-accommodation/{cleanerId}/{accommodationId}")
-    public ResponseEntity<String> setCleanerToAccommodation(@PathVariable Long cleanerId, @PathVariable Long accommodationId) {
-        cleanerService.cleanAccommodation(cleanerId, accommodationId);
-        return ResponseEntity.ok("Cleaner with id + " + cleanerId +  " has been set to clean the accommodation with id " + accommodationId);
-    }
-
     @GetMapping("/filter-by-status/{status}")
     public ResponseEntity<List<Cleaner>> filterByStatus(@PathVariable String status) {
         return ResponseEntity.ok(cleanerService.filterByHiringStatus(status));
@@ -55,5 +47,21 @@ public class CleanerController {
     @GetMapping("/all-for-host/{id}")
     public ResponseEntity<List<Cleaner>> getAllForHost(@PathVariable Long id) {
         return ResponseEntity.ok(cleanerService.getAllCleanersForHost(id));
+    }
+
+    @GetMapping("/can-be-cleaned/{accommodationId}")
+    public ResponseEntity<Boolean> accommodationCanBeCleaned(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(cleanerService.accommodationCanBeCleaned(accommodationId));
+    }
+
+    @GetMapping("/set-clean/{cleanerId}/{accommodationId}")
+    public ResponseEntity<String> setCleanerToCleanAccommodation(@PathVariable Long cleanerId, @PathVariable Long accommodationId) {
+        cleanerService.setCleanerToCleanAccommodation(cleanerId, accommodationId);
+        return ResponseEntity.ok("Set cleaner with id " + cleanerId + " to clean " + accommodationId);
+    }
+
+    @GetMapping("/accommodation-is-cleaned-by/{accommodationId}")
+    public ResponseEntity<List<Cleaner>> accommodationIsCleanedBy(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(cleanerService.accommodationIsCleanedBy(accommodationId));
     }
 }
