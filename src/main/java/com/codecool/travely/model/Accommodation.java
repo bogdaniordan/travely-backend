@@ -1,6 +1,7 @@
 package com.codecool.travely.model;
 
 import com.codecool.travely.enums.AccommodationStatus;
+import com.codecool.travely.enums.CleaningStatus;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.enums.PlaceType;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class Accommodation {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
+    @Enumerated(EnumType.STRING)
+    private CleaningStatus cleaningStatus;
     @ElementCollection
     private List<Facility> facilities;
     @Enumerated(EnumType.STRING)
@@ -35,7 +38,7 @@ public class Accommodation {
     @ManyToOne
     private Host host;
 
-    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, AccommodationStatus status, PlaceType placeType) {
+    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, AccommodationStatus status, PlaceType placeType, CleaningStatus cleaningStatus) {
         this.title = title;
         this.address = address;
         this.location = location;
@@ -43,5 +46,6 @@ public class Accommodation {
         this.facilities = facilities;
         this.status = status;
         this.placeType = placeType;
+        this.cleaningStatus = cleaningStatus;
     }
 }
