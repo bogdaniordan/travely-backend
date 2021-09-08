@@ -29,7 +29,6 @@ public class AccommodationService {
     private final FileChecker fileChecker;
     private final FileStore fileStore;
     private final HostService hostService;
-//    private final CleanerService cleanerService;
 
     public List<Accommodation> findAll() {
         return accommodationRepository.findAll().stream().filter(accommodation -> accommodation.getStatus() == AccommodationStatus.Free).collect(Collectors.toList());

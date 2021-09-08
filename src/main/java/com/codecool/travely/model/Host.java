@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "host")
@@ -41,11 +42,18 @@ public class Host {
     @ElementCollection
     List<Role> roles = List.of(Role.ROLE_HOST);
 
+    @ElementCollection
+    List<Badge> earnedBadges = new ArrayList<>();
+
     public Host(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public void earnBadge(Badge badge) {
+        earnedBadges.add(badge);
     }
 }
