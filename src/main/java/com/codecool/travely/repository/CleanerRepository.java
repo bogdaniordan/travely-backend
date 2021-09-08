@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CleanerRepository extends JpaRepository<Cleaner, Long> {
     List<Cleaner> findAllByCurrentCleaningJobId(Long id);
+    List<Cleaner> findAllByEmployerId(Long id);
 }

@@ -6,6 +6,8 @@ import com.codecool.travely.dto.response.BadgeDto;
 import com.codecool.travely.model.Badge;
 import com.codecool.travely.model.Host;
 import com.codecool.travely.repository.AccommodationRepository;
+import com.codecool.travely.repository.BookingRepository;
+import com.codecool.travely.repository.CleanerRepository;
 import com.codecool.travely.repository.HostRepository;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,8 @@ public class HostService {
     private final FileStore fileStore;
     private final FileChecker fileChecker;
     private final AccommodationRepository accommodationRepository;
+    private final BookingRepository bookingRepository;
+    private final CleanerRepository cleanerRepository;
 
     public Host findById(Long id) {
         return hostRepository.findById(id)
@@ -75,14 +79,32 @@ public class HostService {
         Host host = findById(hostId);
         for (Badge badge: Badge.values()) {
             earnTravellerBadge(badge, host);
+            addBookingGuruBadge(badge, host);
+            earnCleanersKingBadge(badge, host);
         }
         saveHost(host);
     }
 
     public void earnTravellerBadge(Badge badge, Host host) {
-        if (badge == Badge.Junior_host && !host.getEarnedBadges().contains(Badge.Junior_host)) {
+        if (badge == Badge.JUNIOR_HOST && !host.getEarnedBadges().contains(Badge.JUNIOR_HOST)) {
             if (accommodationRepository.findAllByHostId(host.getId()).size() >= 3) {
-                host.earnBadge(Badge.Junior_host);
+                host.earnBadge(Badge.JUNIOR_HOST);
+            }
+        }
+    }
+
+    public void addBookingGuruBadge(Badge badge, Host host) {
+        if (badge == Badge.BOOKING_GURU && !host.getEarnedBadges().contains(Badge.BOOKING_GURU)) {
+            if (bookingRepository.findBookingsByHostId(host.getId()).size() > 0) {
+                host.earnBadge(Badge.BOOKING_GURU);
+            }
+        }
+    }
+
+    public void earnCleanersKingBadge(Badge badge, Host host) {
+        if (badge == Badge.CLEANERS_KING && !host.getEarnedBadges().contains(Badge.CLEANERS_KING)) {
+            if (cleanerRepository.findAllByEmployerId(host.getId()).size() >= 3) {
+                host.earnBadge(Badge.CLEANERS_KING);
             }
         }
     }

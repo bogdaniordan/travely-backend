@@ -5,8 +5,9 @@ import com.codecool.travely.service.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public enum Badge {
-    Junior_host("Junior host", "Junior_host.jpg", "Add 3 accommodations to your hosting list."),
-    Booking_guru("Booking guru","Booking_guru.jpg", "Get your first booking.");
+    JUNIOR_HOST("Junior host", "Junior_host.jpg", "Add 3 accommodations to your hosting list."),
+    BOOKING_GURU("Booking guru","Booking_guru.jpg", "Get your first booking."),
+    CLEANERS_KING("Cleaners king", "cleaners_king.jpg", "Hire 3 cleaners.");
 
     public final String name;
     public final String picture;
