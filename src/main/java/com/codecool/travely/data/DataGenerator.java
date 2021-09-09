@@ -3,6 +3,7 @@ package com.codecool.travely.data;
 import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
 import com.codecool.travely.repository.AccommodationRepository;
+import com.codecool.travely.repository.RecommendationRepository;
 import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -23,9 +24,10 @@ public class DataGenerator implements CommandLineRunner {
     private final QuestionService questionService;
     private final TestimonialService testimonialService;
     private final CleanerService cleanerService;
+    private final RecommendationRepository recommendationRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
         Accommodation accommodation = new Accommodation("Guesthouse", "Popa nan 42", "London", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, PlaceType.Hotel, CleaningStatus.DIRTY);
@@ -74,6 +76,18 @@ public class DataGenerator implements CommandLineRunner {
         cleanerService.save(cleaner1);
         cleanerService.save(cleaner2);
         cleanerService.save(cleaner3);
+
+        Customer customer1 = new Customer("Dorian", "Popa", "dorian", "dorian.popa47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 33);
+        customer1.setPicture("dorian_popa.jpg");
+        Customer customer2 = new Customer("Elon", "musk", "elonmusk", "elon.musk47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 33);
+        customer2.setPicture("elon_musk.jpg");
+        customerService.saveCustomer(customer1);
+        customerService.saveCustomer(customer2);
+
+        Recommendation recommendation = new Recommendation("Check this out.", accommodation, customer1, customer);
+        recommendationRepository.save(recommendation);
+
+
 
     }
 }

@@ -13,11 +13,17 @@ public class Recommendation {
     @GeneratedValue
     private Long id;
     private String message;
-//    private boolean seen;
     @ManyToOne
     private Accommodation accommodation;
     @ManyToOne
     private Customer sender;
     @ManyToOne
     private Customer receiver;
+
+    public Recommendation(String message, Accommodation accommodation, Customer sender, Customer receiver) {
+        this.message = message;
+        this.accommodation = accommodation;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
 }
