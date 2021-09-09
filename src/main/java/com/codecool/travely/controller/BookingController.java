@@ -5,6 +5,7 @@ import com.codecool.travely.service.BookingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService bookingService;
+    private final JavaMailSender mailSender;
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<List<Booking>> findAllByCustomerId(@PathVariable Long id) {
@@ -35,6 +37,7 @@ public class BookingController {
     @PostMapping("/add-booking/host/{hostId}/customer/{customerId}/accommodation/{accommodationId}")
     public ResponseEntity<String> addBooking(@Valid @RequestBody Booking booking, @PathVariable Long hostId, @PathVariable Long customerId, @PathVariable Long accommodationId) {
         bookingService.saveBooking(booking, hostId, customerId, accommodationId);
+//        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
         return ResponseEntity.ok("Booking has been saved.");
     }
 

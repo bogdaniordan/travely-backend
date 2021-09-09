@@ -46,4 +46,10 @@ public class TestimonialService {
     public Boolean accommodationIsReviewed(long accommodationId, long customerId) {
         return testimonialRepository.findAll().stream().anyMatch(testimonial -> testimonial.getAccommodation().getId() == accommodationId && testimonial.getCustomer().getId() == customerId);
     }
+
+    public Double getAverageRating(Long accommodationId) {
+        log.info("Getting average rating for accommodation with id " + accommodationId);
+        System.out.println(getAllByAccommodationId(accommodationId));
+        return getAllByAccommodationId(accommodationId).stream().mapToDouble(Testimonial::getRating).average().orElse(Double.NaN);
+    }
 }

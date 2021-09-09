@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TestimonialRepository extends JpaRepository<Testimonial, Long> {
-
     List<Testimonial> findAllByAccommodationId(Long id);
 }

@@ -2,6 +2,7 @@ package com.codecool.travely.data;
 
 import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
+import com.codecool.travely.repository.AccommodationRepository;
 import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -38,9 +39,9 @@ public class DataGenerator implements CommandLineRunner {
 
         hostService.saveHost(host);
 
-        Testimonial testimonial = new Testimonial("FRUMOS", accommodation, customer);
-        Testimonial testimonial1 = new Testimonial("FORZZA RAU", accommodation, customer);
-        Testimonial testimonial2 = new Testimonial("NU MI-A PLACUT", accommodation, customer);
+        Testimonial testimonial = new Testimonial("FRUMOS", accommodation, customer, 4);
+        Testimonial testimonial1 = new Testimonial("FORZZA RAU", accommodation, customer, 5);
+        Testimonial testimonial2 = new Testimonial("NU MI-A PLACUT", accommodation, customer, 1);
 
 
         accommodation.setHost(host);

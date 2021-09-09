@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class TestimonialController {
     }
 
     @PostMapping("/add/{accommodationId}/{customerId}")
-    public ResponseEntity<String> addAccommodation(@RequestBody Testimonial testimonial, @PathVariable Long accommodationId, @PathVariable Long customerId) {
+    public ResponseEntity<String> addAccommodation(@RequestBody @Valid Testimonial testimonial, @PathVariable Long accommodationId, @PathVariable Long customerId) {
         testimonialService.addTestimonial(accommodationId, customerId, testimonial);
         return ResponseEntity.ok("Testimonial added.");
     }
@@ -34,5 +35,10 @@ public class TestimonialController {
     @GetMapping("/accommodation-is-reviewed/{accommodationId}/{customerId}")
     public ResponseEntity<Boolean> accommodationIsReviewed(@PathVariable Long accommodationId, @PathVariable Long customerId) {
         return ResponseEntity.ok(testimonialService.accommodationIsReviewed(accommodationId, customerId));
+    }
+
+    @GetMapping("/average-rating/{accommodationId}")
+    public ResponseEntity<Double> getAverageRating(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(testimonialService.getAverageRating(accommodationId));
     }
 }

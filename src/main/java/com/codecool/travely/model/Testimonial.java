@@ -3,10 +3,9 @@ package com.codecool.travely.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity(name = "testimonial")
 @Data
@@ -20,12 +19,17 @@ public class Testimonial {
     @ManyToOne
     private Accommodation accommodation;
 
+    @Min(0)
+    @Max(5)
+    private int rating;
+
     @ManyToOne
     private Customer customer;
 
-    public Testimonial(String message, Accommodation accommodation, Customer customer) {
+    public Testimonial(String message, Accommodation accommodation, Customer customer, int rating) {
         this.message = message;
         this.accommodation = accommodation;
         this.customer = customer;
+        this.rating = rating;
     }
 }

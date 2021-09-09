@@ -8,6 +8,8 @@ import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class BookingService {
     private final AccommodationService accommodationService;
     private final HostService hostService;
     private final CustomerService customerService;
+
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
@@ -68,4 +71,13 @@ public class BookingService {
 //        findById(id).getAccommodation().setStatus(AccommodationStatus.Free);
 //        bookingRepository.deleteById(id);
 //    }
+
+    public SimpleMailMessage createBookingMail(Long accommodationId, Long customerId) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setSubject("Booking for " + accommodationService.findById(accommodationId).getTitle());
+        email.setText("Congrats " + customerService.findById(customerId).getFirstName() + " " + customerService.findById(customerId).getLastName() + " , your booking has been made. Please access the following link in order to check your bookings: http://localhost:3000/profile");
+        email.setTo(customerService.findById(customerId).getEmail());
+        email.setFrom("noreply@travely");
+        return email;
+    }
 }
