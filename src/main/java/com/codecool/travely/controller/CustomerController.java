@@ -66,4 +66,9 @@ public class CustomerController {
     public ResponseEntity<Boolean> cardDetailsExist(@PathVariable Long customerId) {
         return ResponseEntity.ok(customerService.cardDetailsExist(customerId));
     }
+
+    @GetMapping("/all-customers-except/{id}")
+    public ResponseEntity<List<Customer>> getAllCustomersExcept(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getAllCustomersExcept(id));
+    }
 }

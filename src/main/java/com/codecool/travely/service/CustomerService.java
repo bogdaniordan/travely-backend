@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -122,5 +123,9 @@ public class CustomerService {
         log.info("Updating password for customer with id: " + customer.getId());
         customer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
         saveCustomer(customer);
+    }
+
+    public List<Customer> getAllCustomersExcept(long id) {
+        return findAll().stream().filter(customer -> customer.getId() != id).collect(Collectors.toList());
     }
 }

@@ -34,9 +34,7 @@ public class RecommendationService {
 
     public List<Customer> findAllAvailableForRecommendation(long senderId, Long accommodationId) {
         log.info("Checking if there are any user where sender with id "  + senderId + "didn't recommend accommodation with id " + accommodationId);
-        System.out.println(recommendationRepository.findAllBySenderIdAndAccommodationId(senderId, accommodationId));
         List<Customer> sentBySender = recommendationRepository.findAllBySenderIdAndAccommodationId(senderId, accommodationId).stream().map(Recommendation::getReceiver).collect(Collectors.toList());
-        System.out.println(sentBySender);
         List<Customer> otherCustomers = customerService.findAll().stream().filter(customer -> customer.getId() != senderId).collect(Collectors.toList());
         otherCustomers.removeAll(sentBySender);
         return otherCustomers;

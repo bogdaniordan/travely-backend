@@ -49,7 +49,6 @@ public class TestimonialService {
 
     public Double getAverageRating(Long accommodationId) {
         log.info("Getting average rating for accommodation with id " + accommodationId);
-        System.out.println(getAllByAccommodationId(accommodationId));
         return getAllByAccommodationId(accommodationId).stream().mapToDouble(Testimonial::getRating).average().orElse(Double.NaN);
     }
 }
