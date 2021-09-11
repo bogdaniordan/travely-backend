@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,14 +23,16 @@ public class ChatService {
     public void save(ChatMessage chatMessage) {
         chatMessage.setSender(customerService.findById(chatMessage.getMessageSenderId()));
         chatMessage.setReceiver(customerService.findById(chatMessage.getMessageReceiverId()));
-        chatMessage.setTime(LocalDateTime.now().toString());
         chatMessageRepository.save(chatMessage);
     }
 
     public List<ChatMessage> getAllForConversation(long senderId, long receiverId) {
         log.info("Getting all messages between user with id " + senderId + " and " + receiverId);
-        return chatMessageRepository.findAll().stream()
+        List<ChatMessage> messages = chatMessageRepository.findAll().stream()
                 .filter(chatMessage -> chatMessage.getSender().getId() == senderId && chatMessage.getReceiver().getId() == receiverId)
                 .collect(Collectors.toList());
+        messages.addAll(chatMessageRepository.findAll().stream().filter(chatMessage -> chatMessage.getSender().getId() == receiverId && chatMessage.getReceiver().getId() == senderId).collect(Collectors.toList()));
+        messages.sort(Comparator.comparing(ChatMessage::getTime));
+        return messages;
     }
 }

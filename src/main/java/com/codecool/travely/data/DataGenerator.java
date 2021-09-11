@@ -1,8 +1,11 @@
 package com.codecool.travely.data;
 
+import com.codecool.travely.chat.ChatMessage;
+import com.codecool.travely.chat.MessageType;
 import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
 import com.codecool.travely.repository.AccommodationRepository;
+import com.codecool.travely.repository.ChatMessageRepository;
 import com.codecool.travely.repository.RecommendationRepository;
 import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -25,6 +29,7 @@ public class DataGenerator implements CommandLineRunner {
     private final TestimonialService testimonialService;
     private final CleanerService cleanerService;
     private final RecommendationRepository recommendationRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public void run(String... args) {
@@ -86,6 +91,17 @@ public class DataGenerator implements CommandLineRunner {
 
         Recommendation recommendation = new Recommendation("Check this out.", accommodation, customer1, customer);
         recommendationRepository.save(recommendation);
+
+        ChatMessage chatMessage = new ChatMessage("Hello", customer, customer1, MessageType.SENT);
+        ChatMessage chatMessage1 = new ChatMessage("Hello man", customer1, customer, MessageType.SENT);
+        ChatMessage chatMessage2 = new ChatMessage("Bye", customer, customer1, MessageType.SENT);
+        ChatMessage chatMessage3 = new ChatMessage("See ya", customer1, customer, MessageType.SENT);
+
+        chatMessageRepository.save(chatMessage);
+        chatMessageRepository.save(chatMessage1);
+        chatMessageRepository.save(chatMessage2);
+        chatMessageRepository.save(chatMessage3);
+//        chatMessageRepository.saveAll(List.of(chatMessage, chatMessage1, chatMessage2, chatMessage3));
 
 
 

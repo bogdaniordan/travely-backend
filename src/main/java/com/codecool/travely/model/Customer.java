@@ -49,7 +49,7 @@ public class Customer {
     private List<Role> roles = List.of(Role.ROLE_CUSTOMER);
     @OneToOne
     private CardDetails cardDetails;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<Accommodation> savedAccommodations;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {

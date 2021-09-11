@@ -28,6 +28,7 @@ public class ChatController {
 
     @GetMapping("/all-conversation/{senderId}/{receiverId}")
     public ResponseEntity<List<ChatMessage>> getAllMessagesBetween(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        System.out.println(chatService.getAllForConversation(senderId, receiverId).size());
         return ResponseEntity.ok(chatService.getAllForConversation(senderId, receiverId));
     }
 }
