@@ -1,6 +1,7 @@
 package com.codecool.travely.model;
 
 import com.codecool.travely.security.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,10 +47,11 @@ public class Customer {
     private Integer age;
     private String picture;
     @ElementCollection
+    @JsonIgnore
     private List<Role> roles = List.of(Role.ROLE_CUSTOMER);
     @OneToOne
     private CardDetails cardDetails;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Accommodation> savedAccommodations;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {

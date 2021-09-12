@@ -1,10 +1,13 @@
 package com.codecool.travely.chat;
 
+import com.codecool.travely.repository.ChatMessageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatController {
 
+    private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatService chatService;
+    private final ChatMessageRepository chatMessageRepository; //#Todo
 
     @MessageMapping("/chat/send-message")
     @SendTo("/topic/public")
@@ -31,4 +36,5 @@ public class ChatController {
         System.out.println(chatService.getAllForConversation(senderId, receiverId).size());
         return ResponseEntity.ok(chatService.getAllForConversation(senderId, receiverId));
     }
+
 }
