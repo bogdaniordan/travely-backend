@@ -5,6 +5,7 @@ import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDateTime;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ChatService {
 
+    private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageRepository chatMessageRepository;
     private final CustomerService customerService;
 
@@ -34,5 +36,11 @@ public class ChatService {
         messages.addAll(chatMessageRepository.findAll().stream().filter(chatMessage -> chatMessage.getSender().getId() == receiverId && chatMessage.getReceiver().getId() == senderId).collect(Collectors.toList()));
         messages.sort(Comparator.comparing(ChatMessage::getTime));
         return messages;
+    }
+
+    public void notifyUser(final String id, final ChatMessage chatMessage) {
+//        ResponseMessage response = new ResponseMessage(message);
+
+        messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", chatMessage);
     }
 }
