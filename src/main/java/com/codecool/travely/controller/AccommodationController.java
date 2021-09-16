@@ -1,6 +1,5 @@
 package com.codecool.travely.controller;
 
-import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.service.AccommodationService;
@@ -18,50 +17,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/accommodations")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class AccommodationController {
 
     private final AccommodationService accommodationService;
 
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/{id}")
     public ResponseEntity<Accommodation> getById(@PathVariable Long id) {
         return new ResponseEntity<>(accommodationService.findById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/location/{location}")
     public ResponseEntity<List<Accommodation>> filterByLocation(@PathVariable String location) {
         return new ResponseEntity<>(accommodationService.filterByLocation(location), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/place-type/{type}")
     public ResponseEntity<List<Accommodation>> filterByPlaceType(@PathVariable String type) {
         return new ResponseEntity<>(accommodationService.filterByPlaceType(type), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/place-type/{type}/location/{location}")
     public ResponseEntity<List<Accommodation>> filterByLocationAndPlaceType(@PathVariable String type, @PathVariable String location) {
         return new ResponseEntity<>(accommodationService.filterByLocationAndType(location, type), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/all")
     public ResponseEntity<List<Accommodation>> getAll() {
         return new ResponseEntity<>(accommodationService.findAll(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/get-by-title/{titleInput}")
     public ResponseEntity<List<Accommodation>> getByTitleInput(@PathVariable String titleInput) {
         return new ResponseEntity<>(accommodationService.filterByAccommodationTitle(titleInput), HttpStatus.OK);
     }
 
-
-    @PreAuthorize("hasRole('HOST')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/all-for-host/{id}")
     public ResponseEntity<List<Accommodation>> getAllByHostId(@PathVariable Long id) {
         return new ResponseEntity<>(accommodationService.findAllByHostId(id), HttpStatus.OK);
     }
-
-    @PreAuthorize("hasRole('HOST')")
 
     @GetMapping("/image/{accommodationId}/{imageName}/download")
     public byte[] downloadImage(@PathVariable Long accommodationId,
@@ -69,7 +70,6 @@ public class AccommodationController {
         return accommodationService.downloadImage(accommodationId, imageName);
     }
 
-    @PreAuthorize("hasRole('HOST')")
     @PostMapping(
             path = "/image/upload/{accommodationId}/{imageName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -81,7 +81,7 @@ public class AccommodationController {
         accommodationService.uploadAccommodationPicture(accommodationId, file, imageName);
     }
 
-    @PreAuthorize("hasRole('HOST')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/all-facilities")
     public ResponseEntity<List<Facility>> getAllFacilities() {
         return new ResponseEntity<>(accommodationService.getAllFacilities(), HttpStatus.OK);
@@ -100,23 +100,27 @@ public class AccommodationController {
         return new ResponseEntity<>(accommodationService.findByTitle(title), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/save-to-favorites/accommodation/{accommodationId}/customer/{customerId}")
     public ResponseEntity<String> saveToFavorites(@PathVariable Long accommodationId, @PathVariable Long customerId) {
         accommodationService.addAccommodationToFavorites(accommodationId, customerId);
         return ResponseEntity.accepted().body("Accommodation added to customer list.");
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/remove-from-favorites/accommodation/{accommodationId}/customer/{customerId}")
     public ResponseEntity<String> removeFromFavorites(@PathVariable Long accommodationId, @PathVariable Long customerId) {
         accommodationService.removeAccommodationFromFavorites(accommodationId, customerId);
         return ResponseEntity.accepted().body("Accommodation has been removed from the customer list.");
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/accommodation-is-saved/{accommodationId}/{customerId}")
     public ResponseEntity<Boolean> accommodationIsSaved(@PathVariable Long accommodationId, @PathVariable Long customerId) {
         return ResponseEntity.ok(accommodationService.favoritesContainsAccommodation(accommodationId, customerId));
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/all-saved/{customerId}")
     public ResponseEntity<List<Accommodation>> findAllSaved(@PathVariable Long customerId) {
         return ResponseEntity.ok(accommodationService.findAllSavedAccommodations(customerId));

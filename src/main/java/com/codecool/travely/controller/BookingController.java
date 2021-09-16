@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookings")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasRole('CUSTOMER')")
+@PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class BookingController {
 
@@ -27,13 +27,13 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.findAllByCustomerId(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
         bookingService.cancelBooking(id);
         return ResponseEntity.ok("Booking has been deleted.");
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-booking/host/{hostId}/customer/{customerId}/accommodation/{accommodationId}")
     public ResponseEntity<String> addBooking(@Valid @RequestBody Booking booking, @PathVariable Long hostId, @PathVariable Long customerId, @PathVariable Long accommodationId) {
         bookingService.saveBooking(booking, hostId, customerId, accommodationId);
@@ -41,7 +41,6 @@ public class BookingController {
         return ResponseEntity.ok("Booking has been saved.");
     }
 
-    @PreAuthorize("hasRole('HOST')")
     @GetMapping("/by-accommodation/{id}")
     public ResponseEntity<Booking> getByAccommodationId(@PathVariable Long id) {
         return new ResponseEntity<>(bookingService.findByAccommodationId(id), HttpStatus.OK);

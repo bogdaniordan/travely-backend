@@ -26,6 +26,7 @@ public class TestimonialController {
         return new ResponseEntity<>(testimonialService.getAllByAccommodationId(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add/{accommodationId}/{customerId}")
     public ResponseEntity<String> addAccommodation(@RequestBody @Valid Testimonial testimonial, @PathVariable Long accommodationId, @PathVariable Long customerId) {
         testimonialService.addTestimonial(accommodationId, customerId, testimonial);

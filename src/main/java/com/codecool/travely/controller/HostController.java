@@ -17,12 +17,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/hosts")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasRole('HOST')")
 @AllArgsConstructor
 public class HostController {
 
     private final HostService hostService;
 
+    @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<Host> getById(@PathVariable Long id) {
         return new ResponseEntity<>(hostService.findById(id), HttpStatus.OK);
@@ -48,11 +48,13 @@ public class HostController {
         return hostService.downloadBadgeImage(badge);
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @GetMapping("/earn-badges/{hostId}")
     public void earnBadges(@PathVariable Long hostId) {
         hostService.earnBadges(hostId);
     }
 
+    @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
     @GetMapping("/host-badges/{hostId}")
     public ResponseEntity<List<BadgeDto>> getHostBadges(@PathVariable Long hostId) {
         System.out.println(hostService.getByHost(hostId));
