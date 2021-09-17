@@ -4,7 +4,6 @@ import com.codecool.travely.chat.ChatMessage;
 import com.codecool.travely.chat.MessageType;
 import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
-import com.codecool.travely.repository.AccommodationRepository;
 import com.codecool.travely.repository.ChatMessageRepository;
 import com.codecool.travely.repository.RecommendationRepository;
 import com.codecool.travely.service.*;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component

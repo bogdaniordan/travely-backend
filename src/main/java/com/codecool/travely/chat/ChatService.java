@@ -4,11 +4,9 @@ import com.codecool.travely.repository.ChatMessageRepository;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.LocalDateTime;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,8 +37,6 @@ public class ChatService {
     }
 
     public void notifyUser(final String id, final ChatMessage chatMessage) {
-//        ResponseMessage response = new ResponseMessage(message);
-
         messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", chatMessage);
     }
 }
