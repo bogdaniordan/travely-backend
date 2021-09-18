@@ -4,11 +4,11 @@ import com.codecool.travely.repository.ChatMessageRepository;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +20,15 @@ public class ChatService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final CustomerService customerService;
+
+    public ChatMessage findById(Long id) {
+        return chatMessageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find chat message with id: " + id));
+    }
+
+    public void simpleDbSave(ChatMessage chatMessage) {
+        chatMessageRepository.save(chatMessage);
+    }
 
     public void save(ChatMessage chatMessage) {
         chatMessage.setSender(customerService.findById(chatMessage.getMessageSenderId()));
@@ -37,4 +46,24 @@ public class ChatService {
         messages.sort(Comparator.comparing(ChatMessage::getTime));
         return messages;
     }
+
+    public List<List<ChatMessage>> getUnseenMessagesPerUser(Long id) {
+        log.info("Fetching all unseen messages for each conversation that user with id " + id + "had.");
+        List<List<ChatMessage>> chatMessages = new ArrayList<>();
+        customerService.getAllCustomersExcept(id).forEach(customer -> {
+            chatMessages.add(getAllForConversation(id, customer.getId()).stream().filter(chatMessage -> chatMessage.getType() == MessageType.SENT).collect(Collectors.toList()));
+        });
+        return chatMessages;
+    }
+
+    public void markMessagesAsSeen(List<Long> messagesIds) {
+        log.info("Marking chat messages as seen.");
+        messagesIds.forEach(id -> {
+            ChatMessage chatMessage = findById(id);
+            chatMessage.setType(MessageType.SEEN);
+            simpleDbSave(chatMessage);
+        });
+    }
+
+
 }
