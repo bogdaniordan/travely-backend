@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +18,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ChatService {
 
-    private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageRepository chatMessageRepository;
     private final CustomerService customerService;
 
     public void save(ChatMessage chatMessage) {
         chatMessage.setSender(customerService.findById(chatMessage.getMessageSenderId()));
         chatMessage.setReceiver(customerService.findById(chatMessage.getMessageReceiverId()));
+        chatMessage.setTime(LocalDateTime.now());
         chatMessageRepository.save(chatMessage);
     }
 
@@ -34,9 +36,5 @@ public class ChatService {
         messages.addAll(chatMessageRepository.findAll().stream().filter(chatMessage -> chatMessage.getSender().getId() == receiverId && chatMessage.getReceiver().getId() == senderId).collect(Collectors.toList()));
         messages.sort(Comparator.comparing(ChatMessage::getTime));
         return messages;
-    }
-
-    public void notifyUser(final String id, final ChatMessage chatMessage) {
-        messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", chatMessage);
     }
 }
