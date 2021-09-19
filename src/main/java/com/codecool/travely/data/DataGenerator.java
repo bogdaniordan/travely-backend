@@ -94,12 +94,13 @@ public class DataGenerator implements CommandLineRunner {
         ChatMessage chatMessage1 = new ChatMessage("Hello man", customer1, customer, MessageType.SENT);
         ChatMessage chatMessage2 = new ChatMessage("Bye", customer, customer1, MessageType.SENT);
         ChatMessage chatMessage3 = new ChatMessage("See ya", customer1, customer, MessageType.SENT);
+        ChatMessage chatMessage4 = new ChatMessage("Hello man", customer2, customer, MessageType.SENT);
 
         chatMessageRepository.save(chatMessage);
         chatMessageRepository.save(chatMessage1);
         chatMessageRepository.save(chatMessage2);
         chatMessageRepository.save(chatMessage3);
-//        chatMessageRepository.saveAll(List.of(chatMessage, chatMessage1, chatMessage2, chatMessage3));
+        chatMessageRepository.save(chatMessage4);
 
 
 

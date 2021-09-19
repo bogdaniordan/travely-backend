@@ -1,6 +1,5 @@
 package com.codecool.travely.chat;
 
-import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,8 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -31,7 +28,6 @@ public class ChatController {
         return chatMessage;
     }
 
-
     @MessageMapping("/chat/private-message")
     @SendToUser("/topic/private-messages")
     public ChatMessage getPrivateMessage(@Payload ChatMessage message) throws InterruptedException {
@@ -44,5 +40,18 @@ public class ChatController {
     @GetMapping("/all-conversation/{senderId}/{receiverId}")
     public ResponseEntity<List<ChatMessage>> getAllMessagesBetween(@PathVariable Long senderId, @PathVariable Long receiverId) {
         return ResponseEntity.ok(chatService.getAllForConversation(senderId, receiverId));
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/unseen-messages/{id}")
+    public ResponseEntity<List<List<ChatMessage>>> getUnseenMessagesPerUser(@PathVariable Long id) {
+        return ResponseEntity.ok(chatService.getUnseenMessagesPerUser(id));
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/mark-message-as-seen/{id}")
+    public ResponseEntity<String> markMessageAsSeen(@PathVariable Long id) {
+        chatService.markMessageAsSeen(id);
+        return ResponseEntity.ok("Marked message as seen.");
     }
 }

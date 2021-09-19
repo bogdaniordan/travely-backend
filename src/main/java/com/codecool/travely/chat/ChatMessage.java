@@ -38,12 +38,4 @@ public class ChatMessage {
         this.type = type;
     }
 
-    public ChatMessage(String content, Long messageSenderId, Long messageReceiverId, Customer sender, Customer receiver, MessageType type) {
-        this.content = content;
-        this.messageSenderId = messageSenderId;
-        this.messageReceiverId = messageReceiverId;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.type = type;
-    }
 }

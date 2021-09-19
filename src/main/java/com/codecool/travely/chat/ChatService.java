@@ -51,18 +51,16 @@ public class ChatService {
         log.info("Fetching all unseen messages for each conversation that user with id " + id + "had.");
         List<List<ChatMessage>> chatMessages = new ArrayList<>();
         customerService.getAllCustomersExcept(id).forEach(customer -> {
-            chatMessages.add(getAllForConversation(id, customer.getId()).stream().filter(chatMessage -> chatMessage.getType() == MessageType.SENT).collect(Collectors.toList()));
+            chatMessages.add(getAllForConversation(id, customer.getId()).stream().filter(chatMessage -> chatMessage.getType() == MessageType.SENT && (long) chatMessage.getSender().getId() == customer.getId()).collect(Collectors.toList()));
         });
         return chatMessages;
     }
 
-    public void markMessagesAsSeen(List<Long> messagesIds) {
-        log.info("Marking chat messages as seen.");
-        messagesIds.forEach(id -> {
-            ChatMessage chatMessage = findById(id);
-            chatMessage.setType(MessageType.SEEN);
-            simpleDbSave(chatMessage);
-        });
+    public void markMessageAsSeen(Long id) {
+        log.info("Marking chat message with id " + id + " as seen.");
+        ChatMessage chatMessage = findById(id);
+        chatMessage.setType(MessageType.SEEN);
+        simpleDbSave(chatMessage);
     }
 
 
