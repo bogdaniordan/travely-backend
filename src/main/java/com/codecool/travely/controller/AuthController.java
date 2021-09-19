@@ -43,28 +43,52 @@ public class AuthController {
     private final AuthService authService;
     private final JavaMailSender mailSender;
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/sign-in/user")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            String username = loginRequest.getUsername();
-
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, loginRequest.getPassword())
-            );
-            List<String> roles = authentication.getAuthorities()
-                    .stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
-
-            String token = jwtTokenService.createToken(username, roles);
-
-            LoginResponse loginResponse = authService.getTypeOfUser(username, token, roles);
-            return ResponseEntity.ok(loginResponse);
-
+            if (customerService.existsByUsername(loginRequest.getUsername())) {
+                return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+            }
+            return ResponseEntity.badRequest().body("Username doesn't exist in the database.");
         } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }
     }
+
+    @PostMapping("/sign-in/host")
+    public ResponseEntity<?> authenticateHost(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            if (hostService.existsByUsername(loginRequest.getUsername())) {
+                return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+            }
+            return ResponseEntity.badRequest().body("Username doesn't exist in the database.");
+        } catch (UsernameNotFoundException e) {
+            throw new BadCredentialsException("Invalid username/password supplied");
+        }
+    }
+
+//    @PostMapping("/sign-in")
+//    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
+//        try {
+//            String username = loginRequest.getUsername();
+//
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(username, loginRequest.getPassword())
+//            );
+//            List<String> roles = authentication.getAuthorities()
+//                    .stream()
+//                    .map(GrantedAuthority::getAuthority)
+//                    .collect(Collectors.toList());
+//
+//            String token = jwtTokenService.createToken(username, roles);
+//
+//            LoginResponse loginResponse = authService.getTypeOfUser(username, token, roles);
+//            return ResponseEntity.ok(loginResponse);
+//
+//        } catch (UsernameNotFoundException e) {
+//            throw new BadCredentialsException("Invalid username/password supplied");
+//        }
+//    }
 
     @PostMapping("/register-customer")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer) {
@@ -88,7 +112,6 @@ public class AuthController {
         hostService.saveHost(registeredHost);
         return ResponseEntity.ok(new MessageResponse("Host has been registered successfully!"));
     }
-
 
     @GetMapping("/reset-password/{userEmail}")
     public ResponseEntity<String> resetPassword(@PathVariable String userEmail) {

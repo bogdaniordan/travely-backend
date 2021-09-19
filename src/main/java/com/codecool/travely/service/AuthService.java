@@ -1,16 +1,23 @@
 package com.codecool.travely.service;
 
+import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.PasswordTokenRepository;
+import com.codecool.travely.security.JwtTokenService;
 import com.codecool.travely.security.PasswordResetToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -20,6 +27,8 @@ public class AuthService {
     private final CustomerService customerService;
     private final HostService hostService;
     private final PasswordTokenRepository passwordTokenRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenService jwtTokenService;
 
     public PasswordResetToken findByToken(String token) {
         return passwordTokenRepository.findByToken(token);
@@ -43,6 +52,19 @@ public class AuthService {
                     .build();
         }
         return loginResponse;
+    }
+
+    public LoginResponse getLoginResponse(LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, loginRequest.getPassword())
+        );
+        List<String> roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        String token = jwtTokenService.createToken(username, roles);
+        return getTypeOfUser(username, token, roles);
     }
 
     public void createPasswordResetTokenForUser(Customer customer, String token) {
