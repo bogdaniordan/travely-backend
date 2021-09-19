@@ -1,5 +1,6 @@
 package com.codecool.travely.service;
 
+import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Booking;
@@ -23,7 +24,6 @@ public class BookingService {
     private final AccommodationService accommodationService;
     private final HostService hostService;
     private final CustomerService customerService;
-
 
     public List<Booking> findAll() {
         return bookingRepository.findAll();
@@ -66,18 +66,27 @@ public class BookingService {
         return bookingRepository.findByAccommodationId(id);
     }
 
-//    public void declineBooking(Long id) {
-//        log.info("Declining booking with id: " + id);
-//        findById(id).getAccommodation().setStatus(AccommodationStatus.Free);
-//        bookingRepository.deleteById(id);
+//  #Todo booking mail
+
+//    public SimpleMailMessage createBookingMail(Long accommodationId, Long customerId) {
+//        SimpleMailMessage email = new SimpleMailMessage();
+//        email.setSubject("Booking for " + accommodationService.findById(accommodationId).getTitle());
+//        email.setText("Congrats " + customerService.findById(customerId).getFirstName() + " " + customerService.findById(customerId).getLastName() + " , your booking has been made. Please access the following link in order to check your bookings: http://localhost:3000/profile");
+//        email.setTo(customerService.findById(customerId).getEmail());
+//        email.setFrom("noreply@travely");
+//        return email;
 //    }
 
-    public SimpleMailMessage createBookingMail(Long accommodationId, Long customerId) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject("Booking for " + accommodationService.findById(accommodationId).getTitle());
-        email.setText("Congrats " + customerService.findById(customerId).getFirstName() + " " + customerService.findById(customerId).getLastName() + " , your booking has been made. Please access the following link in order to check your bookings: http://localhost:3000/profile");
-        email.setTo(customerService.findById(customerId).getEmail());
-        email.setFrom("noreply@travely");
-        return email;
+    public boolean accommodationCanBeBooked(BookingDatesDto bookingDates, long accommodationId) {
+        log.info("Checking if accommodation with id " + accommodationId + " can be booked between " + bookingDates.getCheckOut() + " and " + bookingDates.getCheckOut());
+        for (Booking booking: bookingRepository.findAllByAccommodationId(accommodationId)) {
+            if (bookingDates.getCheckIn().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckIn().compareTo(booking.getCheckoutDate()) <= 0
+                    || bookingDates.getCheckOut().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckOut().compareTo(booking.getCheckoutDate()) <= 0) {
+                return false;
+            }
+        }
+        return true;
     }
+
+
 }

@@ -1,8 +1,10 @@
 package com.codecool.travely.controller;
 
+import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.model.Booking;
 import com.codecool.travely.service.BookingService;
 import lombok.AllArgsConstructor;
+import org.joda.time.LocalDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,7 +22,6 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService bookingService;
-    private final JavaMailSender mailSender;
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<List<Booking>> findAllByCustomerId(@PathVariable Long id) {
@@ -46,11 +47,9 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.findByAccommodationId(id), HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasRole('HOST')")
-//    @DeleteMapping("/decline-booking/{id}")
-//    public ResponseEntity<String> declineBooking(@PathVariable Long id) {
-//        bookingService.declineBooking(id);
-//        return ResponseEntity.ok("Booking declined!");
-//    }
-
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PostMapping("/accommodation-can-be-booked/{accommodationId}")
+    public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
+        return ResponseEntity.ok(bookingService.accommodationCanBeBooked(bookingDatesDto, accommodationId));
+    }
 }

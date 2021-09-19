@@ -60,6 +60,4 @@ public class HostController {
         System.out.println(hostService.getByHost(hostId));
         return ResponseEntity.ok(hostService.getByHost(hostId));
     }
-
-
 }

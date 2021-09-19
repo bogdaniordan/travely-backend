@@ -38,7 +38,7 @@ public class DataGenerator implements CommandLineRunner {
         Accommodation accommodation2 = new Accommodation("Casa lu robert", "Strada golovita", "Mumbai", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, PlaceType.Shared, CleaningStatus.SUPER_CLEAN);
         Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)));
         host.setPicture("dorian-popa.jpg");
-        Booking booking = new Booking(LocalDate.of(2020, 1, 1), LocalDate.of(2021,2,2), accommodation);
+        Booking booking = new Booking(LocalDate.now(), LocalDate.of(2021,10,10), accommodation);
 
         Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
 
