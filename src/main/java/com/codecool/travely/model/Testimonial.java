@@ -2,6 +2,8 @@ package com.codecool.travely.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -17,6 +19,7 @@ public class Testimonial {
     private String message;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
 
     @Min(0)

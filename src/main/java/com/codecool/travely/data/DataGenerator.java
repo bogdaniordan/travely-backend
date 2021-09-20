@@ -38,15 +38,15 @@ public class DataGenerator implements CommandLineRunner {
         Accommodation accommodation2 = new Accommodation("Casa lu robert", "Strada golovita", "Mumbai", 22, List.of(Facility.Hair_dryer), AccommodationStatus.Free, PlaceType.Shared, CleaningStatus.SUPER_CLEAN);
         Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)));
         host.setPicture("dorian-popa.jpg");
-        Booking booking = new Booking(LocalDate.now(), LocalDate.of(2021,10,10), accommodation);
+        Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation);
 
         Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
 
         hostService.saveHost(host);
 
-        Testimonial testimonial = new Testimonial("FRUMOS", accommodation, customer, 4);
-        Testimonial testimonial1 = new Testimonial("FORZZA RAU", accommodation, customer, 5);
-        Testimonial testimonial2 = new Testimonial("NU MI-A PLACUT", accommodation, customer, 1);
+        Testimonial testimonial = new Testimonial("BEST PLACE IN TOWN", accommodation, customer, 4);
+        Testimonial testimonial1 = new Testimonial("THIS ACCOMMODATION IS AMAZING", accommodation, customer, 5);
+        Testimonial testimonial2 = new Testimonial("DID NOT LIKE IT AT ALL", accommodation, customer, 1);
 
 
         accommodation.setHost(host);
@@ -101,6 +101,12 @@ public class DataGenerator implements CommandLineRunner {
         chatMessageRepository.save(chatMessage2);
         chatMessageRepository.save(chatMessage3);
         chatMessageRepository.save(chatMessage4);
+
+        Booking booking1 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation1);
+        Booking booking2 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation);
+
+        bookingService.saveBooking(booking1, host.getId(), customer.getId(), accommodation1.getId());
+        bookingService.saveBooking(booking2, host.getId(), customer.getId(), accommodation1.getId());
 
 
 

@@ -4,10 +4,8 @@ import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.model.Booking;
 import com.codecool.travely.service.BookingService;
 import lombok.AllArgsConstructor;
-import org.joda.time.LocalDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,14 +40,16 @@ public class BookingController {
         return ResponseEntity.ok("Booking has been saved.");
     }
 
-    @GetMapping("/by-accommodation/{id}")
-    public ResponseEntity<Booking> getByAccommodationId(@PathVariable Long id) {
-        return new ResponseEntity<>(bookingService.findByAccommodationId(id), HttpStatus.OK);
-    }
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/accommodation-can-be-booked/{accommodationId}")
     public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
         return ResponseEntity.ok(bookingService.accommodationCanBeBooked(bookingDatesDto, accommodationId));
+    }
+
+    @PreAuthorize("hasRole('HOST')")
+    @GetMapping("/all-bookings/{accommodationId}")
+    public ResponseEntity<List<Booking>> getAllByAccommodation(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(bookingService.findAllByAccommodation(accommodationId));
     }
 }

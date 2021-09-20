@@ -62,10 +62,6 @@ public class BookingService {
         bookingRepository.delete(booking);
     }
 
-    public Booking findByAccommodationId(Long id) {
-        return bookingRepository.findByAccommodationId(id);
-    }
-
 //  #Todo booking mail
 
 //    public SimpleMailMessage createBookingMail(Long accommodationId, Long customerId) {
@@ -86,6 +82,11 @@ public class BookingService {
             }
         }
         return true;
+    }
+
+    public List<Booking> findAllByAccommodation(Long id) {
+        log.info("Fetching all bookings for accommodation with id " + id);
+        return bookingRepository.findAllByAccommodationId(id);
     }
 
 

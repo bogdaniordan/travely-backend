@@ -3,6 +3,8 @@ package com.codecool.travely.model;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,8 +16,10 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull
     private LocalDate checkInDate;
+
     @NotNull
     private LocalDate checkoutDate;
 
@@ -25,7 +29,8 @@ public class Booking {
     @ManyToOne
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
 
     public Booking(LocalDate checkInDate, LocalDate checkoutDate, Accommodation accommodation) {

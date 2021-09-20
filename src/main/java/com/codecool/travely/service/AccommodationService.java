@@ -123,4 +123,10 @@ public class AccommodationService {
         log.info("Fetching all saved accommodations");
         return customerService.findById(userId).getSavedAccommodations();
     }
+
+    public void deleteAccommodation(Long id) {
+        log.info("Deleting accommodation with id " + id);
+        Accommodation accommodation = findById(id);
+        accommodationRepository.delete(accommodation);
+    }
 }

@@ -2,6 +2,8 @@ package com.codecool.travely.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -12,11 +14,16 @@ public class Recommendation {
     @Id
     @GeneratedValue
     private Long id;
+
     private String message;
+
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
+
     @ManyToOne
     private Customer sender;
+
     @ManyToOne
     private Customer receiver;
 

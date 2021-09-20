@@ -125,4 +125,11 @@ public class AccommodationController {
     public ResponseEntity<List<Accommodation>> findAllSaved(@PathVariable Long customerId) {
         return ResponseEntity.ok(accommodationService.findAllSavedAccommodations(customerId));
     }
+
+    @PreAuthorize("hasRole('HOST')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAccommodation(@PathVariable Long id) {
+        accommodationService.deleteAccommodation(id);
+        return ResponseEntity.ok("Accommodation deleted.");
+    }
 }
