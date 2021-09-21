@@ -81,6 +81,7 @@ public class HostService {
             earnTravellerBadge(badge, host);
             addBookingGuruBadge(badge, host);
             earnCleanersKingBadge(badge, host);
+            earnSpotlessBadge(badge, host);
         }
         saveHost(host);
     }
@@ -106,6 +107,16 @@ public class HostService {
             if (cleanerRepository.findAllByEmployerId(host.getId()).size() >= 3) {
                 host.earnBadge(Badge.CLEANERS_KING);
             }
+        }
+    }
+
+    public void earnSpotlessBadge(Badge badge, Host host) {
+        if (badge == Badge.SPOTLESS && !host.getEarnedBadges().contains(Badge.SPOTLESS)) {
+           cleanerRepository.findAll().stream().filter(cleaner -> cleaner.getEmployer() != null).filter(cleaner -> cleaner.getEmployer().getId() == (long) host.getId()).collect(Collectors.toList()).forEach(cleaner -> {
+               if(cleaner.getCurrentCleaningJob() != null) {
+                   host.earnBadge(Badge.SPOTLESS);
+               }
+           });
         }
     }
 

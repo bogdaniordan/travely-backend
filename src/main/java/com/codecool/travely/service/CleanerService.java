@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 public class CleanerService {
 
     private final CleanerRepository cleanerRepository;
-    private final HostService hostService;
     private final AccommodationService accommodationService;
+    private final HostService hostService;
 
     public List<Cleaner> findAll() {
         return cleanerRepository.findAll();
@@ -71,7 +71,7 @@ public class CleanerService {
     public Boolean accommodationCanBeCleaned(Long id) {
         log.info("Checking if accommodation with id " + id + " can be cleaned.");
         Accommodation accommodation = accommodationService.findById(id);
-        if (accommodation.getCleaningStatus() == CleaningStatus.SUPER_CLEAN) {
+        if (accommodation.getCleaningStatus() == CleaningStatus.CLEAN) {
             return false;
         }
         return findAll().stream()

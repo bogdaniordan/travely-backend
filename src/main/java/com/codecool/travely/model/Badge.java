@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public enum Badge {
     JUNIOR_HOST("Junior host", "Junior_host.jpg", "Add 3 accommodations to your hosting list."),
     BOOKING_GURU("Booking guru","Booking_guru.jpg", "Get your first booking."),
-    CLEANERS_KING("Cleaners king", "cleaners_king.jpg", "Hire 3 cleaners.");
+    CLEANERS_KING("Cleaners king", "cleaners_king.jpg", "Hire 3 cleaners."),
+    SPOTLESS("Spotless", "spotless.jpg", "Clean your first accommodation.");
 
     public final String name;
     public final String picture;

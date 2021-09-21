@@ -4,13 +4,10 @@ import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Booking;
-import com.codecool.travely.model.Customer;
 import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
