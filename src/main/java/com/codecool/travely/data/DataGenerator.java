@@ -28,6 +28,8 @@ public class DataGenerator implements CommandLineRunner {
     private final CleanerService cleanerService;
     private final RecommendationRepository recommendationRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final CommentService commentService;
+    private final PostService postService;
 
     @Override
     public void run(String... args) {
@@ -108,7 +110,15 @@ public class DataGenerator implements CommandLineRunner {
         bookingService.saveBooking(booking1, host.getId(), customer.getId(), accommodation1.getId());
         bookingService.saveBooking(booking2, host.getId(), customer.getId(), accommodation1.getId());
 
+        Post post = new Post("Switzerland is the best place to spend your free time.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae nulla rem\n" +
+                "                    eos ipsa praesentium esse magnam nemo dolor\n" +
+                "                    sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.", customer);
+        postService.save(post);
+        Comment comment = new Comment("You're right", post, customer);
+        Comment comment1 = new Comment("Damn right it is.", post, customer1);
 
+        commentService.save(comment);
+        commentService.save(comment1);
 
     }
 }

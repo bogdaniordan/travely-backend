@@ -30,4 +30,10 @@ public class Comment {
 
     @ManyToOne
     private Customer author;
+
+    public Comment(String content, Post post, Customer author) {
+        this.content = content;
+        this.post = post;
+        this.author = author;
+    }
 }
