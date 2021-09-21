@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,8 +24,8 @@ public class Post {
 
     private LocalDateTime time;
 
-    @OneToMany
-    private List<Customer> likes = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Customer> likes = new HashSet<>();
 
     @ManyToOne
     private Customer author;

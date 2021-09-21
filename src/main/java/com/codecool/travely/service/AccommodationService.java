@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,7 +116,7 @@ public class AccommodationService {
         return customerService.findById(customerId).getSavedAccommodations().contains(findById(accommodationId));
     }
 
-    public List<Accommodation> findAllSavedAccommodations(Long userId) {
+    public Set<Accommodation> findAllSavedAccommodations(Long userId) {
         log.info("Fetching all saved accommodations");
         return customerService.findById(userId).getSavedAccommodations();
     }

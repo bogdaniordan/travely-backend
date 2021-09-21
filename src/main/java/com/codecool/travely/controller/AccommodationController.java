@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/accommodations")
@@ -122,7 +123,7 @@ public class AccommodationController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/all-saved/{customerId}")
-    public ResponseEntity<List<Accommodation>> findAllSaved(@PathVariable Long customerId) {
+    public ResponseEntity<Set<Accommodation>> findAllSaved(@PathVariable Long customerId) {
         return ResponseEntity.ok(accommodationService.findAllSavedAccommodations(customerId));
     }
 

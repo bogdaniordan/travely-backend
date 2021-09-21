@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "customer")
 @Data
@@ -59,12 +60,12 @@ public class Customer {
 
     @ElementCollection
     @JsonIgnore
-    private List<Role> roles = List.of(Role.ROLE_CUSTOMER);
+    private Set<Role> roles = Set.of(Role.ROLE_CUSTOMER);
     @OneToOne
     private CardDetails cardDetails;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Accommodation> savedAccommodations;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Accommodation> savedAccommodations;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {
         this.firstName = firstName;
