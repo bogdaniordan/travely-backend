@@ -18,23 +18,32 @@ public class Accommodation {
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull
     private String title;
+
     @NotNull
     private String address;
+
     @NotNull
     private String location;
+
     @NotNull
     private int pricePerNight;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccommodationStatus status;
+
     @Enumerated(EnumType.STRING)
     private CleaningStatus cleaningStatus;
+
     @ElementCollection
     private List<Facility> facilities;
+
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
+
     @ManyToOne
     private Host host;
 
