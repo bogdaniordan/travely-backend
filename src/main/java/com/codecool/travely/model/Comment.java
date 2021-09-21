@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,9 +32,10 @@ public class Comment {
     @ManyToOne
     private Customer author;
 
-    public Comment(String content, Post post, Customer author) {
+    public Comment(String content, Post post, Customer author, LocalDateTime time) {
         this.content = content;
         this.post = post;
         this.author = author;
+        this.time = time;
     }
 }

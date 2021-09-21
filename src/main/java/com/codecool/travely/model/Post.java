@@ -20,7 +20,7 @@ public class Post {
 
     private String content;
 
-    private LocalDateTime time = LocalDateTime.now();
+    private LocalDateTime time;
 
     @OneToMany
     private List<Customer> likes = new ArrayList<>();
@@ -28,13 +28,18 @@ public class Post {
     @ManyToOne
     private Customer author;
 
-    public Post(String title, String content, Customer author) {
+    public Post(String title, String content, Customer author, LocalDateTime time) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.time = time;
     }
 
     public void likePost(Customer customer) {
         likes.add(customer);
+    }
+
+    public void unlike(Customer customer) {
+        likes.remove(customer);
     }
 }

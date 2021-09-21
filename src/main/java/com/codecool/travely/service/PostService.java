@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,6 +24,13 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public void saveNewPost(Post post, Long userId) {
+        log.info("User with id " + userId + " is saving a new post.");
+        post.setAuthor(customerService.findById(userId));
+        post.setTime(LocalDateTime.now());
+        save(post);
+    }
+
     public Post findById(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find post with id " + id));
@@ -31,7 +39,7 @@ public class PostService {
     public List<Post> findAll() {
         log.info("Fetching all posts in chronological order.");
         List<Post> posts = postRepository.findAll();
-        posts.sort(Comparator.comparing(Post::getTime));
+        posts.sort(Comparator.comparing(Post::getTime).reversed());
         return posts;
     }
 
@@ -41,11 +49,23 @@ public class PostService {
     }
 
     public void likePost(Long userId, Long postId) {
+        log.info("Liking post with id " + postId);
         Post post = findById(postId);
         Customer customer = customerService.findById(userId);
-        if (post.getLikes().contains(customer)) {
-            post.likePost(customer);
-            save(post);
-        }
+        post.likePost(customer);
+        save(post);
+    }
+
+    public void unLikePost(Long userId, Long postId) {
+        log.info("Unliking post with id " + postId);
+        Post post = findById(postId);
+        Customer customer = customerService.findById(userId);
+        post.unlike(customer);
+        save(post);
+    }
+
+    public Integer getLikesNumber(Long postId) {
+        log.info("Getting likes for post " + postId);
+        return findById(postId).getLikes().size();
     }
 }
