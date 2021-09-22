@@ -68,4 +68,9 @@ public class PostService {
         log.info("Getting likes for post " + postId);
         return findById(postId).getLikes().size();
     }
+
+    public void delete(Long postId) {
+        log.info("Deleting post with id " + postId);
+        postRepository.delete(findById(postId));
+    }
 }

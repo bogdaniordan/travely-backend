@@ -4,6 +4,7 @@ import com.codecool.travely.model.Comment;
 import com.codecool.travely.repository.CommentRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,11 +32,21 @@ public class CommentService {
         save(comment);
     }
 
+    public Comment findById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find comment with id " + id));
+    }
+
     public List<Comment> findAllByPostId(Long id) {
         log.info("Fetching all comments for post with id " + id);
         List<Comment> comments = commentRepository.findAllByPostId(id);
         comments.sort(Comparator.comparing(Comment::getTime).reversed());
         return comments;
+    }
+
+    public void deleteComment(Long id) {
+        log.info("Deleting comment with id " + id);
+        commentRepository.delete(findById(id));
     }
 
 }

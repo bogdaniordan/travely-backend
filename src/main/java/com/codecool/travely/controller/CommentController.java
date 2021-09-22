@@ -29,4 +29,10 @@ public class CommentController {
         commentService.saveNewComment(comment, userId, postId);
         return ResponseEntity.ok("Saving a new comment for post with id " + postId);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.ok("Deleting comment with id " + id);
+    }
 }
