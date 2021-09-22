@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -14,14 +16,26 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final CustomerService customerService;
+    private final PostService postService;
 
     public void save(Comment comment) {
         commentRepository.save(comment);
     }
 
+    public void saveNewComment(Comment comment, Long userId, Long postId) {
+        log.info("User with id " + userId + " is saving a new comment.");
+        comment.setPost(postService.findById(postId));
+        comment.setAuthor(customerService.findById(userId));
+        comment.setTime(LocalDateTime.now());
+        save(comment);
+    }
+
     public List<Comment> findAllByPostId(Long id) {
         log.info("Fetching all comments for post with id " + id);
-        return commentRepository.findAllByPostId(id);
+        List<Comment> comments = commentRepository.findAllByPostId(id);
+        comments.sort(Comparator.comparing(Comment::getTime).reversed());
+        return comments;
     }
 
 }

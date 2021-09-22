@@ -27,7 +27,7 @@ public class Comment {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-    private LocalDateTime time = LocalDateTime.now();
+    private LocalDateTime time;
 
     @ManyToOne
     private Customer author;
