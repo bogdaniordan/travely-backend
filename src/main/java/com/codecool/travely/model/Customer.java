@@ -61,11 +61,15 @@ public class Customer {
     @ElementCollection
     @JsonIgnore
     private Set<Role> roles = Set.of(Role.ROLE_CUSTOMER);
+
     @OneToOne
     private CardDetails cardDetails;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Accommodation> savedAccommodations;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Customer> friends;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {
         this.firstName = firstName;
@@ -85,5 +89,13 @@ public class Customer {
 
     public void removeFromFavorites(Accommodation accommodation) {
         savedAccommodations.remove(accommodation);
+    }
+
+    public void addFriend(Customer friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(Customer friend) {
+        friends.remove(friend);
     }
 }

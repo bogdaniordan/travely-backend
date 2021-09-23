@@ -16,14 +16,18 @@ public class CardDetails {
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull
     @Size(min = 5)
     private String cardName;
+
     @NotNull
     @Size(min = 9)
     private String cardNumber;
+
     @NotNull
     private String expirationDate;
+
     @NotNull
     @Size(min = 3)
     private String cvv;

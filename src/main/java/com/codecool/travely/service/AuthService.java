@@ -78,8 +78,7 @@ public class AuthService {
         return constructEmail("Reset Password", message + " \r\n" + url, customer);
     }
 
-    private SimpleMailMessage constructEmail(String subject, String body,
-                                             Customer customer) {
+    private SimpleMailMessage constructEmail(String subject, String body, Customer customer) {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setSubject(subject);
         email.setText(body);

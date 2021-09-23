@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/customers")
@@ -75,4 +76,36 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getAllCustomersExcept(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getAllCustomersExcept(id));
     }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/add-friend/{userId}/{friendId}")
+    public ResponseEntity<String> addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        customerService.addFriend(userId, friendId);
+        return ResponseEntity.ok("Friend added.");
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/remove-friend/{userId}/{friendId}")
+    public ResponseEntity<String> removeFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        customerService.removeFriend(userId, friendId);
+        return ResponseEntity.ok("Friend removed.");
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/get-friends/{id}")
+    public ResponseEntity<Set<Customer>> getFriends(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getFriends(id));
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/get-suggested/{id}")
+    public ResponseEntity<List<Customer>> getSuggestedPeople(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getSuggestedPeople(id));
+    }
+
+    @GetMapping("/people-are-friends/{firstPersonId}/{secondPersonId}")
+    public ResponseEntity<Boolean> peopleAreFriends(@PathVariable Long firstPersonId, @PathVariable Long secondPersonId) {
+        return ResponseEntity.ok(customerService.peopleAreFriends(firstPersonId, secondPersonId));
+    }
+
 }

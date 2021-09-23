@@ -13,13 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/recommendations")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
+@PreAuthorize("hasRole('CUSTOMER')")
 @AllArgsConstructor
 public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/save/{receiverId}/{senderId}/{accommodationId}")
     public ResponseEntity<String> saveRecommendation(@RequestBody Recommendation recommendation, @PathVariable Long receiverId, @PathVariable Long senderId, @PathVariable Long accommodationId) {
         recommendationService.save(recommendation, senderId, receiverId, accommodationId);
@@ -34,6 +33,12 @@ public class RecommendationController {
     @GetMapping("/get-all-receivers/{senderId}/{accommodationId}")
     public ResponseEntity<List<Customer>> getAllWhoCanReceiveRecommendation(@PathVariable Long senderId, @PathVariable Long accommodationId){
         return ResponseEntity.ok(recommendationService.findAllAvailableForRecommendation(senderId, accommodationId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        recommendationService.delete(id);
+        return ResponseEntity.ok("Recommendation has been deleted.");
     }
 
 }

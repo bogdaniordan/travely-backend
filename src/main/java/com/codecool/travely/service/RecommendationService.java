@@ -39,4 +39,9 @@ public class RecommendationService {
         otherCustomers.removeAll(sentBySender);
         return otherCustomers;
     }
+
+    public void delete(Long id) {
+        log.info("Deleting recommendation with id " + id);
+        recommendationRepository.deleteById(id);
+    }
 }

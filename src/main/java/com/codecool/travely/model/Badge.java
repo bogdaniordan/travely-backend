@@ -11,7 +11,9 @@ public enum Badge {
     SPOTLESS("Spotless", "spotless.jpg", "Clean your first accommodation.");
 
     public final String name;
+
     public final String picture;
+
     public final String description;
 
     Badge(String name, String picture, String description) {

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -128,6 +129,43 @@ public class CustomerService {
 
     public List<Customer> getAllCustomersExcept(long id) {
         return findAll().stream().filter(customer -> customer.getId() != id).collect(Collectors.toList());
+    }
+
+    public void addFriend(Long id, Long friendId) {
+        log.info("Customer with id " + id + " is adding as friend customer with id " + friendId);
+        Customer customer = findById(id);
+        Customer friend = findById(friendId);
+        customer.addFriend(friend);
+        friend.addFriend(customer);
+        saveCustomer(customer);
+        saveCustomer(friend);
+    }
+
+    public void removeFriend(Long id, Long friendId) {
+        log.info("Customer with id " + id + " is removing from friends customer with id " + friendId);
+        Customer customer = findById(id);
+        Customer friend = findById(friendId);
+        customer.removeFriend(friend);
+        friend.removeFriend(customer);
+        saveCustomer(customer);
+        saveCustomer(friend);
+    }
+
+    public Set<Customer> getFriends(Long id) {
+        log.info("Fetching friends of customer with id " + id);
+        return findById(id).getFriends();
+    }
+
+    public List<Customer> getSuggestedPeople(Long id) {
+        log.info("Fetching suggested people for customer with id " + id);
+        List<Customer> allOtherPeople = getAllCustomersExcept(id);
+        allOtherPeople.removeAll(getFriends(id));
+        return allOtherPeople;
+    }
+
+    public Boolean peopleAreFriends(Long firstUserId, Long secondUserId) {
+        log.info("Checking if user with id " +  firstUserId + " and user with id " + secondUserId + " are friends.");
+        return findById(firstUserId).getFriends().contains(findById(secondUserId));
     }
 
 }
