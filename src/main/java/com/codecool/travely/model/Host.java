@@ -1,5 +1,6 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.enums.Badge;
 import com.codecool.travely.security.Role;
 import com.sun.istack.NotNull;
 import lombok.Data;

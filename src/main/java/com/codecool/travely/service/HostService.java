@@ -3,7 +3,7 @@ package com.codecool.travely.service;
 import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.dto.response.BadgeDto;
-import com.codecool.travely.model.Badge;
+import com.codecool.travely.enums.Badge;
 import com.codecool.travely.model.Host;
 import com.codecool.travely.repository.AccommodationRepository;
 import com.codecool.travely.repository.BookingRepository;

@@ -113,5 +113,21 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getMutualFriends(firstUserId, secondUserId));
     }
 
+    @GetMapping("/accept-friend-request/{senderId}/{receiverId}")
+    public ResponseEntity<String> acceptFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        customerService.acceptFriendRequest(senderId,receiverId);
+        return ResponseEntity.ok("Accepted friend request.");
+    }
 
+    @GetMapping("/deny-friend-request/{senderId}/{receiverId}")
+    public ResponseEntity<String> denyFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        customerService.denyFriendRequest(senderId, receiverId);
+        return ResponseEntity.ok("Deny friend request.");
+    }
+
+    @GetMapping("/sent-friend-request/{senderId}/{receiverId}")
+    public ResponseEntity<Boolean> sentFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
+//        System.out.println(customerService.findFriendRequest(senderId, receiverId).isPresent());
+        return ResponseEntity.ok(customerService.existingPendingRequest(receiverId, senderId));
+    }
 }

@@ -1,4 +1,4 @@
-package com.codecool.travely.model;
+package com.codecool.travely.enums;
 
 import com.codecool.travely.dto.response.BadgeDto;
 import com.codecool.travely.service.HostService;

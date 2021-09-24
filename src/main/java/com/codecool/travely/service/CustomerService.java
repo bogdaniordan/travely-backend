@@ -2,10 +2,13 @@ package com.codecool.travely.service;
 
 import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
+import com.codecool.travely.enums.FriendRequestStatus;
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.FriendRequest;
 import com.codecool.travely.repository.CardDetailsRepository;
 import com.codecool.travely.repository.CustomerRepository;
+import com.codecool.travely.repository.FriendRequestRepository;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ public class CustomerService {
 
    private final CustomerRepository customerRepository;
    private final CardDetailsRepository cardDetailsRepository;
+   private final FriendRequestRepository friendRequestRepository;
    private final FileStore fileStore;
    private final FileChecker fileChecker;
 
@@ -132,10 +136,8 @@ public class CustomerService {
         log.info("Customer with id " + id + " is adding as friend customer with id " + friendId);
         Customer customer = findById(id);
         Customer friend = findById(friendId);
-        customer.addFriend(id);
-        friend.addFriend(friendId);
-        saveCustomer(customer);
-        saveCustomer(friend);
+        FriendRequest friendRequest = new FriendRequest(customer, friend, FriendRequestStatus.PENDING);
+        friendRequestRepository.save(friendRequest);
     }
 
     public void removeFriend(Long id, Long friendId) {
@@ -177,6 +179,41 @@ public class CustomerService {
         return mutualFriends;
     }
 
+    public Optional<FriendRequest> findFriendRequest(long receiverId, long senderId) {
+        System.out.println(receiverId);
+        System.out.println(senderId);
+        System.out.println(friendRequestRepository.findAll().get(0).getReceiver().getId());
+        System.out.println(friendRequestRepository.findAll().get(0).getSender().getId());
+        return friendRequestRepository.findAll().stream().filter(req -> req.getReceiver().getId() == receiverId && req.getSender().getId() == senderId).findFirst();
+    }
+
+    public Boolean existingPendingRequest(Long receiverId, Long senderId) {
+        Optional<FriendRequest> friendRequest = findFriendRequest(receiverId, senderId);
+        return friendRequest.filter(request -> request.getStatus() == FriendRequestStatus.PENDING).isPresent();
+    }
+
+    public void acceptFriendRequest(long receiverId, long senderId) {
+        log.info("Customer with id " + receiverId + " is accepting the friend request from sender with id " + senderId);
+        FriendRequest friendRequest = findFriendRequest(receiverId, senderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find friend request."));
+        friendRequest.setStatus(FriendRequestStatus.ACCEPTED);
+        friendRequestRepository.save(friendRequest);
+        Customer receiver = findById(receiverId);
+        Customer sender = findById(senderId);
+        receiver.addFriend(senderId);
+        sender.addFriend(receiverId);
+        saveCustomer(sender);
+        saveCustomer(receiver);
+    }
+
+
+    public void denyFriendRequest(long receiverId, long senderId) {
+        log.info("Customer with id " + receiverId + " is denying the friend request from sender with id " + senderId);
+        FriendRequest friendRequest = findFriendRequest(receiverId, senderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find friend request."));
+        friendRequest.setStatus(FriendRequestStatus.DENIED);
+        friendRequestRepository.save(friendRequest);
+    }
 
 
 }
