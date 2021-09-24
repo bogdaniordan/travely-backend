@@ -108,4 +108,10 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.peopleAreFriends(firstPersonId, secondPersonId));
     }
 
+    @GetMapping("/get-mutual-friends/{firstUserId}/{secondUserId}")
+    public ResponseEntity<Set<Customer>> getMutualFriends(@PathVariable Long firstUserId, @PathVariable Long secondUserId) {
+        return ResponseEntity.ok(customerService.getMutualFriends(firstUserId, secondUserId));
+    }
+
+
 }

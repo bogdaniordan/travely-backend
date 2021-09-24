@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "customer")
@@ -68,8 +67,8 @@ public class Customer {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Accommodation> savedAccommodations;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Customer> friends;
+    @ElementCollection
+    private Set<Long> friends;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {
         this.firstName = firstName;
@@ -91,11 +90,11 @@ public class Customer {
         savedAccommodations.remove(accommodation);
     }
 
-    public void addFriend(Customer friend) {
+    public void addFriend(Long friend) {
         friends.add(friend);
     }
 
-    public void removeFriend(Customer friend) {
+    public void removeFriend(Long friend) {
         friends.remove(friend);
     }
 }

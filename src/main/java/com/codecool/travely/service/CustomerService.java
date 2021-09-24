@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -135,8 +132,8 @@ public class CustomerService {
         log.info("Customer with id " + id + " is adding as friend customer with id " + friendId);
         Customer customer = findById(id);
         Customer friend = findById(friendId);
-        customer.addFriend(friend);
-        friend.addFriend(customer);
+        customer.addFriend(id);
+        friend.addFriend(friendId);
         saveCustomer(customer);
         saveCustomer(friend);
     }
@@ -145,15 +142,17 @@ public class CustomerService {
         log.info("Customer with id " + id + " is removing from friends customer with id " + friendId);
         Customer customer = findById(id);
         Customer friend = findById(friendId);
-        customer.removeFriend(friend);
-        friend.removeFriend(customer);
+        customer.removeFriend(id);
+        friend.removeFriend(friendId);
         saveCustomer(customer);
         saveCustomer(friend);
     }
 
     public Set<Customer> getFriends(Long id) {
         log.info("Fetching friends of customer with id " + id);
-        return findById(id).getFriends();
+        Set<Customer> friends = new HashSet<>();
+        findById(id).getFriends().forEach(customerId -> friends.add(findById(customerId)));
+        return friends;
     }
 
     public List<Customer> getSuggestedPeople(Long id) {
@@ -165,7 +164,19 @@ public class CustomerService {
 
     public Boolean peopleAreFriends(Long firstUserId, Long secondUserId) {
         log.info("Checking if user with id " +  firstUserId + " and user with id " + secondUserId + " are friends.");
-        return findById(firstUserId).getFriends().contains(findById(secondUserId));
+        return findById(firstUserId).getFriends().contains(secondUserId);
     }
+
+    public Set<Customer> getMutualFriends(Long firstUserId, Long secondUserId) {
+        log.info("Fetching mutual friends of user with id " + firstUserId + " and user with id " + secondUserId);
+        Set<Long> firstPersonFriends = findById(firstUserId).getFriends();
+        Set<Long> secondPersonFriends = findById(secondUserId).getFriends();
+        firstPersonFriends.retainAll(secondPersonFriends);
+        Set<Customer> mutualFriends = new HashSet<>();
+        firstPersonFriends.forEach(customerId -> mutualFriends.add(findById(customerId)));
+        return mutualFriends;
+    }
+
+
 
 }
