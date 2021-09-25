@@ -97,7 +97,6 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getFriends(id));
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/get-suggested/{id}")
     public ResponseEntity<List<Customer>> getSuggestedPeople(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getSuggestedPeople(id));
@@ -113,12 +112,14 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getMutualFriends(firstUserId, secondUserId));
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/accept-friend-request/{senderId}/{receiverId}")
     public ResponseEntity<String> acceptFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
         customerService.acceptFriendRequest(senderId,receiverId);
         return ResponseEntity.ok("Accepted friend request.");
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/deny-friend-request/{senderId}/{receiverId}")
     public ResponseEntity<String> denyFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
         customerService.denyFriendRequest(senderId, receiverId);
@@ -127,7 +128,18 @@ public class CustomerController {
 
     @GetMapping("/sent-friend-request/{senderId}/{receiverId}")
     public ResponseEntity<Boolean> sentFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
-//        System.out.println(customerService.findFriendRequest(senderId, receiverId).isPresent());
         return ResponseEntity.ok(customerService.existingPendingRequest(receiverId, senderId));
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @DeleteMapping("/cancel-friend-request/{senderId}/{receiverId}")
+    public ResponseEntity<String> cancelFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        customerService.cancelFriendRequest(receiverId, senderId);
+        return ResponseEntity.ok("Friend request canceled.");
+    }
+
+    @GetMapping("/received-friend-request/{senderId}/{receiverId}")
+    public ResponseEntity<Boolean> receivedFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        return ResponseEntity.ok(customerService.receivedFriendRequest(senderId, receiverId));
     }
 }

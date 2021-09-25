@@ -1,10 +1,12 @@
 package com.codecool.travely.model;
 
-import com.codecool.travely.enums.FriendRequestStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Data
@@ -19,12 +21,8 @@ public class FriendRequest {
 
     @ManyToOne Customer receiver;
 
-    @Enumerated(EnumType.STRING)
-    private FriendRequestStatus status;
-
-    public FriendRequest(Customer sender, Customer receiver, FriendRequestStatus status) {
+    public FriendRequest(Customer sender, Customer receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.status = status;
     }
 }
