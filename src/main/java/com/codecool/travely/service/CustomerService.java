@@ -220,4 +220,9 @@ public class CustomerService {
         Optional<FriendRequest> friendRequest = findFriendRequest(receiverId, senderId);
         friendRequest.ifPresent(friendRequestRepository::delete);
     }
+
+    public List<FriendRequest> getReceivedFriendRequests(long receiverId) {
+        log.info("Fetching all friends requests for user with id " + receiverId);
+        return friendRequestRepository.findAll().stream().filter(friendRequest -> friendRequest.getReceiver().getId() == receiverId).collect(Collectors.toList());
+    }
 }

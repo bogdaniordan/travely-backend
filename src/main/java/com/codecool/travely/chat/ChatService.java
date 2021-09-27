@@ -62,6 +62,4 @@ public class ChatService {
         chatMessage.setType(MessageType.SEEN);
         simpleDbSave(chatMessage);
     }
-
-
 }

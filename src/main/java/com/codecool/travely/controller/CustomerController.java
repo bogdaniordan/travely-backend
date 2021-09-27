@@ -2,6 +2,7 @@ package com.codecool.travely.controller;
 
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.FriendRequest;
 import com.codecool.travely.repository.CustomerRepository;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -141,5 +142,11 @@ public class CustomerController {
     @GetMapping("/received-friend-request/{senderId}/{receiverId}")
     public ResponseEntity<Boolean> receivedFriendRequest(@PathVariable Long senderId, @PathVariable Long receiverId) {
         return ResponseEntity.ok(customerService.receivedFriendRequest(senderId, receiverId));
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/all-received-friend-requests/{id}")
+    public ResponseEntity<List<FriendRequest>> getAllReceivedFriendRequests(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getReceivedFriendRequests(id));
     }
 }

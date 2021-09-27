@@ -22,7 +22,7 @@ public class Post {
 
     private LocalDateTime time;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany
     private Set<Customer> likes = new HashSet<>();
 
     @ManyToOne

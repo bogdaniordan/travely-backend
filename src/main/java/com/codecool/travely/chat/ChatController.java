@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-
 @Controller
 @AllArgsConstructor
 public class ChatController {
@@ -23,7 +22,7 @@ public class ChatController {
     @MessageMapping("/chat/send-message")
     @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(500);
         chatService.save(chatMessage);
         return chatMessage;
     }
@@ -32,7 +31,7 @@ public class ChatController {
     @SendToUser("/topic/private-messages")
     public ChatMessage getPrivateMessage(@Payload ChatMessage message) throws InterruptedException {
         chatService.save(message);
-        Thread.sleep(1000);
+        Thread.sleep(500);
         return message;
     }
 

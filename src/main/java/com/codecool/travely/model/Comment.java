@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class Comment {
-
     @Id
     @GeneratedValue
     private Long id;

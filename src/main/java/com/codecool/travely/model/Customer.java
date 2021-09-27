@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity(name = "customer")
@@ -45,9 +46,10 @@ public class Customer {
     @Max(25)
     private String password;
 
-    @NotNull
+    @Size(min = 5, max = 50)
     private String address;
 
+    @Size(min = 5, max = 50)
     private String phoneNumber;
 
     private String gender;
@@ -64,9 +66,11 @@ public class Customer {
     @OneToOne
     private CardDetails cardDetails;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Accommodation> savedAccommodations;
 
+    @JsonIgnore
     @ElementCollection
     private Set<Long> friends;
 
