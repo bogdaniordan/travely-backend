@@ -34,7 +34,6 @@ public class JwtTokenService {
     }
 
     public String createToken(String username, List<String> roles) {
-        // Add a custom field to the token
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(rolesFieldName, roles);
 
@@ -57,7 +56,6 @@ public class JwtTokenService {
         return null;
     }
 
-    // checks if the token is valid and not expired.
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -73,7 +71,7 @@ public class JwtTokenService {
 
     public Authentication parseUserFromTokenInfo(String token) throws UsernameNotFoundException {
         Claims body = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-        String username = body.getSubject(); // Verify if user still exists in DB
+        String username = body.getSubject();
         List<String> roles = (List<String>) body.get(rolesFieldName);
         List<SimpleGrantedAuthority> authorities = new LinkedList<>();
         for (String role : roles) {

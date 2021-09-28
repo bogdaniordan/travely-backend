@@ -12,7 +12,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class PasswordResetToken {
-    // expiration date is today + 24 hours
     private static final int EXPIRATION = 24;
 
     @Id
@@ -32,7 +31,6 @@ public class PasswordResetToken {
         this.user = user;
     }
 
-    // sets token exp date current date + expiration (24hours)
     public void setTokenExpirationDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());

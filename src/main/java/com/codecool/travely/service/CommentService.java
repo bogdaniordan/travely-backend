@@ -40,7 +40,7 @@ public class CommentService {
     public List<Comment> findAllByPostId(Long id) {
         log.info("Fetching all comments for post with id " + id);
         List<Comment> comments = commentRepository.findAllByPostId(id);
-        comments.sort(Comparator.comparing(Comment::getTime).reversed());
+        comments.sort(Comparator.comparing(Comment::getTime));
         return comments;
     }
 
