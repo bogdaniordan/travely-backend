@@ -11,6 +11,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +39,8 @@ public class BookingService {
     public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
-        accommodation.setStatus(AccommodationStatus.Booked);
-        accommodationService.saveAccommodation(accommodation);
+//        accommodation.setStatus(AccommodationStatus.Booked);
+//        accommodationService.saveAccommodation(accommodation);
         booking.setAccommodation(accommodation);
         booking.setCustomer(customerService.findById(customerId));
         return bookingRepository.save(booking);
@@ -55,9 +58,6 @@ public class BookingService {
     public void cancelBooking(Long id) {
         log.info("Deleting booking with id: " + id);
         Booking booking = findById(id);
-        Accommodation accommodation = booking.getAccommodation();
-        accommodation.setStatus(AccommodationStatus.Free);
-        accommodationService.saveAccommodation(accommodation);
         bookingRepository.delete(booking);
     }
 
@@ -95,6 +95,27 @@ public class BookingService {
             }
         }
         return false;
+    }
+
+    public List<Booking> getFutureBookings(Long accommodationId) {
+        log.info("Fetching future bookings for accommodation with id " + accommodationId);
+        List<Booking> futureBookings = new ArrayList<>();
+        bookingRepository.findAllByAccommodationId(accommodationId).forEach(booking -> {
+            if (booking.getCheckInDate().compareTo(LocalDate.now()) > 0) {
+                futureBookings.add(booking);
+            }
+        });
+        return futureBookings;
+    }
+
+    public Booking getClosestFutureBooking(Long accommodationId) {
+        List<Booking> futureBookings = getFutureBookings(accommodationId);
+        log.info("Fetching closest future booking for accommodation with id " + accommodationId);
+        if (futureBookings.size() == 1) {
+            return futureBookings.get(0);
+        }
+        futureBookings.sort(Comparator.comparing(Booking::getCheckInDate).reversed());
+        return futureBookings.get(0);
     }
 
 }

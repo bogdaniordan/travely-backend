@@ -39,7 +39,6 @@ public class BookingController {
 //        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
     }
 
-
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/accommodation-can-be-booked/{accommodationId}")
     public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
@@ -57,5 +56,14 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.accommodationIsBookedNow(id));
     }
 
+    @GetMapping("/accommodation-has-future-bookings/{accommodationId}")
+    public ResponseEntity<Boolean> hasFutureBookings(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(bookingService.getFutureBookings(accommodationId).size() > 0);
+    }
+
+    @GetMapping("/closest-future-booking/{id}")
+    public ResponseEntity<Booking> getClosestFutureBooking(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.getClosestFutureBooking(id));
+    }
 
 }

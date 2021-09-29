@@ -31,9 +31,9 @@ public class Accommodation {
     @NotNull
     private int pricePerNight;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private AccommodationStatus status;
+//    @NotNull
+//    @Enumerated(EnumType.STRING)
+//    private AccommodationStatus status;
 
     @Enumerated(EnumType.STRING)
     private CleaningStatus cleaningStatus;
@@ -47,13 +47,12 @@ public class Accommodation {
     @ManyToOne
     private Host host;
 
-    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, AccommodationStatus status, PlaceType placeType, CleaningStatus cleaningStatus) {
+    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, PlaceType placeType, CleaningStatus cleaningStatus) {
         this.title = title;
         this.address = address;
         this.location = location;
         this.pricePerNight = pricePerNight;
         this.facilities = facilities;
-        this.status = status;
         this.placeType = placeType;
         this.cleaningStatus = cleaningStatus;
     }
