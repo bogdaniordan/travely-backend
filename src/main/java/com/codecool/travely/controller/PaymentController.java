@@ -25,6 +25,7 @@ public class PaymentController {
     @PostMapping("/charge-card")
     public ResponseEntity<String> chargeCard(@RequestBody StripePaymentDto stripePaymentDto) throws Exception {
         stripeService.chargeNewCard(stripePaymentDto.getToken(), stripePaymentDto.getAmount());
-        return ResponseEntity.ok("Payment has been charged.");
+        return ResponseEntity.ok("Payment has been made.");
     }
+
 }

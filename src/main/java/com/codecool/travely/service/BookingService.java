@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,14 +33,14 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find booking with id: " + id));
     }
 
-    public void saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
+    public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
         accommodation.setStatus(AccommodationStatus.Booked);
         accommodationService.saveAccommodation(accommodation);
         booking.setAccommodation(accommodation);
         booking.setCustomer(customerService.findById(customerId));
-        bookingRepository.save(booking);
+        return bookingRepository.save(booking);
     }
 
     public void save(Booking booking) {
@@ -59,8 +61,7 @@ public class BookingService {
         bookingRepository.delete(booking);
     }
 
-//  #Todo booking mail
-
+//      #Todo booking mail
 //    public SimpleMailMessage createBookingMail(Long accommodationId, Long customerId) {
 //        SimpleMailMessage email = new SimpleMailMessage();
 //        email.setSubject("Booking for " + accommodationService.findById(accommodationId).getTitle());
@@ -86,5 +87,14 @@ public class BookingService {
         return bookingRepository.findAllByAccommodationId(id);
     }
 
+    public Boolean accommodationIsBookedNow(Long accommodationId) {
+        log.info("Checking if accommodation with id " + accommodationId + " is booked at the moment.");
+        for(Booking booking: bookingRepository.findAllByAccommodationId(accommodationId)) {
+            if (LocalDate.now().compareTo(booking.getCheckInDate()) >= 0 && LocalDate.now().compareTo(booking.getCheckoutDate()) <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

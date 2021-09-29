@@ -34,10 +34,9 @@ public class BookingController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-booking/host/{hostId}/customer/{customerId}/accommodation/{accommodationId}")
-    public ResponseEntity<String> addBooking(@Valid @RequestBody Booking booking, @PathVariable Long hostId, @PathVariable Long customerId, @PathVariable Long accommodationId) {
-        bookingService.saveBooking(booking, hostId, customerId, accommodationId);
+    public ResponseEntity<Booking> addBooking(@Valid @RequestBody Booking booking, @PathVariable Long hostId, @PathVariable Long customerId, @PathVariable Long accommodationId) {
+        return ResponseEntity.ok(bookingService.saveBooking(booking, hostId, customerId, accommodationId));
 //        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
-        return ResponseEntity.ok("Booking has been saved.");
     }
 
 
@@ -52,4 +51,11 @@ public class BookingController {
     public ResponseEntity<List<Booking>> getAllByAccommodation(@PathVariable Long accommodationId) {
         return ResponseEntity.ok(bookingService.findAllByAccommodation(accommodationId));
     }
+
+    @GetMapping("/accommodation-is-booked-now/{id}")
+    public ResponseEntity<Boolean> accommodationIsBookedNow(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.accommodationIsBookedNow(id));
+    }
+
+
 }

@@ -3,9 +3,9 @@ package com.codecool.travely.enums;
 public enum Facility {
     Kitchen,
     TV,
-    Hair_dryer,
+    Yard,
     Wifi,
-    Refrigerator,
+    Fridge,
     Pool,
     AC
 }
