@@ -126,4 +126,14 @@ public class AccommodationService {
         Accommodation accommodation = findById(id);
         accommodationRepository.delete(accommodation);
     }
+
+    public void updateAccommodation(Long id, Accommodation accommodation) {
+        log.info("Updating accommodation with id " + id);
+        Accommodation updatedAccommodation = findById(id);
+        updatedAccommodation.setTitle(accommodation.getTitle());
+        updatedAccommodation.setAddress(accommodation.getAddress());
+        updatedAccommodation.setPricePerNight(accommodation.getPricePerNight());
+        updatedAccommodation.setFacilities(accommodation.getFacilities());
+        accommodationRepository.save(updatedAccommodation);
+    }
 }

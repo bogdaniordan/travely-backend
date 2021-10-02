@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -64,6 +65,11 @@ public class BookingController {
     @GetMapping("/closest-future-booking/{id}")
     public ResponseEntity<Booking> getClosestFutureBooking(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.getClosestFutureBooking(id));
+    }
+
+    @GetMapping("/booked-dates/{id}")
+    public ResponseEntity<List<LocalDate>> getAccommodationBookedDates(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.getAccommodationBookedDates(id));
     }
 
 }

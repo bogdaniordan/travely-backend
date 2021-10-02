@@ -1,6 +1,5 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Testimonial;
 import com.codecool.travely.service.TestimonialService;
 import lombok.AllArgsConstructor;

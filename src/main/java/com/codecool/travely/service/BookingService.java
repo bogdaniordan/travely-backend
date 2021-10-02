@@ -1,21 +1,19 @@
 package com.codecool.travely.service;
 
 import com.codecool.travely.dto.request.BookingDatesDto;
-import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Booking;
 import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,8 +37,6 @@ public class BookingService {
     public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
-//        accommodation.setStatus(AccommodationStatus.Booked);
-//        accommodationService.saveAccommodation(accommodation);
         booking.setAccommodation(accommodation);
         booking.setCustomer(customerService.findById(customerId));
         return bookingRepository.save(booking);
@@ -115,7 +111,22 @@ public class BookingService {
             return futureBookings.get(0);
         }
         futureBookings.sort(Comparator.comparing(Booking::getCheckInDate).reversed());
+        System.out.println(futureBookings.get(0));
         return futureBookings.get(0);
+    }
+
+    public List<LocalDate> getAccommodationBookedDates(Long id) {
+        log.info("Fetching all booked dates for an accommodation");
+        List<LocalDate> dates = new ArrayList<>();
+        findAllByAccommodation(id).forEach(booking -> {
+            LocalDate start = booking.getCheckInDate();
+            LocalDate end = booking.getCheckoutDate();
+            while(!start.isAfter(end)) {
+                dates.add(start);
+                start = start.plusDays(1);
+            }
+        });
+        return dates;
     }
 
 }

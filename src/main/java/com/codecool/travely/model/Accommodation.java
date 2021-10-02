@@ -1,6 +1,5 @@
 package com.codecool.travely.model;
 
-import com.codecool.travely.enums.AccommodationStatus;
 import com.codecool.travely.enums.CleaningStatus;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.enums.PlaceType;
@@ -30,10 +29,6 @@ public class Accommodation {
 
     @NotNull
     private int pricePerNight;
-
-//    @NotNull
-//    @Enumerated(EnumType.STRING)
-//    private AccommodationStatus status;
 
     @Enumerated(EnumType.STRING)
     private CleaningStatus cleaningStatus;

@@ -37,8 +37,8 @@ public class DataGenerator implements CommandLineRunner {
         Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
         Accommodation accommodation = new Accommodation("Guesthouse", "Popa nan 42", "London", 22, List.of(Facility.Fridge), PlaceType.Hotel, CleaningStatus.DIRTY);
-        Accommodation accommodation1 = new Accommodation("Gradina monteoru", "Calea victoriei", "London", 22, List.of(Facility.Fridge), PlaceType.Private, CleaningStatus.CLEAN);
-        Accommodation accommodation2 = new Accommodation("Casa lu robert", "Strada golovita", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
+        Accommodation accommodation1 = new Accommodation("London eye", "Calea victoriei", "London", 22, List.of(Facility.Fridge), PlaceType.Private, CleaningStatus.CLEAN);
+        Accommodation accommodation2 = new Accommodation("Taj mahal", "Strada golovita", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
         Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)));
         host.setPicture("dorian-popa.jpg");
         Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation);
@@ -120,6 +120,9 @@ public class DataGenerator implements CommandLineRunner {
 
         commentService.save(comment);
         commentService.save(comment1);
+
+        Booking booking3 = new Booking(LocalDate.of(2022, 8, 8), LocalDate.of(2022,9,9), accommodation2);
+        bookingService.saveBooking(booking3, host.getId(), customer.getId(), accommodation2.getId());
 
     }
 }

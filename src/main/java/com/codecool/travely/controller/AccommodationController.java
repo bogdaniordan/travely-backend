@@ -26,7 +26,7 @@ public class AccommodationController {
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping("/{id}")
     public ResponseEntity<Accommodation> getById(@PathVariable Long id) {
-        return new ResponseEntity<>(accommodationService.findById(id), HttpStatus.OK);
+        return ResponseEntity.ok(accommodationService.findById(id));
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -132,5 +132,12 @@ public class AccommodationController {
     public ResponseEntity<String> deleteAccommodation(@PathVariable Long id) {
         accommodationService.deleteAccommodation(id);
         return ResponseEntity.ok("Accommodation deleted.");
+    }
+
+    @PreAuthorize("hasRole('HOST')")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateAccommodation(@RequestBody Accommodation accommodation, @PathVariable Long id) {
+        accommodationService.updateAccommodation(id, accommodation);
+        return ResponseEntity.ok("Accommodation updated.");
     }
 }
