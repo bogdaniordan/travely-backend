@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -129,4 +130,15 @@ public class BookingService {
         return dates;
     }
 
+    public List<Booking> getAllForHost(Long id) {
+        log.info("Fetching all bookings for host with id " + id);
+        return findAll().stream().filter(booking -> booking.getHost().getId() == (long) id).collect(Collectors.toList());
+    }
+
+    public void markBookingAsSeen(Long id) {
+        log.info("Marking booking with id " + id + " as seen.");
+        Booking booking = findById(id);
+        booking.setSeen(true);
+        save(booking);
+    }
 }

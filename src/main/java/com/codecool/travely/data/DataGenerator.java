@@ -39,9 +39,9 @@ public class DataGenerator implements CommandLineRunner {
         Accommodation accommodation = new Accommodation("Guesthouse", "Popa nan 42", "London", 22, List.of(Facility.Fridge), PlaceType.Hotel, CleaningStatus.DIRTY);
         Accommodation accommodation1 = new Accommodation("London eye", "Calea victoriei", "London", 22, List.of(Facility.Fridge), PlaceType.Private, CleaningStatus.CLEAN);
         Accommodation accommodation2 = new Accommodation("Taj mahal", "Strada golovita", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
-        Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)));
+        Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
         host.setPicture("dorian-popa.jpg");
-        Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation);
+        Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation, 999);
 
         Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
 
@@ -105,8 +105,8 @@ public class DataGenerator implements CommandLineRunner {
         chatMessageRepository.save(chatMessage3);
         chatMessageRepository.save(chatMessage4);
 
-        Booking booking1 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation1);
-        Booking booking2 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation);
+        Booking booking1 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation1, 1200);
+        Booking booking2 = new Booking(LocalDate.of(2021, 8, 8), LocalDate.of(2021,9,1), accommodation, 3000);
 
         bookingService.saveBooking(booking1, host.getId(), customer.getId(), accommodation1.getId());
         bookingService.saveBooking(booking2, host.getId(), customer.getId(), accommodation1.getId());
@@ -121,7 +121,7 @@ public class DataGenerator implements CommandLineRunner {
         commentService.save(comment);
         commentService.save(comment1);
 
-        Booking booking3 = new Booking(LocalDate.of(2022, 8, 8), LocalDate.of(2022,9,9), accommodation2);
+        Booking booking3 = new Booking(LocalDate.of(2022, 8, 8), LocalDate.of(2022,9,9), accommodation2, 4000);
         bookingService.saveBooking(booking3, host.getId(), customer.getId(), accommodation2.getId());
 
     }

@@ -23,19 +23,24 @@ public class Booking {
     @NotNull
     private LocalDate checkoutDate;
 
+    private int price;
+
     @ManyToOne
     private Host host;
 
     @ManyToOne
     private Customer customer;
 
+    private boolean seen = false;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
 
-    public Booking(LocalDate checkInDate, LocalDate checkoutDate, Accommodation accommodation) {
+    public Booking(LocalDate checkInDate, LocalDate checkoutDate, Accommodation accommodation, int price) {
         this.checkInDate = checkInDate;
         this.checkoutDate = checkoutDate;
         this.accommodation = accommodation;
+        this.price = price;
     }
 }

@@ -72,4 +72,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getAccommodationBookedDates(id));
     }
 
+    @GetMapping("/bookings-by-host/{id}")
+    public ResponseEntity<List<Booking>> getAllByHost(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.getAllForHost(id));
+    }
+
+    @GetMapping("/mark-as-seen/{id}")
+    public ResponseEntity<String> markAsSeen(@PathVariable Long id) {
+        bookingService.markBookingAsSeen(id);
+        return ResponseEntity.ok("Booking marked as seen");
+    }
+
 }

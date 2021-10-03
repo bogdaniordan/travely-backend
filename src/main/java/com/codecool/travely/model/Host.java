@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "host")
+@Entity
 @Data
 @NoArgsConstructor
 public class Host {
@@ -45,6 +46,17 @@ public class Host {
     @Max(25)
     private String password;
 
+    @Size(min=3, max = 30)
+    private String phoneNumber;
+
+    @Size(min=3, max = 50)
+    private String address;
+
+    @Size(min=3, max = 20)
+    private String country;
+
+    private String gender;
+
     private String picture;
 
     @ElementCollection
@@ -59,6 +71,15 @@ public class Host {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public Host(String firstName, String lastName, String username, String email, String password, List<Badge> earnedBadges) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.earnedBadges = earnedBadges;
     }
 
     public void earnBadge(Badge badge) {

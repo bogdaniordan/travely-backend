@@ -22,6 +22,8 @@ public class Post {
 
     private LocalDateTime time;
 
+    private String location;
+
     @ManyToMany
     private Set<Customer> likes = new HashSet<>();
 

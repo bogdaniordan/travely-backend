@@ -129,4 +129,17 @@ public class HostService {
         log.info("Fetching all badges for host with id " + hostId);
         return findById(hostId).getEarnedBadges().stream().map(badge -> badge.badgeToDto(badge.name, badge.picture, badge.description)).collect(Collectors.toList());
     }
+
+    public void updateHost(Long id, Host host) {
+        log.info("Updating details of host with id " + id);
+        Host updatedHost = findById(id);
+        updatedHost.setFirstName(host.getFirstName());
+        updatedHost.setLastName(host.getLastName());
+        updatedHost.setEmail(host.getEmail());
+        updatedHost.setAddress(host.getAddress());
+        updatedHost.setGender(host.getGender());
+        updatedHost.setPhoneNumber(host.getPhoneNumber());
+        updatedHost.setCountry(host.getCountry());
+        saveHost(host);
+    }
 }

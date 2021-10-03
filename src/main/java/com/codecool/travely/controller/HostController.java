@@ -56,7 +56,14 @@ public class HostController {
     @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
     @GetMapping("/host-badges/{hostId}")
     public ResponseEntity<List<BadgeDto>> getHostBadges(@PathVariable Long hostId) {
-        System.out.println(hostService.getByHost(hostId));
         return ResponseEntity.ok(hostService.getByHost(hostId));
     }
+
+    @PreAuthorize("hasRole('HOST')")
+    @PutMapping("/update-host/{id}")
+    public ResponseEntity<String> updateHost(@PathVariable Long id, @RequestBody Host host) {
+        hostService.updateHost(id, host);
+        return ResponseEntity.ok("Host details have been updated.");
+    }
+
 }
