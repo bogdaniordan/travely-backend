@@ -41,4 +41,11 @@ public class TestimonialController {
     public ResponseEntity<Double> getAverageRating(@PathVariable Long accommodationId) {
         return ResponseEntity.ok(testimonialService.getAverageRating(accommodationId));
     }
+
+    @GetMapping("/all-for-host/{id}")
+    public ResponseEntity<List<Testimonial>> getAllForHost(@PathVariable Long id) {
+        return ResponseEntity.ok(testimonialService.getAllTestimonialsForHost(id));
+    }
+
+
 }

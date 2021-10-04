@@ -44,4 +44,9 @@ public class RecommendationService {
         log.info("Deleting recommendation with id " + id);
         recommendationRepository.deleteById(id);
     }
+
+    public List<Recommendation> getAllForHost(Long id) {
+        log.info("Fetching all recommendations for accommodation owned by host with id " + id);
+        return recommendationRepository.findAll().stream().filter(recommendation -> recommendation.getAccommodation().getHost().getId() == (long) id).collect(Collectors.toList());
+    }
 }

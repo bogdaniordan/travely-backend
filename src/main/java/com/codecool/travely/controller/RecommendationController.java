@@ -41,4 +41,10 @@ public class RecommendationController {
         return ResponseEntity.ok("Recommendation has been deleted.");
     }
 
+    @PreAuthorize("hasRole('HOST') or hasRole('CUSTOMER')")
+    @GetMapping("/get-all-for-host/{id}")
+    public ResponseEntity<List<Recommendation>> getAllForHost(@PathVariable Long id) {
+        return ResponseEntity.ok(recommendationService.getAllForHost(id));
+    }
+
 }

@@ -51,4 +51,9 @@ public class TestimonialService {
         log.info("Getting average rating for accommodation with id " + accommodationId);
         return getAllByAccommodationId(accommodationId).stream().mapToDouble(Testimonial::getRating).average().orElse(Double.NaN);
     }
+
+    public List<Testimonial> getAllTestimonialsForHost(Long id) {
+        log.info("Fetching all testimonials for host with id " + id);
+        return testimonialRepository.findAll().stream().filter(testimonial -> testimonial.getAccommodation().getHost().getId() == (long) id).collect(Collectors.toList());
+    }
 }

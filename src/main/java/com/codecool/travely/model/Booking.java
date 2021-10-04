@@ -23,6 +23,7 @@ public class Booking {
     @NotNull
     private LocalDate checkoutDate;
 
+    @NotNull
     private int price;
 
     @ManyToOne
