@@ -118,8 +118,12 @@ public class BookingService {
 
     public List<LocalDate> getAccommodationBookedDates(Long id) {
         log.info("Fetching all booked dates for an accommodation");
+        return getBookedDates(findAllByAccommodation(id));
+    }
+
+    public List<LocalDate> getBookedDates(List<Booking> bookings) {
         List<LocalDate> dates = new ArrayList<>();
-        findAllByAccommodation(id).forEach(booking -> {
+        bookings.forEach(booking -> {
             LocalDate start = booking.getCheckInDate();
             LocalDate end = booking.getCheckoutDate();
             while(!start.isAfter(end)) {
@@ -140,5 +144,10 @@ public class BookingService {
         Booking booking = findById(id);
         booking.setSeen(true);
         save(booking);
+    }
+
+    public int getNumberOfBookedNights(Long id) {
+        log.info("Fetching number of booked nights for user with id " + id);
+        return getBookedDates(findAllByCustomerId(id)).size();
     }
 }

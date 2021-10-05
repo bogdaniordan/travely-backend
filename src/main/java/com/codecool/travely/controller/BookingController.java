@@ -83,4 +83,9 @@ public class BookingController {
         return ResponseEntity.ok("Booking marked as seen");
     }
 
+    @GetMapping("/booked-nights-number/{userId}")
+    public ResponseEntity<Integer> getNumberOfBookedNights(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getNumberOfBookedNights(userId));
+    }
+
 }

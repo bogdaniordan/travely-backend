@@ -83,6 +83,7 @@ public class CleanerService {
         log.info("Set cleaner with id " + cleanerId + " to clean " + accommodationId);
         Cleaner cleaner = findById(cleanerId);
         cleaner.setCurrentCleaningJob(accommodationService.findById(accommodationId));
+        cleaner.addToCleaningHistory(accommodationService.findById(accommodationId));
         save(cleaner);
     }
 

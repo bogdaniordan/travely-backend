@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -72,5 +74,10 @@ public class PostService {
     public void delete(Long postId) {
         log.info("Deleting post with id " + postId);
         postRepository.delete(findById(postId));
+    }
+
+    public List<Post> searchPosts(String input) {
+        log.info("Searching posts by content input.");
+        return postRepository.findAll().stream().filter(post -> post.getContent().toLowerCase().contains(input.toLowerCase()) || post.getTitle().toLowerCase().contains(input.toLowerCase())).collect(Collectors.toList());
     }
 }

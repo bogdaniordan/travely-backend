@@ -43,7 +43,7 @@ public class AccommodationService {
 
     public List<Accommodation> filterByLocation(String location) {
         log.info("Filtering accommodations by location: " + location);
-        return findAll().stream().filter(ac -> ac.getLocation().equals(location)).collect(Collectors.toList());
+        return findAll().stream().filter(ac -> ac.getLocation().equalsIgnoreCase(location)).collect(Collectors.toList());
     }
 
     public List<Accommodation> filterByPlaceType(String placeType) {

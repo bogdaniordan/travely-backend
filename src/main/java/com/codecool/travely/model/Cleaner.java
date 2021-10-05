@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "cleaner")
 @Data
@@ -27,11 +28,18 @@ public class Cleaner {
 
     private boolean hired;
 
+    @ManyToMany
+    private Set<Accommodation> cleaningHistory;
+
     @ManyToOne
     private Host employer;
 
     public Cleaner(String name, CleaningExperience experience) {
         this.name = name;
         this.experience = experience;
+    }
+
+    public void addToCleaningHistory(Accommodation accommodation) {
+        cleaningHistory.add(accommodation);
     }
 }

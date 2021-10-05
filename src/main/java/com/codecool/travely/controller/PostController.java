@@ -57,4 +57,9 @@ public class PostController {
         postService.delete(id);
         return ResponseEntity.ok("Post has been deleted.");
     }
+
+    @GetMapping("/search-posts/{searchInput}")
+    public ResponseEntity<List<Post>> searchPosts(@PathVariable String searchInput) {
+        return ResponseEntity.ok(postService.searchPosts(searchInput));
+    }
 }
