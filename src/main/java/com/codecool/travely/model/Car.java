@@ -2,6 +2,7 @@ package com.codecool.travely.model;
 
 import com.codecool.travely.enums.CarFacility;
 import com.codecool.travely.enums.CarGear;
+import com.codecool.travely.enums.FuelPolicy;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,12 +30,17 @@ public class Car {
 
     private int mileage;
 
+    @Enumerated(EnumType.STRING)
+    private FuelPolicy fuelPolicy;
+
     private boolean fullInsurance;
 
     @ElementCollection
-    Set<CarFacility> facilities;
+    private Set<CarFacility> facilities;
 
-    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, Set<CarFacility> facilities) {
+    private double rating;
+
+    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, Set<CarFacility> facilities, FuelPolicy fuelPolicy) {
         this.pricePerDay = pricePerDay;
         this.model = model;
         this.seats = seats;
@@ -43,5 +49,6 @@ public class Car {
         this.mileage = mileage;
         this.fullInsurance = fullInsurance;
         this.facilities = facilities;
+        this.fuelPolicy = fuelPolicy;
     }
 }

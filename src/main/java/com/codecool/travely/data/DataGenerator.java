@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -31,6 +32,7 @@ public class DataGenerator implements CommandLineRunner {
     private final ChatMessageRepository chatMessageRepository;
     private final CommentService commentService;
     private final PostService postService;
+    private final CarService carService;
 
     @Override
     public void run(String... args) {
@@ -124,5 +126,11 @@ public class DataGenerator implements CommandLineRunner {
         Booking booking3 = new Booking(LocalDate.of(2022, 8, 8), LocalDate.of(2022,9,9), accommodation2, 4000);
         bookingService.saveBooking(booking3, host.getId(), customer.getId(), accommodation2.getId());
 
+        Car car = new Car(33, "Hyundai i20", 5, CarGear.MANUAL, "London", 3200, true, Set.of(CarFacility.AC, CarFacility.COLLISION_DAMAGE_WAIVER), FuelPolicy.FULL_TO_FULL);
+        Car car1 = new Car(40, "Seat Leon", 5, CarGear.AUTOMATIC, "London", 3200, true, Set.of(CarFacility.AC, CarFacility.COLLISION_DAMAGE_WAIVER), FuelPolicy.FREE_TANK);
+        Car car2 = new Car(32, "Fiat 500", 5, CarGear.AUTOMATIC, "Mumbai", 3200, false, Set.of(CarFacility.AC, CarFacility.COLLISION_DAMAGE_WAIVER, CarFacility.THEFT_PROTECTION), FuelPolicy.FREE_TANK);
+        carService.saveCar(car);
+        carService.saveCar(car1);
+        carService.saveCar(car2);
     }
 }
