@@ -1,6 +1,6 @@
 package com.codecool.travely.chat;
 
-import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.user.Customer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.codecool.travely.model;
+package com.codecool.travely.model.user;
 
 import com.codecool.travely.enums.Badge;
 import com.codecool.travely.security.Role;

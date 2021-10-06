@@ -1,7 +1,7 @@
 package com.codecool.travely.controller;
 
 import com.codecool.travely.dto.response.BadgeDto;
-import com.codecool.travely.model.Host;
+import com.codecool.travely.model.user.Host;
 import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

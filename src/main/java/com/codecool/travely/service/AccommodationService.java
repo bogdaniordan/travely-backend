@@ -4,7 +4,7 @@ import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.model.Accommodation;
-import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.AccommodationRepository;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;

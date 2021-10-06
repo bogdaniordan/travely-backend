@@ -1,6 +1,6 @@
 package com.codecool.travely.service;
 
-import com.codecool.travely.model.Comment;
+import com.codecool.travely.model.social.Comment;
 import com.codecool.travely.repository.CommentRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

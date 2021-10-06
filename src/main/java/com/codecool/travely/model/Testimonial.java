@@ -1,5 +1,6 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.model.user.Customer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;

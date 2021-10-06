@@ -1,11 +1,12 @@
-package com.codecool.travely.model;
+package com.codecool.travely.model.social;
 
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.user.Host;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity(name = "question")
 @Data

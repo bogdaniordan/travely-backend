@@ -1,16 +1,14 @@
 package com.codecool.travely.controller;
 
 import com.codecool.travely.model.CardDetails;
-import com.codecool.travely.model.Customer;
-import com.codecool.travely.model.FriendRequest;
-import com.codecool.travely.repository.CustomerRepository;
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.social.FriendRequest;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

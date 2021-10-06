@@ -1,6 +1,6 @@
 package com.codecool.travely.repository;
 
-import com.codecool.travely.model.FriendRequest;
+import com.codecool.travely.model.social.FriendRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

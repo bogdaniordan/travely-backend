@@ -1,7 +1,7 @@
 package com.codecool.travely.service;
 
-import com.codecool.travely.model.Customer;
-import com.codecool.travely.model.Post;
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.social.Post;
 import com.codecool.travely.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service

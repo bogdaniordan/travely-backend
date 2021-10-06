@@ -1,6 +1,6 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.model.Post;
+import com.codecool.travely.model.social.Post;
 import com.codecool.travely.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

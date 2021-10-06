@@ -1,7 +1,7 @@
 package com.codecool.travely.service;
 
-import com.codecool.travely.model.Customer;
-import com.codecool.travely.model.Recommendation;
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.social.Recommendation;
 import com.codecool.travely.repository.RecommendationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.model.Question;
+import com.codecool.travely.model.social.Question;
 import com.codecool.travely.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

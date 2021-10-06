@@ -1,6 +1,7 @@
 package com.codecool.travely.model;
 
 import com.codecool.travely.enums.CleaningExperience;
+import com.codecool.travely.model.user.Host;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;

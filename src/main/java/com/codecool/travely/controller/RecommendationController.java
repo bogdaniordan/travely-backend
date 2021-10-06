@@ -1,7 +1,7 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.model.Customer;
-import com.codecool.travely.model.Recommendation;
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.social.Recommendation;
 import com.codecool.travely.service.RecommendationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

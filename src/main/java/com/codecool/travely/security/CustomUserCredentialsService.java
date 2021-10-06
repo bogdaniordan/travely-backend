@@ -1,7 +1,7 @@
 package com.codecool.travely.security;
 
-import com.codecool.travely.model.Customer;
-import com.codecool.travely.model.Host;
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.user.Host;
 import com.codecool.travely.service.CustomerService;
 import com.codecool.travely.service.HostService;
 import lombok.AllArgsConstructor;

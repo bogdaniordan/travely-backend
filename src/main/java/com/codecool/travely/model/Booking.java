@@ -1,5 +1,7 @@
 package com.codecool.travely.model;
 
+import com.codecool.travely.model.user.Customer;
+import com.codecool.travely.model.user.Host;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;

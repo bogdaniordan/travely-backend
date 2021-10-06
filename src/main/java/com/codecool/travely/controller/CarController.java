@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/cars")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
-@PreAuthorize("hasRole('CUSTOMER')")
 public class CarController {
 
     private final CarService carService;

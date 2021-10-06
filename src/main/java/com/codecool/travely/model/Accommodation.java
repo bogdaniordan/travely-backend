@@ -3,6 +3,7 @@ package com.codecool.travely.model;
 import com.codecool.travely.enums.CleaningStatus;
 import com.codecool.travely.enums.Facility;
 import com.codecool.travely.enums.PlaceType;
+import com.codecool.travely.model.user.Host;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

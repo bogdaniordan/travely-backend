@@ -1,6 +1,6 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.model.Comment;
+import com.codecool.travely.model.social.Comment;
 import com.codecool.travely.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

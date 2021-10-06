@@ -32,6 +32,6 @@ public class CarService {
 
     public byte[] downloadImage(Long id) {
         String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), id);
-        return fileStore.download(path, "car");
+        return fileStore.download(path, "car.jpg");
     }
 }

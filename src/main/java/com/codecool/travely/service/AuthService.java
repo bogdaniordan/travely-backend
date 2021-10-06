@@ -2,7 +2,7 @@ package com.codecool.travely.service;
 
 import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
-import com.codecool.travely.model.Customer;
+import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.PasswordTokenRepository;
 import com.codecool.travely.security.JwtTokenService;
 import com.codecool.travely.security.PasswordResetToken;

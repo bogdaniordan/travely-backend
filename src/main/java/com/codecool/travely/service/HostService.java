@@ -4,7 +4,7 @@ import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.dto.response.BadgeDto;
 import com.codecool.travely.enums.Badge;
-import com.codecool.travely.model.Host;
+import com.codecool.travely.model.user.Host;
 import com.codecool.travely.repository.AccommodationRepository;
 import com.codecool.travely.repository.BookingRepository;
 import com.codecool.travely.repository.CleanerRepository;

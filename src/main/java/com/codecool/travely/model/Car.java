@@ -35,12 +35,12 @@ public class Car {
 
     private boolean fullInsurance;
 
-    @ElementCollection
-    private Set<CarFacility> facilities;
+//    @ElementCollection
+//    private Set<CarFacility> facilities;
 
     private double rating;
 
-    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, Set<CarFacility> facilities, FuelPolicy fuelPolicy) {
+    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, FuelPolicy fuelPolicy) {
         this.pricePerDay = pricePerDay;
         this.model = model;
         this.seats = seats;
@@ -48,7 +48,7 @@ public class Car {
         this.location = location;
         this.mileage = mileage;
         this.fullInsurance = fullInsurance;
-        this.facilities = facilities;
+//        this.facilities = facilities;
         this.fuelPolicy = fuelPolicy;
     }
 }

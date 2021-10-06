@@ -1,6 +1,6 @@
 package com.codecool.travely.repository;
 
-import com.codecool.travely.model.Comment;
+import com.codecool.travely.model.social.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

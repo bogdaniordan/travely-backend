@@ -1,5 +1,6 @@
-package com.codecool.travely.model;
+package com.codecool.travely.model.social;
 
+import com.codecool.travely.model.user.Customer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
