@@ -1,5 +1,6 @@
-package com.codecool.travely.model;
+package com.codecool.travely.model.booking;
 
+import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.user.Host;
 import com.sun.istack.NotNull;

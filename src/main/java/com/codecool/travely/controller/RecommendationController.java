@@ -47,4 +47,9 @@ public class RecommendationController {
         return ResponseEntity.ok(recommendationService.getAllForHost(id));
     }
 
+    @GetMapping("/get-all-for-accommodation/{id}")
+    public ResponseEntity<List<Recommendation>> getAllForAccommodation(@PathVariable Long id) {
+        return ResponseEntity.ok(recommendationService.getAllForAccommodation(id));
+    }
+
 }

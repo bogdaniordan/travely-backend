@@ -1,7 +1,7 @@
 package com.codecool.travely.controller;
 
 import com.codecool.travely.dto.request.BookingDatesDto;
-import com.codecool.travely.model.Booking;
+import com.codecool.travely.model.booking.Booking;
 import com.codecool.travely.service.BookingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,11 +40,11 @@ public class BookingController {
 //        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @PostMapping("/accommodation-can-be-booked/{accommodationId}")
-    public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
-        return ResponseEntity.ok(bookingService.accommodationCanBeBooked(bookingDatesDto, accommodationId));
-    }
+//    @PreAuthorize("hasRole('CUSTOMER')")
+//    @PostMapping("/accommodation-can-be-booked/{accommodationId}")
+//    public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
+//        return ResponseEntity.ok(bookingService.accommodationCanBeBooked(bookingDatesDto, accommodationId));
+//    }
 
     @PreAuthorize("hasRole('HOST')")
     @GetMapping("/all-bookings/{accommodationId}")

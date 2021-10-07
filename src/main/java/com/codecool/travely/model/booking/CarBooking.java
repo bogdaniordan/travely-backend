@@ -1,5 +1,6 @@
-package com.codecool.travely.model;
+package com.codecool.travely.model.booking;
 
+import com.codecool.travely.model.Car;
 import com.codecool.travely.model.user.Customer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,13 @@ public class CarBooking {
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Car car;
+
+    public CarBooking(int price, LocalDate startDate, LocalDate endDate, String notes, Customer customer, Car car) {
+        this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.notes = notes;
+        this.customer = customer;
+        this.car = car;
+    }
 }

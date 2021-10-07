@@ -1,13 +1,11 @@
 package com.codecool.travely.model;
 
-import com.codecool.travely.enums.CarFacility;
 import com.codecool.travely.enums.CarGear;
 import com.codecool.travely.enums.FuelPolicy;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
@@ -35,12 +33,9 @@ public class Car {
 
     private boolean fullInsurance;
 
-//    @ElementCollection
-//    private Set<CarFacility> facilities;
-
     private double rating;
 
-    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, FuelPolicy fuelPolicy) {
+    public Car(int pricePerDay, String model, int seats, CarGear carGear, String location, int mileage, boolean fullInsurance, FuelPolicy fuelPolicy, double carRating) {
         this.pricePerDay = pricePerDay;
         this.model = model;
         this.seats = seats;
@@ -48,7 +43,7 @@ public class Car {
         this.location = location;
         this.mileage = mileage;
         this.fullInsurance = fullInsurance;
-//        this.facilities = facilities;
         this.fuelPolicy = fuelPolicy;
+        this.rating = carRating;
     }
 }

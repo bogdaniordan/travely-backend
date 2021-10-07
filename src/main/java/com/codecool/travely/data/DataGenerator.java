@@ -4,12 +4,15 @@ import com.codecool.travely.chat.ChatMessage;
 import com.codecool.travely.chat.MessageType;
 import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
+import com.codecool.travely.model.booking.Booking;
+import com.codecool.travely.model.booking.CarBooking;
 import com.codecool.travely.model.social.Comment;
 import com.codecool.travely.model.social.Post;
 import com.codecool.travely.model.social.Question;
 import com.codecool.travely.model.social.Recommendation;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.user.Host;
+import com.codecool.travely.repository.CarBookingRepository;
 import com.codecool.travely.repository.ChatMessageRepository;
 import com.codecool.travely.repository.RecommendationRepository;
 import com.codecool.travely.service.*;
@@ -21,7 +24,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -39,6 +41,7 @@ public class DataGenerator implements CommandLineRunner {
     private final CommentService commentService;
     private final PostService postService;
     private final CarService carService;
+    private final CarBookingRepository carBookingRepository;
 
     @Override
     public void run(String... args) {
@@ -132,11 +135,14 @@ public class DataGenerator implements CommandLineRunner {
         Booking booking3 = new Booking(LocalDate.of(2022, 8, 8), LocalDate.of(2022,9,9), accommodation2, 4000);
         bookingService.saveBooking(booking3, host.getId(), customer.getId(), accommodation2.getId());
 
-        Car car = new Car(33, "Hyundai i20", 5, CarGear.MANUAL, "London", 3200, true, FuelPolicy.FULL_TO_FULL);
-        Car car1 = new Car(40, "Seat Leon", 5, CarGear.AUTOMATIC, "London", 3200, true, FuelPolicy.FREE_TANK);
-        Car car2 = new Car(32, "Fiat 500", 5, CarGear.AUTOMATIC, "Mumbai", 3200, false, FuelPolicy.FREE_TANK);
+        Car car = new Car(33, "Hyundai i20", 5, CarGear.MANUAL, "London", 3200, true, FuelPolicy.FULL_TO_FULL, 9.5);
+        Car car1 = new Car(40, "Seat Leon", 5, CarGear.AUTOMATIC, "London", 3200, true, FuelPolicy.FREE_TANK, 7.3);
+        Car car2 = new Car(32, "Fiat 500", 5, CarGear.AUTOMATIC, "Mumbai", 3200, false, FuelPolicy.FREE_TANK, 8.1);
         carService.saveCar(car);
         carService.saveCar(car1);
         carService.saveCar(car2);
+
+        CarBooking carBooking = new CarBooking(300, LocalDate.of(2021, 10,10), LocalDate.of(2021, 10, 20), "ABC", customer, car);
+        carBookingRepository.save(carBooking);
     }
 }

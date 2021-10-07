@@ -49,4 +49,9 @@ public class RecommendationService {
         log.info("Fetching all recommendations for accommodation owned by host with id " + id);
         return recommendationRepository.findAll().stream().filter(recommendation -> recommendation.getAccommodation().getHost().getId() == (long) id).collect(Collectors.toList());
     }
+
+    public List<Recommendation> getAllForAccommodation(Long id) {
+        log.info("Fetching all recommendations for accommodation with id " + id);
+        return recommendationRepository.findAll().stream().filter(recommendation -> recommendation.getAccommodation().getId() == (long) id).collect(Collectors.toList());
+    }
 }

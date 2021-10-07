@@ -2,11 +2,10 @@ package com.codecool.travely.service;
 
 import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.model.Accommodation;
-import com.codecool.travely.model.Booking;
+import com.codecool.travely.model.booking.Booking;
 import com.codecool.travely.repository.BookingRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -68,16 +67,16 @@ public class BookingService {
 //        return email;
 //    }
 
-    public boolean accommodationCanBeBooked(BookingDatesDto bookingDates, long accommodationId) {
-        log.info("Checking if accommodation with id " + accommodationId + " can be booked between " + bookingDates.getCheckOut() + " and " + bookingDates.getCheckOut());
-        for (Booking booking: bookingRepository.findAllByAccommodationId(accommodationId)) {
-            if (bookingDates.getCheckIn().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckIn().compareTo(booking.getCheckoutDate()) <= 0
-                    || bookingDates.getCheckOut().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckOut().compareTo(booking.getCheckoutDate()) <= 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    public boolean accommodationCanBeBooked(BookingDatesDto bookingDates, long accommodationId) {
+//        log.info("Checking if accommodation with id " + accommodationId + " can be booked between " + bookingDates.getCheckOut() + " and " + bookingDates.getCheckOut());
+//        for (Booking booking: bookingRepository.findAllByAccommodationId(accommodationId)) {
+//            if (bookingDates.getCheckIn().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckIn().compareTo(booking.getCheckoutDate()) <= 0
+//                    || bookingDates.getCheckOut().compareTo(booking.getCheckInDate()) >= 0 && bookingDates.getCheckOut().compareTo(booking.getCheckoutDate()) <= 0) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public List<Booking> findAllByAccommodation(Long id) {
         log.info("Fetching all bookings for accommodation with id " + id);
