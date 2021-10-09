@@ -36,6 +36,12 @@ public class CarBooking {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Car car;
 
+    private int childSeat;
+
+    private boolean gps;
+
+    private int babySeat;
+
     public CarBooking(int price, LocalDate startDate, LocalDate endDate, String notes, Customer customer, Car car) {
         this.price = price;
         this.startDate = startDate;
