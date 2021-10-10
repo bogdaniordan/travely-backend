@@ -35,6 +35,7 @@ public class BookingService {
     }
 
     public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
+        System.out.println(booking);
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
         booking.setAccommodation(accommodation);
@@ -148,5 +149,13 @@ public class BookingService {
     public int getNumberOfBookedNights(Long id) {
         log.info("Fetching number of booked nights for user with id " + id);
         return getBookedDates(findAllByCustomerId(id)).size();
+    }
+
+    public void updateBookingDates(Long bookingId, BookingDatesDto bookingDatesDto) {
+        log.info("Updating booking dates for booking with id " + bookingId);
+        Booking booking = findById(bookingId);
+        booking.setCheckInDate(booking.getCheckInDate());
+        booking.setCheckoutDate(booking.getCheckoutDate());
+        save(booking);
     }
 }

@@ -51,4 +51,9 @@ public class CarBookingService {
         log.info("Fetching all car bookings for customer with id " + id);
         return carBookingRepository.findAll().stream().filter(carBooking -> carBooking.getCustomer().getId() == (long) id).collect(Collectors.toList());
     }
+
+    public void cancelBooking(Long id) {
+        log.info("Canceling car booking with id " + id);
+        carBookingRepository.deleteById(id);
+    }
 }

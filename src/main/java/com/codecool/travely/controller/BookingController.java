@@ -88,4 +88,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getNumberOfBookedNights(userId));
     }
 
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.findById(id));
+    }
+
+    @PutMapping("/update-booking-dates/{id}")
+    public ResponseEntity<String> updateBookingDates(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long id) {
+        bookingService.updateBookingDates(id, bookingDatesDto);
+        return ResponseEntity.ok("Booking dates have been updated.");
+    }
+
 }

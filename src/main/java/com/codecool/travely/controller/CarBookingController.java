@@ -1,6 +1,5 @@
 package com.codecool.travely.controller;
 
-import com.codecool.travely.dto.request.BookingDatesDto;
 import com.codecool.travely.model.booking.CarBooking;
 import com.codecool.travely.service.CarBookingService;
 import lombok.AllArgsConstructor;
@@ -28,5 +27,11 @@ public class CarBookingController {
     @GetMapping("/bookings-by-customer/{id}")
     public ResponseEntity<List<CarBooking>> getAllByCustomer(@PathVariable Long id) {
         return ResponseEntity.ok(carBookingService.findAllByCustomer(id));
+    }
+
+    @DeleteMapping("/cancel-booking/{id}")
+    public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
+        carBookingService.cancelBooking(id);
+        return ResponseEntity.ok("Booking with id " + id + " has been canceled.");
     }
 }

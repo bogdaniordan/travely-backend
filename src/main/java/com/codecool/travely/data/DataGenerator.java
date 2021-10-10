@@ -47,9 +47,9 @@ public class DataGenerator implements CommandLineRunner {
     public void run(String... args) {
         Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
-        Accommodation accommodation = new Accommodation("Guesthouse", "Popa nan 42", "London", 22, List.of(Facility.Fridge), PlaceType.Hotel, CleaningStatus.DIRTY);
-        Accommodation accommodation1 = new Accommodation("London eye", "Calea victoriei", "London", 22, List.of(Facility.Fridge), PlaceType.Private, CleaningStatus.CLEAN);
-        Accommodation accommodation2 = new Accommodation("Taj mahal", "Strada golovita", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
+        Accommodation accommodation = new Accommodation("Hotel continental", "Calea Victoriei nr.23", "London", 22, List.of(Facility.Fridge), PlaceType.Hotel, CleaningStatus.DIRTY);
+        Accommodation accommodation1 = new Accommodation("London eye", "Riverside Building, County Hall, London SE1 7PB, UK", "London", 22, List.of(Facility.Fridge), PlaceType.Private, CleaningStatus.CLEAN);
+        Accommodation accommodation2 = new Accommodation("Taj mahal", "Calea 13 Septembrie 127-131", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
         Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
         host.setPicture("dorian-popa.jpg");
         Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation, 999);
