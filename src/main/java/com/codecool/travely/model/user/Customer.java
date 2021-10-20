@@ -65,7 +65,7 @@ public class Customer {
     @JsonIgnore
     private Set<Role> roles = Set.of(Role.ROLE_CUSTOMER);
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CardDetails cardDetails;
 
     @JsonIgnore

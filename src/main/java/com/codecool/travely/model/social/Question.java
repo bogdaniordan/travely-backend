@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity(name = "question")
@@ -15,11 +16,18 @@ public class Question {
     @Id
     @GeneratedValue
     private Long id;
+
     private LocalDate date;
+
     private boolean solved;
+
+    @Size(min = 4)
     private String text;
+
     private String author;
+
     private boolean seen;
+
     private String response;
 
     @ManyToOne

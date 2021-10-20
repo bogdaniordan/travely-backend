@@ -37,6 +37,8 @@ public class Booking {
 
     private boolean seen = false;
 
+    private boolean rescheduled = false;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;

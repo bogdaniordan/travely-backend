@@ -56,12 +56,6 @@ public class QuestionService {
         log.info("Updating question with id: " + id);
         Question updatedQuestion = findById(id);
         updatedQuestion.setResponse(question.getResponse());
-//        updatedQuestion.setAuthor(question.getAuthor());
-//        updatedQuestion.setDate(question.getDate());
-//        updatedQuestion.setCustomer(question.getCustomer());
-//        updatedQuestion.setSolved(question.isSolved());
-//        updatedQuestion.setSeen(question.isSeen());
-//        updatedQuestion.setText(question.getText());
         save(updatedQuestion);
     }
 
@@ -75,4 +69,10 @@ public class QuestionService {
     public List<Question> findAll() {
         return questionRepository.findAll();
     }
+
+    public Boolean isSolved(Long id) {
+        log.info("Checking if questions with id " + id + " is solved");
+        return findById(id).isSolved();
+    }
 }
+

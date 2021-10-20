@@ -35,7 +35,6 @@ public class BookingService {
     }
 
     public Booking saveBooking(Booking booking, Long hostId, Long customerId, Long accommodationId) {
-        System.out.println(booking);
         booking.setHost(hostService.findById(hostId));
         Accommodation accommodation = accommodationService.findById(accommodationId);
         booking.setAccommodation(accommodation);
@@ -154,8 +153,9 @@ public class BookingService {
     public void updateBookingDates(Long bookingId, BookingDatesDto bookingDatesDto) {
         log.info("Updating booking dates for booking with id " + bookingId);
         Booking booking = findById(bookingId);
-        booking.setCheckInDate(booking.getCheckInDate());
-        booking.setCheckoutDate(booking.getCheckoutDate());
+        booking.setCheckInDate(bookingDatesDto.getCheckIn());
+        booking.setCheckoutDate(bookingDatesDto.getCheckOut());
+        booking.setRescheduled(true);
         save(booking);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class QuestionController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/add-question/{customerId}/{hostId}")
-    public ResponseEntity<String> addQuestion(@RequestBody Question question, @PathVariable Long customerId, @PathVariable Long hostId) {
+    public ResponseEntity<String> addQuestion(@RequestBody @Valid Question question, @PathVariable Long customerId, @PathVariable Long hostId) {
         questionService.addQuestion(question, customerId, hostId);
         return ResponseEntity.ok("Question has been added.");
     }
@@ -67,4 +68,10 @@ public class QuestionController {
     public ResponseEntity<List<Question>> getAllQuestion() {
         return ResponseEntity.ok(questionService.findAll());
     }
+
+    @GetMapping("/is-solved/{id}")
+    public ResponseEntity<Boolean> questionIsSolved(@PathVariable Long id) {
+        return ResponseEntity.ok(questionService.isSolved(id));
+    }
+
 }
