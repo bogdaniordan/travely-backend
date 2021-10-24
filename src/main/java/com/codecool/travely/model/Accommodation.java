@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity(name = "accommodation")
@@ -20,12 +21,15 @@ public class Accommodation {
     private Long id;
 
     @NotNull
+    @Size(min = 3, max = 20)
     private String title;
 
     @NotNull
+    @Size(min = 5)
     private String address;
 
     @NotNull
+    @Size(min = 3)
     private String location;
 
     @NotNull

@@ -40,12 +40,6 @@ public class BookingController {
 //        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
     }
 
-//    @PreAuthorize("hasRole('CUSTOMER')")
-//    @PostMapping("/accommodation-can-be-booked/{accommodationId}")
-//    public ResponseEntity<Boolean> accommodationCanBeBooked(@RequestBody BookingDatesDto bookingDatesDto, @PathVariable Long accommodationId) {
-//        return ResponseEntity.ok(bookingService.accommodationCanBeBooked(bookingDatesDto, accommodationId));
-//    }
-
     @PreAuthorize("hasRole('HOST')")
     @GetMapping("/all-bookings/{accommodationId}")
     public ResponseEntity<List<Booking>> getAllByAccommodation(@PathVariable Long accommodationId) {

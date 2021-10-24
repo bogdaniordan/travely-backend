@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,7 @@ public class CommentController {
     }
 
     @PostMapping("/save-comment/{postId}/{userId}")
-    public ResponseEntity<String> saveNewComment(@RequestBody Comment comment, @PathVariable Long postId, @PathVariable Long userId) {
+    public ResponseEntity<String> saveNewComment(@Valid @RequestBody Comment comment, @PathVariable Long postId, @PathVariable Long userId) {
         commentService.saveNewComment(comment, userId, postId);
         return ResponseEntity.ok("Saving a new comment for post with id " + postId);
     }

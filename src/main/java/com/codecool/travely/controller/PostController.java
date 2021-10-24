@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -47,7 +48,7 @@ public class PostController {
     }
 
     @PostMapping("/add-post/{userId}")
-    public ResponseEntity<String> addPost(@RequestBody Post post, @PathVariable Long userId) {
+    public ResponseEntity<String> addPost(@Valid @RequestBody Post post, @PathVariable Long userId) {
         postService.saveNewPost(post, userId);
         return ResponseEntity.ok("Post has been saved.");
     }
