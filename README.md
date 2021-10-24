@@ -189,14 +189,13 @@ The project development took place through 8 Agile iterations, each iteration ta
 
 ![agile-logo](https://user-images.githubusercontent.com/72221647/138440913-f67be820-c3a8-46d2-a35c-1f847acb2c48.png)
 
+
 * Sprint 1: Created core backend objects, services and controllers 
 * Sprint 2: Started building the UI for customer app
 * Sprint 3: Started styling the UI for customer app
-* Sprint 4: Connected the UI with the backend and built more functionalities
-* Sprint 5: Created the host app frontend
-* Sprint 6: Built more functionalities for each app (customer and host)
-* Sprint 7: Added landing pages, aws image storage and UI styling
-* Sprint 8: Refactored code, fixed various bugs, added CSS styling
+* Sprint 4: Created the host app frontend
+* Sprint 5: Built more functionalities for each app (customer and host)
+* Sprint 6: Refactored code, fixed various bugs, added CSS styling
 
 
 <!-- CONTRIBUTING -->
