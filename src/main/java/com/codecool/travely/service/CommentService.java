@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -47,6 +48,11 @@ public class CommentService {
     public void deleteComment(Long id) {
         log.info("Deleting comment with id " + id);
         commentRepository.delete(findById(id));
+    }
+
+    public List<Comment> getPostedComments(Long userId) {
+        log.info("Fetching all comments posted by user with id " + userId);
+        return commentRepository.findAll().stream().filter(comment -> comment.getAuthor().getId() == (long) userId).collect(Collectors.toList());
     }
 
 }

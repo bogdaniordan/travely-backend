@@ -79,4 +79,16 @@ public class PostService {
         log.info("Searching posts by content input.");
         return postRepository.findAll().stream().filter(post -> post.getContent().toLowerCase().contains(input.toLowerCase()) || post.getTitle().toLowerCase().contains(input.toLowerCase())).collect(Collectors.toList());
     }
+
+    public List<Post> getPostedPosts(Long userId) {
+        log.info("Fetching all posts for user with id " + userId);
+        return postRepository.findAll().stream().filter(post -> post.getAuthor().getId() == (long) userId).collect(Collectors.toList());
+    }
+
+    public List<Post> getLikedPosts(Long userId) {
+        log.info("Fetching all posts liked by user with id " + userId);
+        return postRepository.findAll().stream().filter(post -> post.getLikes().contains(customerService.findById(userId))).collect(Collectors.toList());
+    }
+
+
 }

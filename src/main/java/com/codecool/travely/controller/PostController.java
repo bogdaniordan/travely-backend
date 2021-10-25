@@ -1,6 +1,8 @@
 package com.codecool.travely.controller;
 
+import com.codecool.travely.model.social.Comment;
 import com.codecool.travely.model.social.Post;
+import com.codecool.travely.service.CommentService;
 import com.codecool.travely.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Post>> getAllPostsSorted() {
@@ -62,5 +65,20 @@ public class PostController {
     @GetMapping("/search-posts/{searchInput}")
     public ResponseEntity<List<Post>> searchPosts(@PathVariable String searchInput) {
         return ResponseEntity.ok(postService.searchPosts(searchInput));
+    }
+
+    @GetMapping("/posted-posts/{userId}")
+    public ResponseEntity<List<Post>> getPostedPosts(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getPostedPosts(userId));
+    }
+
+    @GetMapping("/liked-posts/{userId}")
+    public ResponseEntity<List<Post>> getLikedPosts(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getLikedPosts(userId));
+    }
+
+    @GetMapping("/posted-comments/{userId}")
+    public ResponseEntity<List<Comment>> getPostedComments(@PathVariable Long userId) {
+        return ResponseEntity.ok(commentService.getPostedComments(userId));
     }
 }
