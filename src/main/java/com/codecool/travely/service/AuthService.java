@@ -4,7 +4,7 @@ import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.PasswordTokenRepository;
-import com.codecool.travely.security.JwtTokenService;
+import com.codecool.travely.security.jwt.JwtTokenService;
 import com.codecool.travely.security.PasswordResetToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

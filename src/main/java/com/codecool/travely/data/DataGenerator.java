@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -45,23 +46,22 @@ public class DataGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 222);
+        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
-        Accommodation accommodation = new Accommodation("Hotel continental", "Calea Victoriei nr.23", "Bucharest", 22, List.of(Facility.Fridge), PlaceType.Hotel, CleaningStatus.DIRTY);
-        Accommodation accommodation1 = new Accommodation("London eye", "Riverside Building, County Hall, SE1 7PB, UK", "London", 22, List.of(Facility.Fridge, Facility.AC, Facility.TV), PlaceType.Shared, CleaningStatus.CLEAN);
-        Accommodation accommodation2 = new Accommodation("Taj mahal", "Calea 13 Septembrie 127-131", "Mumbai", 22, List.of(Facility.Fridge), PlaceType.Shared, CleaningStatus.CLEAN);
-        Host host = new Host("Lil", "Baby", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
+        Accommodation accommodation = new Accommodation("Hotel continental", "Calea Victoriei nr.23", "Bucharest", 22, Set.of(Facility.Yard, Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Hotel, CleaningStatus.DIRTY);
+        Accommodation accommodation1 = new Accommodation("London eye", "Riverside Building, County Hall, SE1 7PB, UK", "London", 22, Set.of(Facility.Fridge, Facility.AC, Facility.TV), PlaceType.Shared, CleaningStatus.CLEAN);
+        Accommodation accommodation2 = new Accommodation("Taj mahal", "Calea 13 Septembrie 127-131", "Mumbai", 22, Set.of(Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Shared, CleaningStatus.CLEAN);
+        Host host = new Host("Sergei", "Mizil", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
         host.setPicture("dorian-popa.jpg");
-        Booking booking = new Booking(LocalDate.of(2021, 9, 9), LocalDate.of(2021,10,10), accommodation, 999);
+        Booking booking = new Booking(LocalDate.of(2021, 11, 9), LocalDate.of(2021,11,20), accommodation, 999);
 
-        Question question = new Question(LocalDate.now(), "Merge apa calda?", customer.getFirstName(), customer, host);
+        Question question = new Question(LocalDate.now(), "Is smoking allowed inside?", customer.getFirstName(), customer, host);
 
         hostService.saveHost(host);
 
         Testimonial testimonial = new Testimonial("BEST PLACE IN TOWN", accommodation, customer, 4);
         Testimonial testimonial1 = new Testimonial("THIS ACCOMMODATION IS AMAZING", accommodation, customer, 5);
         Testimonial testimonial2 = new Testimonial("DID NOT LIKE IT AT ALL", accommodation, customer, 1);
-
 
         accommodation.setHost(host);
         accommodation1.setHost(host);
@@ -70,9 +70,6 @@ public class DataGenerator implements CommandLineRunner {
         accommodationService.saveAccommodation(accommodation);
         accommodationService.saveAccommodation(accommodation1);
         accommodationService.saveAccommodation(accommodation2);
-
-
-
         customerService.saveCustomer(customer);
 
         bookingService.saveBooking(booking, host.getId(), customer.getId(), accommodation.getId());
@@ -94,9 +91,9 @@ public class DataGenerator implements CommandLineRunner {
         cleanerService.save(cleaner2);
         cleanerService.save(cleaner3);
 
-        Customer customer1 = new Customer("Dorian", "Popa", "dorian", "dorian.popa47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 33);
+        Customer customer1 = new Customer("Dorian", "Popa", "dorian", "dorian.popa47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
         customer1.setPicture("dorian_popa.jpg");
-        Customer customer2 = new Customer("Elon", "musk", "elonmusk", "elon.musk47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Plutasilor 61", "328372983", "Male", 33);
+        Customer customer2 = new Customer("Elon", "musk", "elonmusk", "elon.musk47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
         customer2.setPicture("elon_musk.jpg");
         customerService.saveCustomer(customer1);
         customerService.saveCustomer(customer2);
@@ -144,5 +141,16 @@ public class DataGenerator implements CommandLineRunner {
 
         CarBooking carBooking = new CarBooking(300, LocalDate.of(2021, 10,10), LocalDate.of(2021, 10, 20), "ABC", customer, car);
         carBookingRepository.save(carBooking);
+
+
+        Accommodation accommodation3 = new Accommodation("Radisson blue", "Calea 13 Septembrie 100-111", "Bucharest", 100, Set.of(Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Shared, CleaningStatus.CLEAN);
+        accommodation3.setHost(host);
+        accommodationService.saveAccommodation(accommodation3);
+        Accommodation accommodation4 = new Accommodation("Savoy Hotel", "WC2R 0EZ London", "London", 100, Set.of(Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Shared, CleaningStatus.CLEAN);
+        accommodation4.setHost(host);
+        accommodationService.saveAccommodation(accommodation4);
+
+        Question question1 = new Question(LocalDate.now(), "Can I throw a party?", customer.getFirstName(), customer, host);
+        questionService.save(question1);
     }
 }

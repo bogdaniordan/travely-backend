@@ -1,4 +1,4 @@
-package com.codecool.travely.security;
+package com.codecool.travely.security.jwt;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;

@@ -8,9 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "accommodation")
 @Data
@@ -33,13 +35,14 @@ public class Accommodation {
     private String location;
 
     @NotNull
+    @Min(1)
     private int pricePerNight;
 
     @Enumerated(EnumType.STRING)
     private CleaningStatus cleaningStatus;
 
     @ElementCollection
-    private List<Facility> facilities;
+    private Set<Facility> facilities;
 
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
@@ -47,7 +50,7 @@ public class Accommodation {
     @ManyToOne
     private Host host;
 
-    public Accommodation(String title, String address, String location, int pricePerNight, List<Facility> facilities, PlaceType placeType, CleaningStatus cleaningStatus) {
+    public Accommodation(String title, String address, String location, int pricePerNight, Set<Facility> facilities, PlaceType placeType, CleaningStatus cleaningStatus) {
         this.title = title;
         this.address = address;
         this.location = location;

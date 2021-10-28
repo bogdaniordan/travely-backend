@@ -42,7 +42,6 @@ public class Customer {
     @Max(50)
     private String email;
 
-    @GeneratedValue
     @NotNull
     @Min(5)
     @Max(25)

@@ -92,6 +92,4 @@ public class BookingController {
         bookingService.updateBookingDates(id, bookingDatesDto);
         return ResponseEntity.ok("Booking dates have been updated.");
     }
-
-
 }

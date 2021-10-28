@@ -30,6 +30,7 @@ public class Cleaner {
     private boolean hired;
 
     @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Accommodation> cleaningHistory;
 
     @ManyToOne

@@ -73,5 +73,4 @@ public class QuestionController {
     public ResponseEntity<Boolean> questionIsSolved(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.isSolved(id));
     }
-
 }
