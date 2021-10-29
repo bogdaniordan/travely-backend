@@ -2,6 +2,7 @@ package com.codecool.travely.service;
 
 import com.codecool.travely.dto.request.LoginRequest;
 import com.codecool.travely.dto.response.LoginResponse;
+import com.codecool.travely.exception.customs.UsernameNotFoundException;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.PasswordTokenRepository;
 import com.codecool.travely.security.jwt.JwtTokenService;
@@ -43,13 +44,15 @@ public class AuthService {
                     .username(username)
                     .roles(roles)
                     .build();
-        } else {
+        } else if (hostService.existsByUsername(username)){
             loginResponse = LoginResponse.builder()
                     .id(hostService.findByUsername(username).getId())
                     .token(token)
                     .username(username)
                     .roles(roles)
                     .build();
+        } else {
+            throw new UsernameNotFoundException("Username does not exist.");
         }
         return loginResponse;
     }

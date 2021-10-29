@@ -152,5 +152,10 @@ public class DataGenerator implements CommandLineRunner {
 
         Question question1 = new Question(LocalDate.now(), "Can I throw a party?", customer.getFirstName(), customer, host);
         questionService.save(question1);
+
+        Post post1 = new Post("You have to visit Genk!", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae nulla rem\n" +
+                "                    eos ipsa praesentium esse magnam nemo dolor\n" +
+                "                    sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.", customer1, LocalDateTime.now());
+        postService.save(post1);
     }
 }
