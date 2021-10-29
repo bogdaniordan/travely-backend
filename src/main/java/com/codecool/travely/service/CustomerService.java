@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class CustomerService {
-   // # Todo add swagger
 
    private final CustomerRepository customerRepository;
    private final CardDetailsRepository cardDetailsRepository;

@@ -1,6 +1,7 @@
 package com.codecool.travely.service;
 
 import com.codecool.travely.enums.CleaningStatus;
+import com.codecool.travely.exception.customs.WrongStatusException;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.Cleaner;
 import com.codecool.travely.repository.CleanerRepository;
@@ -52,6 +53,9 @@ public class CleanerService {
     }
 
     public List<Cleaner> filterByHiringStatus(String status) {
+        if (status == null) {
+           throw new WrongStatusException("Status not found.");
+        }
         if (status.equals("Free")) {
             return findAll().stream().filter(cleaner -> !cleaner.isHired()).collect(Collectors.toList());
         } else if (status.equals("Hired")) {

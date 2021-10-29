@@ -37,7 +37,6 @@ public class BookingController {
     @PostMapping("/add-booking/host/{hostId}/customer/{customerId}/accommodation/{accommodationId}")
     public ResponseEntity<Booking> addBooking(@Valid @RequestBody Booking booking, @PathVariable Long hostId, @PathVariable Long customerId, @PathVariable Long accommodationId) {
         return ResponseEntity.ok(bookingService.saveBooking(booking, hostId, customerId, accommodationId));
-//        mailSender.send(bookingService.createBookingMail(accommodationId, customerId)); # Todo activate mail sending
     }
 
     @PreAuthorize("hasRole('HOST')")

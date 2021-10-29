@@ -1,6 +1,7 @@
 package com.codecool.travely.service;
 
 import com.codecool.travely.dto.request.BookingDatesDto;
+import com.codecool.travely.exception.customs.AccommodationIdNotFound;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.booking.Booking;
 import com.codecool.travely.repository.BookingRepository;
@@ -80,6 +81,9 @@ public class BookingService {
 
     public List<Booking> findAllByAccommodation(Long id) {
         log.info("Fetching all bookings for accommodation with id " + id);
+        if(!accommodationService.findAll().stream().map(Accommodation::getId).collect(Collectors.toList()).contains(id)) {
+            throw new AccommodationIdNotFound("Could not find accommodation with id " + id);
+        }
         return bookingRepository.findAllByAccommodationId(id);
     }
 

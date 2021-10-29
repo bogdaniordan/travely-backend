@@ -3,6 +3,7 @@ package com.codecool.travely.service;
 import com.codecool.travely.aws.BucketName;
 import com.codecool.travely.aws.FileStore;
 import com.codecool.travely.enums.Facility;
+import com.codecool.travely.exception.customs.TitleNotFoundException;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.AccommodationRepository;
@@ -58,6 +59,9 @@ public class AccommodationService {
 
     public List<Accommodation> filterByAccommodationTitle(String titleInput) {
         log.info("Fetching accommodations that contain " + titleInput + " in their title.");
+        if (titleInput == null || titleInput.length() == 0) {
+           throw new TitleNotFoundException("There was no title provided.");
+        }
         return findAll().stream().filter(accommodation -> accommodation.getTitle().toLowerCase().contains(titleInput.toLowerCase())).collect(Collectors.toList());
     }
 
