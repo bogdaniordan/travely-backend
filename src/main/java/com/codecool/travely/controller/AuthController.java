@@ -35,12 +35,26 @@ public class AuthController {
 
     @PostMapping("/sign-in/user")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+        try {
+            if (customerService.existsByUsername(loginRequest.getUsername())) {
+                return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+            }
+            return ResponseEntity.badRequest().body("Username doesn't exist in the database.");
+        } catch (UsernameNotFoundException e) {
+            throw new BadCredentialsException("Invalid username/password supplied");
+        }
     }
 
     @PostMapping("/sign-in/host")
     public ResponseEntity<?> authenticateHost(@Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+        try {
+            if (hostService.existsByUsername(loginRequest.getUsername())) {
+                return ResponseEntity.ok(authService.getLoginResponse(loginRequest));
+            }
+            return ResponseEntity.badRequest().body("Username doesn't exist in the database.");
+        } catch (UsernameNotFoundException e) {
+            throw new BadCredentialsException("Invalid username/password supplied");
+        }
     }
 
     @PostMapping("/register-customer")

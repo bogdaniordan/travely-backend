@@ -44,15 +44,13 @@ public class AuthService {
                     .username(username)
                     .roles(roles)
                     .build();
-        } else if (hostService.existsByUsername(username)){
+        } else {
             loginResponse = LoginResponse.builder()
                     .id(hostService.findByUsername(username).getId())
                     .token(token)
                     .username(username)
                     .roles(roles)
                     .build();
-        } else {
-            throw new UsernameNotFoundException("Username does not exist.");
         }
         return loginResponse;
     }

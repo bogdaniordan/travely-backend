@@ -91,9 +91,9 @@ public class DataGenerator implements CommandLineRunner {
         cleanerService.save(cleaner2);
         cleanerService.save(cleaner3);
 
-        Customer customer1 = new Customer("Dorian", "Popa", "dorian", "dorian.popa47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
+        Customer customer1 = new Customer("George", "Hotz", "george", "george.hotz123@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
         customer1.setPicture("dorian_popa.jpg");
-        Customer customer2 = new Customer("Elon", "musk", "elonmusk", "elon.musk47gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
+        Customer customer2 = new Customer("Elon", "musk", "elonmusk", "elon.musk123@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 33);
         customer2.setPicture("elon_musk.jpg");
         customerService.saveCustomer(customer1);
         customerService.saveCustomer(customer2);
