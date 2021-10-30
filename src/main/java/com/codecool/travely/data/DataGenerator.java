@@ -6,14 +6,12 @@ import com.codecool.travely.enums.*;
 import com.codecool.travely.model.*;
 import com.codecool.travely.model.booking.Booking;
 import com.codecool.travely.model.booking.CarBooking;
-import com.codecool.travely.model.social.Comment;
-import com.codecool.travely.model.social.Post;
-import com.codecool.travely.model.social.Question;
-import com.codecool.travely.model.social.Recommendation;
+import com.codecool.travely.model.social.*;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.user.Host;
 import com.codecool.travely.repository.CarBookingRepository;
 import com.codecool.travely.repository.ChatMessageRepository;
+import com.codecool.travely.repository.FriendRequestRepository;
 import com.codecool.travely.repository.RecommendationRepository;
 import com.codecool.travely.service.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +41,7 @@ public class DataGenerator implements CommandLineRunner {
     private final PostService postService;
     private final CarService carService;
     private final CarBookingRepository carBookingRepository;
+    private final FriendRequestRepository friendRequestRepository;
 
     @Override
     public void run(String... args) {
@@ -157,5 +156,8 @@ public class DataGenerator implements CommandLineRunner {
                 "                    eos ipsa praesentium esse magnam nemo dolor\n" +
                 "                    sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.", customer1, LocalDateTime.now());
         postService.save(post1);
+
+        FriendRequest friendRequest = new FriendRequest(customer2, customer);
+        friendRequestRepository.save(friendRequest);
     }
 }

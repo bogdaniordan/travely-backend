@@ -1,5 +1,6 @@
 package com.codecool.travely.util;
 
+import com.codecool.travely.exception.customs.FileIsNotImageException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,13 +24,13 @@ public class FileChecker {
                 IMAGE_JPEG.getMimeType(),
                 IMAGE_PNG.getMimeType(),
                 IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
-            throw new IllegalStateException("File must be an image [" + file.getContentType() + "]");
+            throw new FileIsNotImageException("Uploaded file is not an image.");
         }
     }
 
     private void isFileEmpty(MultipartFile file) {
         if (file.isEmpty()) {
-            throw new IllegalStateException("Cannot upload empty file [ " + file.getSize() + "]");
+            throw new IllegalArgumentException("Uploaded file is empty.");
         }
     }
 
