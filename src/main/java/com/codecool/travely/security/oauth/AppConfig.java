@@ -1,11 +1,10 @@
-package com.codecool.travely.security.nou;
+package com.codecool.travely.security.oauth;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

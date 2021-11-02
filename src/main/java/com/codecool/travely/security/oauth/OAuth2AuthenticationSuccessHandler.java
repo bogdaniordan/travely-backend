@@ -1,7 +1,6 @@
-package com.codecool.travely.security.nou;
+package com.codecool.travely.security.oauth;
 
 import com.amazonaws.services.amplify.model.BadRequestException;
-import com.codecool.travely.security.jwt.JwtTokenFilter;
 import com.codecool.travely.security.jwt.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

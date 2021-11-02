@@ -1,4 +1,4 @@
-package com.codecool.travely.security.nou;
+package com.codecool.travely.security.oauth;
 
 import com.codecool.travely.model.user.Customer;
 import org.springframework.security.core.GrantedAuthority;

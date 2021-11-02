@@ -1,4 +1,4 @@
-package com.codecool.travely.security.nou;
+package com.codecool.travely.security.oauth;
 
 import com.codecool.travely.exception.customs.OAuth2AuthenticationProcessingException;
 import com.codecool.travely.model.user.Customer;
@@ -62,15 +62,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
 //        user.setProviderId(oAuth2UserInfo.getId());
-        user.setFirstName(oAuth2UserInfo.getName());
+        user.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
+        user.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ") + 1));
         user.setEmail(oAuth2UserInfo.getEmail());
-//        user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setPicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 
     private Customer updateExistingUser(Customer existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getName());
-//        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+        existingUser.setPicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }
 

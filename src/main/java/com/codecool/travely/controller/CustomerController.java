@@ -3,8 +3,8 @@ package com.codecool.travely.controller;
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.social.FriendRequest;
-import com.codecool.travely.security.nou.CurrentUser;
-import com.codecool.travely.security.nou.UserPrincipal;
+import com.codecool.travely.security.oauth.CurrentUser;
+import com.codecool.travely.security.oauth.UserPrincipal;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    // # Todo SOCIAL
-    @GetMapping("/profile")
+    @GetMapping("/oauth/profile")
     public ResponseEntity<Customer> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         return ResponseEntity.ok(customerService.findById(Long.parseLong(userPrincipal.getId())));
     }

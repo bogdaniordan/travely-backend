@@ -1,4 +1,4 @@
-package com.codecool.travely.security.nou;
+package com.codecool.travely.security.oauth;
 
 import java.util.Map;
 

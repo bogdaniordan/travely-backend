@@ -1,7 +1,7 @@
 package com.codecool.travely.security;
 
 import com.codecool.travely.security.jwt.JwtTokenFilter;
-import com.codecool.travely.security.nou.*;
+import com.codecool.travely.security.oauth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,23 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.cors().and().csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/**","/oauth2/authorization/facebook",
-//                "/customers/user", "/auth/**",
-//                        "/customers/image/**",
-//                        "/hosts/image/**",
-//                        "/accommodations/image/**",
-//                        "/cars/image/**",
-//                        "/ws/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().oauth2Login();
-//        http.addFilterBefore(new JwtTokenFilter(jwtTokenService), UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/**",
+                .antMatchers("/auth/**",
                         "/customers/image/**",
                         "/hosts/image/**",
                         "/accommodations/image/**",
