@@ -130,16 +130,32 @@ public class JwtTokenService extends OncePerRequestFilter {
 
             if (StringUtils.hasText(jwt) && validateToken(jwt)) {
                 String userId = getUserIdFromToken(jwt);
-                UserDetails userDetails = userService.loadUserById(userId);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                if (idMadeOfDigits(userId)) {
+                    UserDetails userDetails = userService.loadUserById(userId);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    Authentication auth = parseUserFromTokenInfo(jwt);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+
             }
         } catch (Exception ex) {
             log.error("Could not set user authentication in security context", ex);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    public boolean idMadeOfDigits(String userId) {
+        int digitCount = 0;
+        for (char c: userId.toCharArray()) {
+            if(Character.isDigit(c)) {
+                digitCount++;
+            }
+        }
+        return digitCount == userId.length();
     }
 }

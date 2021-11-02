@@ -37,17 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
-//    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-
     @Bean
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
-    }
+//    @Bean
+//    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+//        return new TokenAuthenticationFilter();
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -99,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler);;
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtTokenService, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
