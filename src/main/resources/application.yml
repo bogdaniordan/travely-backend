@@ -1,0 +1,9 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 1190968151392496
+            client-secret: c80b1d002434a16c3ab7795c8259589b
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"

@@ -38,6 +38,6 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(value = FileIsNotImageException.class)
     public ResponseEntity<HttpResponse> fileIsNotImageException(FileIsNotImageException exception) {
-        return getHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage())
+        return getHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 }

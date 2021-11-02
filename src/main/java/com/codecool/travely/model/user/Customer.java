@@ -3,6 +3,7 @@ package com.codecool.travely.model.user;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.security.Role;
+import com.codecool.travely.security.nou.AuthProvider;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
@@ -21,6 +22,10 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
+
+    // #Todo
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
 
     @NotNull
     @Min(3)

@@ -1,5 +1,6 @@
 package com.codecool.travely.security.jwt;
 
+import com.codecool.travely.security.nou.UserPrincipal;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,25 @@ public class JwtTokenService {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
+    // OAuth2
+    public String createToken(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+        Claims claims = Jwts.claims().setSubject(userPrincipal.getId());
+        claims.put(rolesFieldName, List.of("ROLE_CUSTOMER"));
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    //  regular auth
     public String createToken(String username, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(rolesFieldName, roles);
