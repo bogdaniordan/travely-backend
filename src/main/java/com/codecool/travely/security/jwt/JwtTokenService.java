@@ -1,5 +1,6 @@
 package com.codecool.travely.security.jwt;
 
+import com.codecool.travely.security.oauth.UserPrincipal;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,10 +17,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-@Slf4j
 @Component
+@Slf4j
 public class JwtTokenService {
-
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
 
@@ -33,6 +33,25 @@ public class JwtTokenService {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
+    // OAuth2 authentication
+    public String createToken(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+        Claims claims = Jwts.claims().setSubject(userPrincipal.getId());
+        claims.put(rolesFieldName, List.of("ROLE_CUSTOMER"));
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    //  regular authentication
     public String createToken(String username, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(rolesFieldName, roles);
@@ -54,6 +73,15 @@ public class JwtTokenService {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public String getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
     }
 
     public boolean validateToken(String token) {
@@ -79,4 +107,5 @@ public class JwtTokenService {
         }
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
     }
+
 }

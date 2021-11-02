@@ -3,6 +3,8 @@ package com.codecool.travely.controller;
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.social.FriendRequest;
+import com.codecool.travely.security.oauth.CurrentUser;
+import com.codecool.travely.security.oauth.UserPrincipal;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,11 @@ import java.util.Set;
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    @GetMapping("/oauth/profile")
+    public ResponseEntity<Customer> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(customerService.findById(Long.parseLong(userPrincipal.getId())));
+    }
 
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('HOST')")
     @GetMapping

@@ -3,6 +3,7 @@ package com.codecool.travely.model.user;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.security.Role;
+import com.codecool.travely.security.oauth.AuthProvider;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
@@ -46,6 +47,10 @@ public class Customer {
     @Min(5)
     @Max(25)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
 
     @Size(min = 5, max = 50)
     private String address;

@@ -8,6 +8,8 @@ import com.codecool.travely.model.social.FriendRequest;
 import com.codecool.travely.repository.CardDetailsRepository;
 import com.codecool.travely.repository.CustomerRepository;
 import com.codecool.travely.repository.FriendRequestRepository;
+import com.codecool.travely.security.oauth.AuthProvider;
+import com.codecool.travely.security.oauth.UserPrincipal;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.io.IOException;
 import java.util.*;
@@ -32,6 +36,20 @@ public class CustomerService {
    private final FileStore fileStore;
    private final FileChecker fileChecker;
 
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        if (!customerRepository.existsByEmail(email)) {
+            throw new UsernameNotFoundException("Email not found " + email);
+        }
+        Customer user = customerRepository.findByEmail(email);
+        return UserPrincipal.create(user);
+    }
+
+    public UserDetails loadUserById(String id) {
+        Customer user = customerRepository.findById(Long.parseLong(id)).orElseThrow(
+                () -> new ResourceNotFoundException("Could not find user with id " + id));
+        return UserPrincipal.create(user);
+    }
+
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
@@ -42,6 +60,7 @@ public class CustomerService {
     }
 
     public void saveCustomer(Customer customer) {
+        customer.setProvider(AuthProvider.local);
         customerRepository.save(customer);
     }
 
