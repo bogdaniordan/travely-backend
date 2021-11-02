@@ -1,17 +1,28 @@
 package com.codecool.travely.security.jwt;
 
 import com.codecool.travely.security.nou.UserPrincipal;
+import com.codecool.travely.service.CustomerService;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.LinkedList;
@@ -19,7 +30,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class JwtTokenService {
+public class JwtTokenService extends OncePerRequestFilter {
 
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
@@ -28,6 +39,9 @@ public class JwtTokenService {
     private final long validityInMilliseconds = 36000000;
 
     private final String rolesFieldName = "roles";
+
+    @Autowired
+    private CustomerService userService;
 
     @PostConstruct
     protected void init() {
@@ -107,5 +121,25 @@ public class JwtTokenService {
             authorities.add(new SimpleGrantedAuthority(role));
         }
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
+            String jwt = getTokenFromRequest(request);
+
+            if (StringUtils.hasText(jwt) && validateToken(jwt)) {
+                String userId = getUserIdFromToken(jwt);
+                UserDetails userDetails = userService.loadUserById(userId);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception ex) {
+            log.error("Could not set user authentication in security context", ex);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }
