@@ -23,10 +23,6 @@ public class Customer {
     @GeneratedValue
     private Long id;
 
-    // #Todo
-    @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
-
     @NotNull
     @Min(3)
     @Max(25)
@@ -51,6 +47,10 @@ public class Customer {
     @Min(5)
     @Max(25)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
 
     @Size(min = 5, max = 50)
     private String address;

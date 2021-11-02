@@ -1,6 +1,7 @@
 package com.codecool.travely.security.nou;
 
 import com.amazonaws.services.amplify.model.BadRequestException;
+import com.codecool.travely.security.jwt.JwtTokenFilter;
 import com.codecool.travely.security.jwt.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,6 @@ import java.util.Optional;
 @EnableWebSecurity
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-//    private final TokenProvider tokenProvider;
     private final JwtTokenService tokenProvider;
 
     private final AppConfig appConfig;
@@ -68,11 +68,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
-
         return appConfig.getAuthorizedRedirectUris()
                 .stream()
                 .anyMatch(authorizedRedirectUri -> {
-                    // Only validate host and port. Let the clients use different paths if they want to
                     URI authorizedURI = URI.create(authorizedRedirectUri);
                     if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
                             && authorizedURI.getPort() == clientRedirectUri.getPort()) {

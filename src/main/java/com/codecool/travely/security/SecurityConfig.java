@@ -1,14 +1,11 @@
 package com.codecool.travely.security;
 
 import com.codecool.travely.security.jwt.JwtTokenFilter;
-import com.codecool.travely.security.jwt.JwtTokenService;
 import com.codecool.travely.security.nou.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,7 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,25 +23,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService customUserCredentialsService;
-    private final JwtTokenService jwtTokenService;
-
-
-    // #Todo
+    private final JwtTokenFilter jwtTokenFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
-
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     @Bean
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
-
-//    @Bean
-//    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-//        return new TokenAuthenticationFilter();
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -65,21 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.addFilterBefore(new JwtTokenFilter(jwtTokenService), UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**","/oauth2/authorization/facebook",
-                        "/customers/user", "/auth/**",
+                .antMatchers("/", "/auth/**",
                         "/customers/image/**",
                         "/hosts/image/**",
                         "/accommodations/image/**",
                         "/cars/image/**",
-                        "/ws/**", "/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
+                        "/ws/**", "/error")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -97,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler);;
-        http.addFilterBefore(jwtTokenService, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

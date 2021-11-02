@@ -8,6 +8,7 @@ import com.codecool.travely.model.social.FriendRequest;
 import com.codecool.travely.repository.CardDetailsRepository;
 import com.codecool.travely.repository.CustomerRepository;
 import com.codecool.travely.repository.FriendRequestRepository;
+import com.codecool.travely.security.nou.AuthProvider;
 import com.codecool.travely.security.nou.UserPrincipal;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
@@ -59,6 +60,7 @@ public class CustomerService {
     }
 
     public void saveCustomer(Customer customer) {
+        customer.setProvider(AuthProvider.local);
         customerRepository.save(customer);
     }
 

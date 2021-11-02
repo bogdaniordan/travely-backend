@@ -1,5 +1,6 @@
 package com.codecool.travely.security.nou;
 
+import com.codecool.travely.exception.customs.OAuth2AuthenticationProcessingException;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } catch (AuthenticationException ex) {
             throw ex;
         } catch (Exception ex) {
-            // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
@@ -37,8 +37,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
-            throw new IllegalArgumentException("Email not found from OAuth2 provider.");
-//            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
+            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
         Optional<Customer> userOptional = userRepository.findCustomerByEmail(oAuth2UserInfo.getEmail());

@@ -40,4 +40,9 @@ public class APIExceptionHandler {
     public ResponseEntity<HttpResponse> fileIsNotImageException(FileIsNotImageException exception) {
         return getHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
+
+    @ExceptionHandler(value = OAuth2AuthenticationProcessingException.class)
+    public ResponseEntity<HttpResponse> oauthAuthenticationProcessingException(OAuth2AuthenticationProcessingException exception) {
+        return getHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
 }
