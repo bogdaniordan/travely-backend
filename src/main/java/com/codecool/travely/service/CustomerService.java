@@ -36,15 +36,15 @@ public class CustomerService {
    private final FileStore fileStore;
    private final FileChecker fileChecker;
 
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (!customerRepository.existsByEmail(email)) {
-            throw new UsernameNotFoundException("Email not found " + email);
-        }
-        Customer user = customerRepository.findByEmail(email);
-        return UserPrincipal.create(user);
-    }
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        if (!customerRepository.existsByEmail(email)) {
+//            throw new UsernameNotFoundException("Email not found " + email);
+//        }
+//        Customer user = customerRepository.findByEmail(email);
+//        return UserPrincipal.create(user);
+//    }
 
-    public UserDetails loadUserById(String id) {
+    public UserDetails loadOauthUserById(String id) {
         Customer user = customerRepository.findById(Long.parseLong(id)).orElseThrow(
                 () -> new ResourceNotFoundException("Could not find user with id " + id));
         return UserPrincipal.create(user);

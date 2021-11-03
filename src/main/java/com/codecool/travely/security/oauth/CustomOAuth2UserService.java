@@ -18,8 +18,12 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    private final CustomerRepository userRepository;
+
     @Autowired
-    private CustomerRepository userRepository;
+    public CustomOAuth2UserService(CustomerRepository customerRepository) {
+        this.userRepository = customerRepository;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -59,7 +63,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Customer registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         Customer user = new Customer();
-
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
 //        user.setProviderId(oAuth2UserInfo.getId());
         user.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
@@ -70,9 +73,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Customer updateExistingUser(Customer existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setFirstName(oAuth2UserInfo.getName());
+        existingUser.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
+        existingUser.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ") + 1));
         existingUser.setPicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }
-
 }
