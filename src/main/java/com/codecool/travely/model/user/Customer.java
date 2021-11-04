@@ -65,7 +65,7 @@ public class Customer {
 
     private String picture;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Role> roles = Set.of(Role.ROLE_CUSTOMER);
 
@@ -77,7 +77,7 @@ public class Customer {
     private Set<Accommodation> savedAccommodations;
 
     @JsonIgnore
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> friends;
 
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {

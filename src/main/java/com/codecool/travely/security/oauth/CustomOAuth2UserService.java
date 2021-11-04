@@ -43,13 +43,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
         Optional<Customer> userOptional = userRepository.findCustomerByEmail(oAuth2UserInfo.getEmail());
         Customer user;
         if(userOptional.isPresent()) {
             user = userOptional.get();
             if(!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
-                throw new IllegalArgumentException("Looks like you're signed up with " +
+                throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         user.getProvider() + " account. Please use your " + user.getProvider() +
                         " account to login.");
             }
@@ -63,19 +62,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Customer registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         Customer user = new Customer();
-        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-//        user.setProviderId(oAuth2UserInfo.getId());
-        user.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
-        user.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ") + 1));
+        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));;
+        setUserName(oAuth2UserInfo, user);
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setPicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 
     private Customer updateExistingUser(Customer existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
-        existingUser.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ") + 1));
+        setUserName(oAuth2UserInfo, existingUser);
         existingUser.setPicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
+    }
+
+    public void setUserName(OAuth2UserInfo oAuth2UserInfo, Customer user) {
+        if (oAuth2UserInfo.getName().contains(" ")) {
+            user.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
+            user.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ") + 1));
+        } else {
+            user.setFirstName(oAuth2UserInfo.getName());
+        }
     }
 }

@@ -45,7 +45,7 @@ public class DataGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@gmail.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 222);
+        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan@travely.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
         Accommodation accommodation = new Accommodation("Hotel continental", "Calea Victoriei nr.23", "Bucharest", 22, Set.of(Facility.Yard, Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Hotel, CleaningStatus.DIRTY);
         Accommodation accommodation1 = new Accommodation("London eye", "Riverside Building, County Hall, SE1 7PB, UK", "London", 22, Set.of(Facility.Fridge, Facility.AC, Facility.TV), PlaceType.Shared, CleaningStatus.CLEAN);

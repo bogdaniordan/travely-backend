@@ -90,7 +90,7 @@ public class CustomerService {
             cardDetailsRepository.save(cardDetails);
         }
         customer.setCardDetails(cardDetails);
-        saveCustomer(customer);
+        customerRepository.save(customer);
     }
 
     public void updateCardDetails(CardDetails oldCardDetails, CardDetails newCardDetails) {
@@ -111,7 +111,7 @@ public class CustomerService {
         updatedCustomer.setAge(customer.getAge());
         updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
         updatedCustomer.setGender(customer.getGender());
-        saveCustomer(updatedCustomer);
+        customerRepository.save(updatedCustomer);
     }
 
     public byte[] downloadImage(Long id) {
@@ -142,7 +142,7 @@ public class CustomerService {
     public void changePassword(Customer customer, String password) {
         log.info("Updating password for customer with id: " + customer.getId());
         customer.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
-        saveCustomer(customer);
+        customerRepository.save(customer);
     }
 
     public List<Customer> getAllCustomersExcept(long id) {
@@ -163,8 +163,9 @@ public class CustomerService {
         Customer friend = findById(friendId);
         customer.removeFriend(friendId);
         friend.removeFriend(id);
-        saveCustomer(customer);
-        saveCustomer(friend);
+        customerRepository.save(customer);
+        customerRepository.save(friend);
+        // Todo save customer bug provider
     }
 
     public Set<Customer> getFriends(Long id) {
@@ -221,8 +222,8 @@ public class CustomerService {
         Customer sender = findById(senderId);
         receiver.addFriend(senderId);
         sender.addFriend(receiverId);
-        saveCustomer(sender);
-        saveCustomer(receiver);
+        customerRepository.save(sender);
+        customerRepository.save(receiver);
     }
 
 

@@ -7,6 +7,7 @@ import com.codecool.travely.exception.customs.TitleNotFoundException;
 import com.codecool.travely.model.Accommodation;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.AccommodationRepository;
+import com.codecool.travely.repository.CustomerRepository;
 import com.codecool.travely.util.FileChecker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class AccommodationService {
     private final FileChecker fileChecker;
     private final FileStore fileStore;
     private final HostService hostService;
+    private final CustomerRepository customerRepository;
 
     public List<Accommodation> findAll() {
         return accommodationRepository.findAll();
@@ -105,14 +107,14 @@ public class AccommodationService {
         log.info("Saving accommodation to favorites accommodation with id: " + accommodationId);
         Customer customer = customerService.findById(customerId);
         customer.addToFavorites(findById(accommodationId));
-        customerService.saveCustomer(customer);
+        customerRepository.save(customer);
     }
 
     public void removeAccommodationFromFavorites(Long accommodationId, Long customerId) {
         log.info("Removing from favorites - accommodation with id: " + accommodationId);
         Customer customer = customerService.findById(customerId);
         customer.removeFromFavorites(findById(accommodationId));
-        customerService.saveCustomer(customer);
+        customerRepository.save(customer);
     }
 
     public Boolean favoritesContainsAccommodation(Long accommodationId, Long customerId) {

@@ -3,6 +3,20 @@ spring:
     oauth2:
       client:
         registration:
+          google:
+            clientId: 410129083450-4qt4hp763t4ik997mjas3rnl7g6tsfr7.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - profile
+              - email
+          github:
+            clientId: 94cbcd5d5c3b346942d9
+            clientSecret: 183ab6c41b4b3d9fffd84176f19f2aa5cb158697
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
           facebook:
             client-id: 1190968151392496
             client-secret: c80b1d002434a16c3ab7795c8259589b
