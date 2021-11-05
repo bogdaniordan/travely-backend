@@ -64,4 +64,9 @@ public class CleanerController {
     public ResponseEntity<List<Cleaner>> accommodationIsCleanedBy(@PathVariable Long accommodationId) {
         return ResponseEntity.ok(cleanerService.accommodationIsCleanedBy(accommodationId));
     }
+
+    @GetMapping("/set-to-cleaned/{accommodationId}")
+    public ResponseEntity<Boolean> setAccommodationToCleaned(@PathVariable Long accommodationId) {
+        return ResponseEntity.ok(cleanerService.setAccommodationToCleaned(accommodationId));
+    }
 }

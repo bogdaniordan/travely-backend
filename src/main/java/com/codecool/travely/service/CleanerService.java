@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ public class CleanerService {
         Cleaner cleaner = findById(cleanerId);
         cleaner.setEmployer(hostService.findById(hostId));
         cleaner.setHired(true);
+        cleaner.setCleaningStartDate(null);
         save(cleaner);
     }
 
@@ -49,6 +51,7 @@ public class CleanerService {
         cleaner.setEmployer(null);
         cleaner.setHired(false);
         cleaner.setCurrentCleaningJob(null);
+        cleaner.setCleaningStartDate(null);
         save(cleaner);
     }
 
@@ -88,10 +91,31 @@ public class CleanerService {
         Cleaner cleaner = findById(cleanerId);
         cleaner.setCurrentCleaningJob(accommodationService.findById(accommodationId));
         cleaner.addToCleaningHistory(accommodationService.findById(accommodationId));
+        cleaner.setCleaningStartDate(LocalDate.now());
         save(cleaner);
     }
 
     public List<Cleaner> accommodationIsCleanedBy(long accommodationId) {
         return findAll().stream().filter(cleaner -> cleaner.getCurrentCleaningJob() != null).filter(cleaner -> cleaner.getCurrentCleaningJob().getId() == accommodationId).collect(Collectors.toList());
+    }
+
+
+
+    public boolean setAccommodationToCleaned(Long accommodationId) {
+        log.info("Checking if accommodation has been cleaned.");
+        Accommodation accommodation = accommodationService.findById(accommodationId);
+        if (accommodationIsCleanedBy(accommodationId).size() == 1) {
+            Cleaner cleaner = accommodationIsCleanedBy(accommodationId).get(0);
+            if (cleaner.getCleaningStartDate().plusDays(cleaner.getExperience().getCleaningDurationInDays()).compareTo(LocalDate.now()) == 0) {
+                accommodation.setCleaningStatus(CleaningStatus.CLEAN);
+                cleaner.addToCleaningHistory(accommodation);
+                cleaner.setCurrentCleaningJob(null);
+                cleaner.setCleaningStartDate(null);
+                cleanerRepository.save(cleaner);
+                accommodationService.saveAccommodation(accommodation);
+                return true;
+            }
+        }
+        return false;
     }
 }

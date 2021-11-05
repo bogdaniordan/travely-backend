@@ -84,7 +84,7 @@ public class AuthService {
         email.setSubject(subject);
         email.setText(body);
         email.setTo(customer.getEmail());
-        email.setFrom("noreply@travely");
+        email.setFrom("noreply@travely.com");
         return email;
     }
 

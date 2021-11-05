@@ -6,8 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity(name = "cleaner")
@@ -19,6 +22,8 @@ public class Cleaner {
     private Long id;
 
     private String name;
+
+    private LocalDate cleaningStartDate;
 
     @Enumerated(EnumType.STRING)
     private CleaningExperience experience;
