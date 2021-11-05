@@ -1,6 +1,6 @@
 package com.codecool.travely.security.jwt;
 
-import com.codecool.travely.security.oauth.UserPrincipal;
+import com.codecool.travely.security.UserPrincipal;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

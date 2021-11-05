@@ -4,7 +4,7 @@ import com.codecool.travely.model.CardDetails;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.social.FriendRequest;
 import com.codecool.travely.security.oauth.CurrentUser;
-import com.codecool.travely.security.oauth.UserPrincipal;
+import com.codecool.travely.security.UserPrincipal;
 import com.codecool.travely.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

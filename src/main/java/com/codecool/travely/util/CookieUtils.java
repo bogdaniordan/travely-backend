@@ -1,4 +1,4 @@
-package com.codecool.travely.security.oauth;
+package com.codecool.travely.util;
 
 import org.springframework.util.SerializationUtils;
 import javax.servlet.http.Cookie;

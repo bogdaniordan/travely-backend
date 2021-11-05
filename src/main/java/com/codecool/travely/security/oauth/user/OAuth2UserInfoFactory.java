@@ -1,5 +1,6 @@
-package com.codecool.travely.security.oauth;
+package com.codecool.travely.security.oauth.user;
 
+import com.codecool.travely.enums.AuthProvider;
 import com.codecool.travely.exception.customs.OAuth2AuthenticationProcessingException;
 
 import java.util.Map;

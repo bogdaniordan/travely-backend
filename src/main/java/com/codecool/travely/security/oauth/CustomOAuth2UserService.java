@@ -1,8 +1,12 @@
 package com.codecool.travely.security.oauth;
 
+import com.codecool.travely.enums.AuthProvider;
 import com.codecool.travely.exception.customs.OAuth2AuthenticationProcessingException;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.repository.CustomerRepository;
+import com.codecool.travely.security.UserPrincipal;
+import com.codecool.travely.security.oauth.user.OAuth2UserInfo;
+import com.codecool.travely.security.oauth.user.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -28,7 +32,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException ex) {

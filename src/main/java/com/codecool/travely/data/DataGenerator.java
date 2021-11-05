@@ -159,5 +159,9 @@ public class DataGenerator implements CommandLineRunner {
 
         FriendRequest friendRequest = new FriendRequest(customer2, customer);
         friendRequestRepository.save(friendRequest);
+
+        Accommodation accommodation5 = new Accommodation("East London Hotel", "MC2D M4A London", "London", 200, Set.of(Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi, Facility.Pool, Facility.Yard), PlaceType.Hotel, CleaningStatus.CLEAN);
+        accommodation5.setHost(host);
+        accommodationService.saveAccommodation(accommodation5);
     }
 }

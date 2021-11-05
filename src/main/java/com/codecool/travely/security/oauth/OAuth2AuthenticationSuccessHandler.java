@@ -2,6 +2,7 @@ package com.codecool.travely.security.oauth;
 
 import com.amazonaws.services.amplify.model.BadRequestException;
 import com.codecool.travely.security.jwt.JwtTokenService;
+import com.codecool.travely.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
