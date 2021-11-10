@@ -35,15 +35,6 @@ public class CustomerService {
    private final FileStore fileStore;
    private final FileChecker fileChecker;
 
-   // #Todo REMOVE
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        if (!customerRepository.existsByEmail(email)) {
-//            throw new UsernameNotFoundException("Email not found " + email);
-//        }
-//        Customer user = customerRepository.findByEmail(email);
-//        return UserPrincipal.create(user);
-//    }
-
     public UserDetails loadOauthUserById(String id) {
         Customer user = customerRepository.findById(Long.parseLong(id)).orElseThrow(
                 () -> new ResourceNotFoundException("Could not find user with id " + id));
@@ -165,7 +156,6 @@ public class CustomerService {
         friend.removeFriend(id);
         customerRepository.save(customer);
         customerRepository.save(friend);
-        // Todo save customer bug provider
     }
 
     public Set<Customer> getFriends(Long id) {
@@ -243,5 +233,19 @@ public class CustomerService {
     public List<FriendRequest> getReceivedFriendRequests(long receiverId) {
         log.info("Fetching all friends requests for user with id " + receiverId);
         return friendRequestRepository.findAll().stream().filter(friendRequest -> friendRequest.getReceiver().getId() == receiverId).collect(Collectors.toList());
+    }
+
+    public void addUserToGetNotifiedList(Long currentUserId, Long id) {
+        log.info("Adding user to with id + " + id +" get notified list");
+        Customer customer = findById(currentUserId);
+        customer.addToUsersToGetNotifiedFrom(id);
+        customerRepository.save(customer);
+    }
+
+    public void removeUserFromNotifiedList(Long currentUserId, Long id) {
+        log.info("Removing user with id + " + id +" from get notified list");
+        Customer customer = findById(currentUserId);
+        customer.removeFromUsersToGetNotifiedFrom(id);
+        customerRepository.save(customer);
     }
 }

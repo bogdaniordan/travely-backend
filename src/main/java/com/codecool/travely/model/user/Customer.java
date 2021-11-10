@@ -80,6 +80,10 @@ public class Customer {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> friends;
 
+    @JsonIgnore
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> usersToGetToNotifiedFrom;
+
     public Customer(String firstName, String lastName, String username, String email, String password, String address, String phoneNumber, String gender, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -106,5 +110,13 @@ public class Customer {
 
     public void removeFriend(Long friend) {
         friends.remove(friend);
+    }
+
+    public void addToUsersToGetNotifiedFrom(Long id) {
+        usersToGetToNotifiedFrom.add(id);
+    }
+
+    public void removeFromUsersToGetNotifiedFrom(Long id) {
+        usersToGetToNotifiedFrom.remove(id);
     }
 }

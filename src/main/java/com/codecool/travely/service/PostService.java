@@ -2,6 +2,7 @@ package com.codecool.travely.service;
 
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.social.Post;
+import com.codecool.travely.repository.PostNotificationRepository;
 import com.codecool.travely.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final CustomerService customerService;
+    private final PostNotificationRepository postNotificationRepository;
 
     public void save(Post post) {
         postRepository.save(post);

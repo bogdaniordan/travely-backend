@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum CleaningExperience {
-    BEGINNER(1),
+    BEGINNER(3),
     INTERMEDIATE(2),
-    SENIOR(3);
+    SENIOR(1);
 
     private final int cleaningDurationInDays;
 
