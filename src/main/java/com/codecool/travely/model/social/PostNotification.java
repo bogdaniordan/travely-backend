@@ -21,4 +21,9 @@ public class PostNotification {
     private Post post;
 
     private boolean seen = false;
+
+    public PostNotification (Customer customer, Post post) {
+        this.customer = customer;
+        this.post = post;
+    }
 }

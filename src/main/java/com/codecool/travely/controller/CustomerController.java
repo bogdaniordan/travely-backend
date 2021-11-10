@@ -154,4 +154,25 @@ public class CustomerController {
     public ResponseEntity<List<FriendRequest>> getAllReceivedFriendRequests(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getReceivedFriendRequests(id));
     }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/add-to-notified/{currentUserId}/{otherUserId}")
+    public ResponseEntity<String> addUserToNotifiedList(@PathVariable Long currentUserId, @PathVariable Long otherUserId) {
+        customerService.addUserToGetNotifiedList(currentUserId, otherUserId);
+        return ResponseEntity.ok("User has been added to notified list.");
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/remove-from-notified/{currentUserId}/{otherUserId}")
+    public ResponseEntity<String> removeFromNotifiedList(@PathVariable Long currentUserId, @PathVariable Long otherUserId) {
+        customerService.removeUserFromNotifiedList(currentUserId, otherUserId);
+        return ResponseEntity.ok("User has been removed from notified list.");
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/user-is-in-notified/{currentUserId}/{otherUserId}")
+    public ResponseEntity<Boolean> userIsInNotified(@PathVariable Long currentUserId, @PathVariable Long otherUserId) {
+        return ResponseEntity.ok(customerService.userIsInNotifiedList(currentUserId, otherUserId));
+    }
+
 }

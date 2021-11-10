@@ -2,6 +2,7 @@ package com.codecool.travely.controller;
 
 import com.codecool.travely.model.social.Comment;
 import com.codecool.travely.model.social.Post;
+import com.codecool.travely.model.social.PostNotification;
 import com.codecool.travely.service.CommentService;
 import com.codecool.travely.service.PostService;
 import lombok.AllArgsConstructor;
@@ -80,5 +81,16 @@ public class PostController {
     @GetMapping("/posted-comments/{userId}")
     public ResponseEntity<List<Comment>> getPostedComments(@PathVariable Long userId) {
         return ResponseEntity.ok(commentService.getPostedComments(userId));
+    }
+
+    @GetMapping("/posts-notifications/{userId}")
+    public ResponseEntity<List<PostNotification>> getPostNotifications(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.fetchNotifications(userId));
+    }
+
+    @GetMapping("/mark-notifications-as-seen/{notificationId}")
+    public ResponseEntity<String> markNotificationsAsSeen(@PathVariable Long notificationId) {
+        postService.markPostNotificationAsSeen(notificationId);
+        return ResponseEntity.ok("Marking post notification with id " + notificationId + " as seen.");
     }
 }

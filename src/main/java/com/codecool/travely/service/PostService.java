@@ -1,5 +1,6 @@
 package com.codecool.travely.service;
 
+import com.codecool.travely.model.social.PostNotification;
 import com.codecool.travely.model.user.Customer;
 import com.codecool.travely.model.social.Post;
 import com.codecool.travely.repository.PostNotificationRepository;
@@ -32,7 +33,9 @@ public class PostService {
         post.setAuthor(customerService.findById(userId));
         post.setTime(LocalDateTime.now());
         save(post);
+        notifySubscribedUsers(userId, post);
     }
+
 
     public Post findById(Long id) {
         return postRepository.findById(id)
@@ -92,5 +95,26 @@ public class PostService {
         return postRepository.findAll().stream().filter(post -> post.getLikes().contains(customerService.findById(userId))).collect(Collectors.toList());
     }
 
+    public void markPostNotificationAsSeen(Long id) {
+        log.info("Marking post notification as seen");
+        PostNotification postNotification = postNotificationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find notification with id " + id));
+        postNotification.setSeen(true);
+    }
 
+    public void notifySubscribedUsers(Long userId, Post post) {
+        log.info("Notifying subscribed users when user with id " + userId + " has posted.");
+        Customer customer = customerService.findById(userId);
+        customer.getUsersToGetToNotifiedFrom().forEach(id -> {
+            PostNotification postNotification = new PostNotification(customerService.findById(id), post);
+            postNotificationRepository.save(postNotification);
+        });
+    }
+
+    public List<PostNotification> fetchNotifications(Long userId) {
+        log.info("Fetching notifications for user with id " + userId);
+        return postNotificationRepository.findAll().stream()
+                .filter(postNotification -> postNotification.getCustomer().getId() == (long) userId)
+                .collect(Collectors.toList());
+    }
 }

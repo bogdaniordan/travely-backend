@@ -248,4 +248,9 @@ public class CustomerService {
         customer.removeFromUsersToGetNotifiedFrom(id);
         customerRepository.save(customer);
     }
+
+    public boolean userIsInNotifiedList(Long currentUserId, Long id) {
+        log.info("Checking if user with id " + currentUserId + " gets notified when user with id " + id + " adds a new post.");
+        return findById(currentUserId).getUsersToGetToNotifiedFrom().contains(id);
+    }
 }
