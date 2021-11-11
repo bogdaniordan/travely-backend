@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -84,7 +85,7 @@ public class PostController {
     }
 
     @GetMapping("/posts-notifications/{userId}")
-    public ResponseEntity<List<PostNotification>> getPostNotifications(@PathVariable Long userId) {
+    public ResponseEntity<HashMap<Long, List<PostNotification>>> getPostNotifications(@PathVariable Long userId) {
         return ResponseEntity.ok(postService.fetchNotifications(userId));
     }
 

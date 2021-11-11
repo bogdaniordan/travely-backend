@@ -11,7 +11,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,16 @@ public class PostService {
         post.setTime(LocalDateTime.now());
         save(post);
         notifySubscribedUsers(userId, post);
+    }
+
+    public void notifySubscribedUsers(Long userId, Post post) {
+        log.info("Notifying subscribed users when user with id " + userId + " has posted.");
+        customerService.findAll().forEach(customer -> {
+            customer.getUsersToGetToNotifiedFrom().forEach(id -> {
+                PostNotification postNotification = new PostNotification(customer, post);
+                postNotificationRepository.save(postNotification);
+            });
+        });
     }
 
 
@@ -102,19 +114,23 @@ public class PostService {
         postNotification.setSeen(true);
     }
 
-    public void notifySubscribedUsers(Long userId, Post post) {
-        log.info("Notifying subscribed users when user with id " + userId + " has posted.");
-        Customer customer = customerService.findById(userId);
-        customer.getUsersToGetToNotifiedFrom().forEach(id -> {
-            PostNotification postNotification = new PostNotification(customerService.findById(id), post);
-            postNotificationRepository.save(postNotification);
-        });
-    }
 
-    public List<PostNotification> fetchNotifications(Long userId) {
+    public HashMap<Long, List<PostNotification>> fetchNotifications(Long userId) {
         log.info("Fetching notifications for user with id " + userId);
-        return postNotificationRepository.findAll().stream()
-                .filter(postNotification -> postNotification.getCustomer().getId() == (long) userId)
+        List<PostNotification> postNotifications = postNotificationRepository.findAll().stream()
+                .filter(postNotification -> postNotification.getCustomer().getId() == (long) userId && !postNotification.isSeen())
                 .collect(Collectors.toList());
+        HashMap<Long, List<PostNotification>> mappedNotifications = new HashMap<>();
+        postNotifications.forEach(postNotification -> {
+            List<PostNotification> lst;
+            if(!mappedNotifications.containsKey(postNotification.getCustomer().getId())) {
+                lst = new ArrayList<>();
+            } else {
+                lst = mappedNotifications.get(postNotification.getCustomer().getId());
+            }
+            lst.add(postNotification);
+            mappedNotifications.put(postNotification.getCustomer().getId(), lst);
+        });
+        return mappedNotifications;
     }
 }
