@@ -174,5 +174,4 @@ public class CustomerController {
     public ResponseEntity<Boolean> userIsInNotified(@PathVariable Long currentUserId, @PathVariable Long otherUserId) {
         return ResponseEntity.ok(customerService.userIsInNotifiedList(currentUserId, otherUserId));
     }
-
 }
