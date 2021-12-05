@@ -45,14 +45,14 @@ public class DataGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan@travely.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 222);
+        Customer customer = new Customer("Bogdan", "Iordan", "bogdan", "bogdan.iordan47@yahoo.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), "Calea Victoriei nr.23", "328372983", "Male", 222);
         customer.setPicture("di-caprio.jpg");
         Accommodation accommodation = new Accommodation("Hotel continental", "Calea Victoriei nr.23", "Bucharest", 22, Set.of(Facility.Yard, Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Hotel, CleaningStatus.DIRTY);
         Accommodation accommodation1 = new Accommodation("London eye", "Riverside Building, County Hall, SE1 7PB, UK", "London", 22, Set.of(Facility.Fridge, Facility.AC, Facility.TV), PlaceType.Shared, CleaningStatus.CLEAN);
         Accommodation accommodation2 = new Accommodation("Taj mahal", "Calea 13 Septembrie 127-131", "Mumbai", 22, Set.of(Facility.Fridge, Facility.AC, Facility.Kitchen, Facility.Wifi), PlaceType.Shared, CleaningStatus.CLEAN);
-        Host host = new Host("Sergei", "Mizil", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
+        Host host = new Host("Robert", "Lewandoski", "billgates", "bill@gates.com", BCrypt.hashpw("password", BCrypt.gensalt(12)), List.of(Badge.JUNIOR_HOST, Badge.BOOKING_GURU));
         host.setPicture("dorian-popa.jpg");
-        Booking booking = new Booking(LocalDate.of(2021, 11, 9), LocalDate.of(2021,11,20), accommodation, 999);
+        Booking booking = new Booking(LocalDate.of(2021, 11, 28), LocalDate.of(2021,11,29), accommodation, 999);
 
         Question question = new Question(LocalDate.of(2021, 9, 9), "Is smoking allowed inside?", customer.getFirstName(), customer, host);
 
